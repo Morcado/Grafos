@@ -1,0 +1,41 @@
++Cascaron de Grafos.
+
+-Entender como esta la Estructura de datos de la clase Grafo. Esquematizar en 
+	una hoja disponible del Manual.
+-Tunear o mejorar los Iconos de las opciones, hacerlos  de 32x32, si quiere importar de
+	los ya hechos en windows esta bien solo todos del mismo tamaño y que haga referencia a la acción.
+-Seleccionar Nodos solo dentro de su área. Puede ser cuadrada, NO FUERA.
+-Seleccionar la Arista, cursor lo mas cercano y NO DENTRO del NODO.
+-Al recuperar un grafo que no tiene aristas o sea tiene solo nodos genera una excepción. Por lo que hay que arreglarla.
+-La opción Ver de la configuración se debe de mover a  la opción Herramientas y se debe agregar una opción en 
+		la barra de herramientas.  ToolBar o ToolStrip. Como ya se dijo la opción Configuración debe llamar 
+		a un cuadro de dialogo con las opciones ya mostradas y explicadas.
+-Documentar métodos(arriba de él) y variables en declaraciones. Lo escribo aquí para que lo vaya digiriendo.
+-La Opción de Configuración debe:
+ 	 -Llamar a una ventana de dialogo.
+	-Allí hacer  las modificaciones deseadas de las opciones de Nodo, Arista y Letra, al final botón Actualizar.
+	-Si se arrepiente tener botón de Default tambien al final para que queden las opciones sin modificar.
+	-Tener ventana visor para ir viendo las modificaciones al momento de estar modificando.
+	-Al dar click botón de Actual en ese preciso momento se reflejan las
+		modificaciones en el área cliente o sea en el grafo actual o sea lo que tiene editado o
+		a lo que se vaya a editar.
+-Quitar bugs que se presenten.
++Opciones de Configuración:
+	Nodo:
+		-Tamaño
+		-Color Fondo.
+		-Color Contorno.
+		-Ancho Contorno.
+	Arista:	
+		-Color.
+		-Ancho.
+		-Su tam de flecha va relativa a su Ancho.
+	Letra:	
+		Color.
+		-Su tamaño es de relativo al del Nodo.
+		-Siempre va centrada.
+		
+Notas;
+- Las modificaciones se deben de ir entregando los Lunes y las observaciones o detalles entregarlas entre miércoles y Jueves.
+- Esto debe quedar terminado antes del primer examen. Son casi 4 semanas, así que apliquense!!!
+- El código se revisa a detalle,  asi que no copie y trabaje solo. La implementación es personal no debe ser semejante a la de otro, solo el cascarón.

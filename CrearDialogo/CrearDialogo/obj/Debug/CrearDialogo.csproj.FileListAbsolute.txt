@@ -1,0 +1,19 @@
+C:\Users\Miguel Angel\Desktop\Semestre 2017-2018_II\MiosEneJunio2018\C#\CrearDialogo\CrearDialogo\bin\Debug\CrearDialogo.exe.config
+C:\Users\Miguel Angel\Desktop\Semestre 2017-2018_II\MiosEneJunio2018\C#\CrearDialogo\CrearDialogo\bin\Debug\CrearDialogo.exe
+C:\Users\Miguel Angel\Desktop\Semestre 2017-2018_II\MiosEneJunio2018\C#\CrearDialogo\CrearDialogo\bin\Debug\CrearDialogo.pdb
+C:\Users\Miguel Angel\Desktop\Semestre 2017-2018_II\MiosEneJunio2018\C#\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.Form1.resources
+C:\Users\Miguel Angel\Desktop\Semestre 2017-2018_II\MiosEneJunio2018\C#\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.CConfiguracion.resources
+C:\Users\Miguel Angel\Desktop\Semestre 2017-2018_II\MiosEneJunio2018\C#\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.Properties.Resources.resources
+C:\Users\Miguel Angel\Desktop\Semestre 2017-2018_II\MiosEneJunio2018\C#\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.csproj.GenerateResource.Cache
+C:\Users\Miguel Angel\Desktop\Semestre 2017-2018_II\MiosEneJunio2018\C#\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.exe
+C:\Users\Miguel Angel\Desktop\Semestre 2017-2018_II\MiosEneJunio2018\C#\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.pdb
+C:\Users\Morcado\Desktop\Grafos 2018\CrearDialogo\CrearDialogo\bin\Debug\CrearDialogo.exe.config
+C:\Users\Morcado\Desktop\Grafos 2018\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.exe
+C:\Users\Morcado\Desktop\Grafos 2018\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.pdb
+C:\Users\Morcado\Desktop\Grafos 2018\CrearDialogo\CrearDialogo\bin\Debug\CrearDialogo.exe
+C:\Users\Morcado\Desktop\Grafos 2018\CrearDialogo\CrearDialogo\bin\Debug\CrearDialogo.pdb
+C:\Users\Morcado\Desktop\Grafos 2018\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.csprojResolveAssemblyReference.cache
+C:\Users\Morcado\Desktop\Grafos 2018\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.Form1.resources
+C:\Users\Morcado\Desktop\Grafos 2018\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.CConfiguracion.resources
+C:\Users\Morcado\Desktop\Grafos 2018\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.Properties.Resources.resources
+C:\Users\Morcado\Desktop\Grafos 2018\CrearDialogo\CrearDialogo\obj\Debug\CrearDialogo.csproj.GenerateResource.Cache

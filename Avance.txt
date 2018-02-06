@@ -1,0 +1,27 @@
+﻿Oscar Armando González Patiño
+Avances de Grafos
+--------------------------------------------------------------------------------
+
+29 de Enero de 2018
+
+-Se actualizaron los iconos de la toolstrip con un tamaño de 32x32		OK
+-Se actualizaron los iconos de los menús				?
+-Se probó el editor						OK
+-Estoy analizando el código					OK
+-----------------------------------------------------------------------
+1 Feb de 2018
+
+Revisión.
+	-Organizar los menus como les indique y sobre todo:
+	-Agregar la Configuración.
+	-Este mismo archivo lo voy a regresar y tu tambien me lo regresas con la fecha y descripción del avance. Como arriba.	
+---------------------------------------------------------------------------------
+Fecha
+2 feb 2018
+
+-se entrega configuracion del nodo
+-aun no se guardan los cambios, pero lo voy a implementar
+
+Descripción del avance.
+
+		
