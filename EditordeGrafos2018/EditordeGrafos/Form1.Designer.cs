@@ -56,6 +56,7 @@
             this.Configuracion = new System.Windows.Forms.ToolStripMenuItem();
             this.ConfigurarNodAri = new System.Windows.Forms.ToolStripMenuItem();
             this.PropiedadesGrafo = new System.Windows.Forms.ToolStripMenuItem();
+            this.Intercamb = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.AgregaNod = new System.Windows.Forms.ToolStripButton();
             this.Dirigida = new System.Windows.Forms.ToolStripButton();
@@ -69,7 +70,7 @@
             this.MenuArista = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.Peso = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.Intercamb = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.MenuArista.SuspendLayout();
@@ -286,6 +287,12 @@
             this.PropiedadesGrafo.Size = new System.Drawing.Size(201, 22);
             this.PropiedadesGrafo.Text = "Propiedades del grafo";
             // 
+            // Intercamb
+            // 
+            this.Intercamb.Name = "Intercamb";
+            this.Intercamb.Size = new System.Drawing.Size(201, 22);
+            this.Intercamb.Text = "Intercambio";
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -297,7 +304,8 @@
             this.MueveGraf,
             this.EliminaArist,
             this.PropiedadesGraf,
-            this.Intercambio});
+            this.Intercambio,
+            this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(784, 39);
@@ -419,11 +427,14 @@
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
             // 
-            // Intercamb
+            // toolStripButton1
             // 
-            this.Intercamb.Name = "Intercamb";
-            this.Intercamb.Size = new System.Drawing.Size(201, 22);
-            this.Intercamb.Text = "Intercambio";
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 36);
+            this.toolStripButton1.Text = "toolStripButton1";
             // 
             // Form1
             // 
@@ -498,6 +509,7 @@
         private System.Windows.Forms.ToolStripMenuItem NombreAristas;
         private System.Windows.Forms.ToolStripMenuItem PesoAristas;
         private System.Windows.Forms.ToolStripMenuItem Intercamb;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 
