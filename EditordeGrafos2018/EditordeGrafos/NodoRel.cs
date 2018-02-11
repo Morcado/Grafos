@@ -8,27 +8,26 @@ namespace EditordeGrafos{
     [Serializable()]
 
     public class NodoRel{
-        private bool visitada;
-        private string nombre;
-        private NodoP arriba;
-        //int peso;
+        private bool visited;
+        private string name;
+        private NodoP up;
 
-        public string NOMBRE{ 
-            get {return nombre;} 
-            set {nombre = value;} 
+        public string Name{ 
+            get {return name;} 
+            set {name = value;} 
         }
-        public NodoP ARRIBA{
-            get {return arriba;}
+        public NodoP Up{
+            get {return up;}
         }
-        public bool VISITADA{ 
-            get { return visitada; } 
-            set { visitada = value; } 
+        public bool Visited{ 
+            get { return visited; } 
+            set { visited = value; } 
         }
         
-        public NodoRel(NodoP np,string nam){
-            arriba = np;
-            visitada = false;
-            nombre = nam;
+        public NodoRel(NodoP np, string nam){
+            up = np;
+            visited = false;
+            name = nam;
         }
     }
 }

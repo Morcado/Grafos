@@ -10,24 +10,51 @@ namespace EditordeGrafos{
     [Serializable()]
 
     public class NodoP{
-        private bool visitado;
-        private bool Seleccionado;
-        private int grado;
-        private int gradoInterno;
-        private int gradoExterno;
-        private string nombre;
-        private Point pos;
+        private bool visited;
+        private bool selected;
+        private int degree;
+        private int degreeIn;
+        private int degreeEx;
+        private string name;
+        private Point position;
         private Color color;
-        public List<NodoRel> relaciones;
+        public List<NodoRel> relations;
         
-        public Point POS { get { return pos; } set { pos = value; } }
-        public string NOMBRE { get { return nombre; } set { nombre = value; } }
-        public int GRADO { get { return grado; } set { grado = value; } }
-        public Color COLOR{get{return color;} set {color=value;}}
-        public int GradoInterno { get { return gradoInterno; } set { gradoInterno = value; } }
-        public int GradoExterno { get { return gradoExterno; } set { gradoExterno = value; } }
-        public bool SELECCIONADO{get{return Seleccionado;}set{Seleccionado=value;}}
-        public bool VISITADO { get { return visitado; } set { visitado = value; } }
+        public Point Position { 
+            get { return position; } 
+            set { position = value; } 
+        }
+
+        public string Name {
+            get { return name; } 
+            set { name = value; } 
+        }
+        public int Degree {
+            get { return degree; } 
+            set { degree = value; } 
+        }
+
+        public Color Color{
+            get {return color;} 
+            set {color=value;}
+        }
+
+        public int DegreeIn {
+            get { return degreeIn; } 
+            set { degreeIn = value; } 
+        }
+        public int DegreeEx {
+            get { return degreeEx; } 
+            set { degreeEx = value; } 
+        }
+        public bool Selected{
+            get { return selected; }
+            set { selected=value; }
+        }
+        public bool Visited { 
+            get { return visited; } 
+            set { visited = value; } 
+        }
 
         #region constructores
 
@@ -35,36 +62,34 @@ namespace EditordeGrafos{
 
         }
 
-        public NodoP(NodoP co)
-        {
-            pos = co.POS;
-            nombre = co.NOMBRE;
-            relaciones = new List<NodoRel>();
-            grado = co.GRADO;
-            gradoExterno = co.gradoExterno;
-            gradoInterno = co.GradoInterno;
-            color = co.COLOR;
-            Seleccionado = false;
+        public NodoP(NodoP co){
+            position = co.Position;
+            name = co.Name;
+            relations = new List<NodoRel>();
+            degree = co.Degree;
+            degreeEx = co.DegreeEx;
+            degreeIn = co.DegreeIn;
+            color = co.Color;
+            selected = false;
         }
 
- 
-        public NodoP(Point p, char n)
-        {
-            pos = p;
-            nombre = n.ToString();
-            relaciones = new List<NodoRel>();
-            grado = 0;
+        public NodoP(Point p, char n){
+            position = p;
+            name = n.ToString();
+            relations = new List<NodoRel>();
+            degree = 0;
             color = Color.White;
-            Seleccionado = false;
+            selected = false;
         }
+
         #endregion
         #region operaciones
-        public bool insertaRelacion(NodoP nueva,int num)
-        {
+
+        public bool insertaRelacion(NodoP nueva, int num){
             NodoRel n;
             n=new NodoRel(nueva,"e"+num.ToString());
            
-            relaciones.Add(n);
+            relations.Add(n);
             return true;
         }
         #endregion

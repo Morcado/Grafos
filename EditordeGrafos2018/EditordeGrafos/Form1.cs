@@ -137,20 +137,20 @@ namespace EditordeGrafos{
                     nu = null; 
                     break;
                 case 3:
-                    des = (NodoP)graph.Find(delegate(NodoP a) { if (e.Location.X > a.POS.X - (graph.Radio / 2) && e.Location.X < a.POS.X + (graph.Radio) && e.Location.Y > a.POS.Y - (graph.Radio / 2) && e.Location.Y < a.POS.Y + (graph.Radio ))return true; else return false; });
+                    des = (NodoP)graph.Find(delegate(NodoP a) { if (e.Location.X > a.Position.X - (graph.Radio / 2) && e.Location.X < a.Position.X + (graph.Radio) && e.Location.Y > a.Position.Y - (graph.Radio / 2) && e.Location.Y < a.Position.Y + (graph.Radio ))return true; else return false; });
                     if(des != null && nu != null){
                         if(nu.insertaRelacion(des,graph.Aristas.Count)){
                             ed = new Edge(tipoarista, nu, des, "e" + graph.Aristas.Count.ToString());
                             graph.AgregaArista(ed);
-                            nu.GRADO++;
-                            des.GRADO++;
-                            nu.GradoExterno++;
-                            des.GradoInterno++;
+                            nu.Degree++;
+                            des.Degree++;
+                            nu.DegreeEx++;
+                            des.DegreeIn++;
                         }
-                        if(tipoarista == 2 && ed.Destiny.NOMBRE!=ed.Origin.NOMBRE){
+                        if(tipoarista == 2 && ed.Destiny.Name!=ed.Origin.Name){
                             des.insertaRelacion(nu, graph.Aristas.Count-1);
-                            des.GradoExterno++;
-                            nu.GradoInterno++; 
+                            des.DegreeEx++;
+                            nu.DegreeIn++; 
                         }
                         if(b_coloreando == true){
                             graph.colorear();
@@ -166,7 +166,7 @@ namespace EditordeGrafos{
                     graphics.DrawImage(bmp1, 0, 0);
                     break;
                 case 4:
-                    nu = (NodoP)graph.Find(delegate(NodoP a) { if (e.Location.X > a.POS.X - 15 && e.Location.X < a.POS.X + 30 && e.Location.Y > a.POS.Y - 15 && e.Location.Y < a.POS.Y + 30)return true; else return false; });
+                    nu = (NodoP)graph.Find(delegate(NodoP a) { if (e.Location.X > a.Position.X - 15 && e.Location.X < a.Position.X + 30 && e.Location.Y > a.Position.Y - 15 && e.Location.Y < a.Position.Y + 30)return true; else return false; });
                     if (nu != null){
                         graph.RemueveNodo(nu);
                         band = true;
@@ -242,14 +242,16 @@ namespace EditordeGrafos{
                         AgregaNod.Enabled = true;
                         Intercambio.Enabled = true;
 
-                        if(graph.Aristas[0].Type == 1){      
-                            AristaDirigida.Enabled= Dirigida.Enabled = true;
-                            AristaNoDirigida.Enabled = NoDirigida.Enabled = false;
+                        
+                        if (graph.Aristas.Count > 0 && graph.Aristas[0].Type == 1) {
+                            AristaDirigida.Enabled = Dirigida.Enabled = true;
+                            AristaNoDirigida.Enabled = NoDirigida.Enabled =  false;
                         }
-                        else{
+                        else {
                             AristaNoDirigida.Enabled = NoDirigida.Enabled = true;
                             AristaDirigida.Enabled = Dirigida.Enabled = false;
                         }
+                        
 
                         MueveGrafo.Enabled = MueveGraf.Enabled = true;
                         MueveNodo.Enabled = MueveNod.Enabled = true;
@@ -374,7 +376,7 @@ namespace EditordeGrafos{
                     char name='A';
                     bool num;
                     int aux;
-                    if((int.TryParse(graph[0].NOMBRE.ToString(),out aux))==true){
+                    if((int.TryParse(graph[0].Name.ToString(),out aux))==true){
                         num=true;
                     }
                     else{
@@ -383,7 +385,7 @@ namespace EditordeGrafos{
 
                     if(num == true){
                         foreach (NodoP cambio in graph){
-                            cambio.NOMBRE = name.ToString();
+                            cambio.Name = name.ToString();
                             name++;
                         }
                         nombre = 'A';
@@ -394,7 +396,7 @@ namespace EditordeGrafos{
                     else{
                         numero = graph.Count;
                         foreach (NodoP cambio in graph){
-                            cambio.NOMBRE = cont.ToString();
+                            cambio.Name = cont.ToString();
                             cont++;
                         }
                     }
@@ -481,33 +483,6 @@ namespace EditordeGrafos{
             }
         }
 
-
-        /*private void color_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            Configuracion.HideDropDown();
-            ColorDialog a = new ColorDialog();
-            switch (e.ClickedItem.Name){
-                case "ColArista":
-                    if(a.ShowDialog() == DialogResult.OK){
-                        if(fl.EndCap == System.Drawing.Drawing2D.LineCap.ArrowAnchor){
-                            graph.ColorAristaDi = a.Color;
-                        }
-                        else{
-                            graph.ColorAristaNoDi = a.Color;
-                        }
-                    }
-                    break;
-                case "ColNodo":
-                    if(a.ShowDialog() == DialogResult.OK){
-                        foreach (NodoP ccol in graph){
-                            ccol.COLOR = a.Color;
-                        }
-                    }
-                    break;
-            }
-            Form1_Paint(this, null);
-        }*/
-
         private void Ver_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e){
             switch (e.ClickedItem.Name){
                 case "NombreAristas":
@@ -523,27 +498,57 @@ namespace EditordeGrafos{
         private void Configuracion_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e){
             switch (e.ClickedItem.Name){
                 case "PropiedadesGrafo":
-                    Form f;
-                    if (AristaDirigida.Enabled == false){
-                        f = new PropiedadesGrafo(graph, 2);
+                    using (var f = new PropiedadesGrafo(graph, AristaDirigida.Enabled ? 1 : 2)) {
+                        var result = f.ShowDialog();
+                        graph.desseleccionar();
                     }
-                    else{
-                        f = new PropiedadesGrafo(graph, 1);
-                    }
-                    f.Activate();
-                    f.Show();
-                    graph.desseleccionar();
                     break;
                 case "ConfigurarNodAri":
-                    Form f2;
-                    f2 = new ConfigNodAri(graph);
-                    f2.Activate();
-                    f2.Show();
-                    if (f2.DialogResult == DialogResult.OK) {
-                        //acceder a las variables de f2
+                    using (var f2 = new ConfigNodAri(graph)) {
+                        var result = f2.ShowDialog();
+                        if (result == DialogResult.OK) {
+                            foreach (NodoP colNodo in graph) {
+                                
+                                colNodo.Color = f2.ColNodo;
+                            }
+                            graph.Radio = f2.Radio;
+                            graph.ColorNodo = f2.ColNodo;
+                            graph.ColorArista = f2.ColArista;
+                        }
+                    }
+                    break;
+                case "Intercamb":
+                    int cont=0;
+                    char name='A';
+                    bool num;
+                    int aux;
+                    if((int.TryParse(graph[0].Name.ToString(),out aux))==true){
+                        num=true;
+                    }
+                    else{
+                        num=false;
+                    }
+
+                    if(num == true){
+                        foreach (NodoP cambio in graph){
+                            cambio.Name = name.ToString();
+                            name++;
+                        }
+                        nombre = 'A';
+                        for (int i = 0; i < graph.Count; i++){
+                            nombre++;
+                        }
+                    }
+                    else{
+                        numero = graph.Count;
+                        foreach (NodoP cambio in graph){
+                            cambio.Name = cont.ToString();
+                            cont++;
+                        }
                     }
                     break;
             }
+            Form1_Paint(this, null);
         }
 
         private void MenuArista_Closing(object sender, ToolStripDropDownClosingEventArgs e){
@@ -568,7 +573,7 @@ namespace EditordeGrafos{
                         bool num;
                         int iaux;
                         if(graph.Count > 0){
-                            if((int.TryParse(graph[0].NOMBRE.ToString(), out iaux)) == true){
+                            if((int.TryParse(graph[0].Name.ToString(), out iaux)) == true){
                                 num = true;
                             }
                             else{
@@ -584,14 +589,14 @@ namespace EditordeGrafos{
                         }
                         else{
                             nu = new NodoP(pt2,nombre );
-                            nu.NOMBRE = numero.ToString();
+                            nu.Name = numero.ToString();
                             numero++;
                         }
                         if(graph.Count == 0){
                             Dirigida.Enabled = NoDirigida.Enabled = true;
                         }
                         if(graph.Count > 1){
-                            nu.COLOR = graph[0].COLOR;
+                            nu.Color = graph[0].Color;
                         }
                         graph.AgregaNodo(nu);
                         Intercambio.Enabled = true;
@@ -606,19 +611,19 @@ namespace EditordeGrafos{
                         nu = null;          
                         break;
                     case 2:
-                        nu = (NodoP)graph.Find(delegate(NodoP a) { if (pt2.X > a.POS.X - (graph.Radio / 2) && pt2.X < a.POS.X + (graph.Radio) && pt2.Y > a.POS.Y - (graph.Radio / 2) && pt2.Y < a.POS.Y + (graph.Radio ))return true; else return false; });
+                        nu = (NodoP)graph.Find(delegate(NodoP a) { if (pt2.X > a.Position.X - (graph.Radio / 2) && pt2.X < a.Position.X + (graph.Radio) && pt2.Y > a.Position.Y - (graph.Radio / 2) && pt2.Y < a.Position.Y + (graph.Radio ))return true; else return false; });
                         break;
                     case 3:
-                        nu = (NodoP)graph.Find(delegate(NodoP a) { if (pt2.X > a.POS.X - (graph.Radio / 2) && pt2.X < a.POS.X + (graph.Radio) && pt2.Y > a.POS.Y - (graph.Radio / 2) && pt2.Y < a.POS.Y + (graph.Radio))return true; else return false; });
+                        nu = (NodoP)graph.Find(delegate(NodoP a) { if (pt2.X > a.Position.X - (graph.Radio / 2) && pt2.X < a.Position.X + (graph.Radio) && pt2.Y > a.Position.Y - (graph.Radio / 2) && pt2.Y < a.Position.Y + (graph.Radio))return true; else return false; });
                         pt1 = pt2;                        
                         break;
                     case 5:
                         Grafo aux=new Grafo();
                         aux = graph;
-                        aux.Sort(delegate(NodoP a, NodoP b) { return a.POS.X.CompareTo(b.POS.X); });
-                        if(pt2.X > aux.ToArray()[0].POS.X && pt2.X < aux.ToArray()[aux.Count - 1].POS.X){
-                            aux.Sort(delegate(NodoP a, NodoP b) { return a.POS.Y.CompareTo(b.POS.Y); });
-                            if(pt2.Y > aux.ToArray()[0].POS.Y && pt2.Y < aux.ToArray()[aux.Count - 1].POS.Y){
+                        aux.Sort(delegate(NodoP a, NodoP b) { return a.Position.X.CompareTo(b.Position.X); });
+                        if(pt2.X > aux.ToArray()[0].Position.X && pt2.X < aux.ToArray()[aux.Count - 1].Position.X){
+                            aux.Sort(delegate(NodoP a, NodoP b) { return a.Position.Y.CompareTo(b.Position.Y); });
+                            if(pt2.Y > aux.ToArray()[0].Position.Y && pt2.Y < aux.ToArray()[aux.Count - 1].Position.Y){
                                 b_mov = true;             
                             }
                             else{
@@ -654,7 +659,7 @@ namespace EditordeGrafos{
                             graph.Aristas.Clear();
                             foreach (NodoP rel in graph)
                             {
-                                rel.relaciones.Clear();
+                                rel.relations.Clear();
                             }
                             b_cam = false;
                             au.Clear(BackColor);
@@ -663,14 +668,14 @@ namespace EditordeGrafos{
                             accion = 0;
                             b_tck = false;
                             if(icam > 0){
-                                graph.Find(delegate(NodoP dx) { if (dx.NOMBRE == CCE[icam].NOMBRE)return true; else return false; }).insertaRelacion(graph.Find(delegate(NodoP ox) { if (ox.NOMBRE == CCE[icam - 1].NOMBRE)return true; else return false; }), graph.Aristas.Count);
-                                d=graph.Find(delegate(NodoP dx) { if (dx.NOMBRE == CCE[icam].NOMBRE)return true; else return false; });
-                                o=graph.Find(delegate(NodoP ox) { if (ox.NOMBRE == CCE[icam - 1].NOMBRE)return true; else return false; });
-                                d.COLOR = Color.Blue;
-                                o.COLOR = Color.Blue;
+                                graph.Find(delegate(NodoP dx) { if (dx.Name == CCE[icam].Name)return true; else return false; }).insertaRelacion(graph.Find(delegate(NodoP ox) { if (ox.Name == CCE[icam - 1].Name)return true; else return false; }), graph.Aristas.Count);
+                                d=graph.Find(delegate(NodoP dx) { if (dx.Name == CCE[icam].Name)return true; else return false; });
+                                o=graph.Find(delegate(NodoP ox) { if (ox.Name == CCE[icam - 1].Name)return true; else return false; });
+                                d.Color = Color.Blue;
+                                o.Color = Color.Blue;
                                 Pen penn = new Pen(Brushes.Red);
                                 penn.Width = 4;
-                                graphics.DrawEllipse(penn,new Rectangle(d.POS.X - 16, d.POS.Y - 16,30, 30));
+                                graphics.DrawEllipse(penn,new Rectangle(d.Position.X - 16, d.Position.Y - 16,30, 30));
                                 ari = new Edge(1, d, o, "e" + (CCE.Count - icam).ToString());                                          
                                 graph.AgregaArista(ari);
                             }
@@ -687,7 +692,7 @@ namespace EditordeGrafos{
                     break;
                     case 2:
                         if(nu != null){
-                            nu.POS = pt2;
+                            nu.Position = pt2;
                             au.Clear(BackColor);
                         }
                         break;
@@ -701,8 +706,8 @@ namespace EditordeGrafos{
                     if(b_mov){
                         Point po = new Point(pt2.X - pt1.X, pt2.Y - pt1.Y);
                         foreach(NodoP n in graph){
-                            Point nue = new Point(n.POS.X + po.X, n.POS.Y + po.Y);
-                            n.POS = nue;
+                            Point nue = new Point(n.Position.X + po.X, n.Position.Y + po.Y);
+                            n.Position = nue;
                         }                        
                         pt1 = pt2;
                         au.Clear(BackColor);
@@ -728,23 +733,23 @@ namespace EditordeGrafos{
         public void SeleccionaNodos(){
             if(origin == null || destin == null){
                 if(origin == null){
-                    origin = (NodoP)graph.Find(delegate(NodoP a) { if (pt2.X > a.POS.X - 15 && pt2.X < a.POS.X + 30 && pt2.Y > a.POS.Y - 15 && pt2.Y < a.POS.Y + 30)return true; else return false; });
+                    origin = (NodoP)graph.Find(delegate(NodoP a) { if (pt2.X > a.Position.X - 15 && pt2.X < a.Position.X + 30 && pt2.Y > a.Position.Y - 15 && pt2.Y < a.Position.Y + 30)return true; else return false; });
                     if(origin != null){
-                        origin.SELECCIONADO = true;
+                        origin.Selected = true;
                     }
                 }
                 else{
                     if(destin == null){
-                        destin = (NodoP)graph.Find(delegate(NodoP a) { if (pt2.X > a.POS.X - 15 && pt2.X < a.POS.X + 30 && pt2.Y > a.POS.Y - 15 && pt2.Y < a.POS.Y + 30)return true; else return false; });
+                        destin = (NodoP)graph.Find(delegate(NodoP a) { if (pt2.X > a.Position.X - 15 && pt2.X < a.Position.X + 30 && pt2.Y > a.Position.Y - 15 && pt2.Y < a.Position.Y + 30)return true; else return false; });
                         if(destin != null)
-                            destin.SELECCIONADO = true;
+                            destin.Selected = true;
                     }
                 }
             }
             else{
-                nu = (NodoP)graph.Find(delegate(NodoP a) { if (pt2.X > a.POS.X - 15 && pt2.X < a.POS.X + 30 && pt2.Y > a.POS.Y - 15 && pt2.Y < a.POS.Y + 30)return true; else return false; });
+                nu = (NodoP)graph.Find(delegate(NodoP a) { if (pt2.X > a.Position.X - 15 && pt2.X < a.Position.X + 30 && pt2.Y > a.Position.Y - 15 && pt2.Y < a.Position.Y + 30)return true; else return false; });
                 if(nu != null){
-                    nu.SELECCIONADO = false;
+                    nu.Selected = false;
                     if(nu == origin){
                         origin = null;
                     }
@@ -780,7 +785,7 @@ namespace EditordeGrafos{
             foreach(NodoP nod in graph){
                 foreach(List<NodoP> n in componentes){
                     if(enco == false){
-                        if(n.Find(delegate(NodoP f) { if (f.NOMBRE == nod.NOMBRE)return true; else return false; }) != null){
+                        if(n.Find(delegate(NodoP f) { if (f.Name == nod.Name)return true; else return false; }) != null){
                             enco = true;
                         }
                     }
@@ -793,8 +798,8 @@ namespace EditordeGrafos{
                 enco = false;
             }
             foreach(NodoP re in graph){
-                foreach(NodoRel rela in re.relaciones){
-                    rela.VISITADA = false;
+                foreach(NodoRel rela in re.relations){
+                    rela.Visited = false;
                 }
             }
             return componentes.Count;

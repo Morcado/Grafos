@@ -47,7 +47,7 @@ namespace EditordeGrafos{
                 foreach (NodoP nod in grafo){
                     foreach (List<NodoP> n in componentes){
                         if (enco == false) {
-                            if (n.Find(delegate(NodoP f) { if (f.NOMBRE == nod.NOMBRE)return true; else return false; }) != null) {
+                            if (n.Find(delegate(NodoP f) { if (f.Name == nod.Name)return true; else return false; }) != null) {
                                 enco = true;
                             }
                         }
@@ -70,13 +70,13 @@ namespace EditordeGrafos{
             Interno.Items.Clear();
             Externo.Items.Clear();
             foreach(NodoP nodo in grafo){
-                Interno.Items.Add(nodo.NOMBRE.ToString());
-                Externo.Items.Add(nodo.NOMBRE.ToString());
+                Interno.Items.Add(nodo.Name.ToString());
+                Externo.Items.Add(nodo.Name.ToString());
             }
                 
             foreach (NodoP re in grafo){
-                foreach (NodoRel rela in re.relaciones){
-                    rela.VISITADA = false;
+                foreach (NodoRel rela in re.relations){
+                    rela.Visited = false;
                 }
             }
             Componentes.Text = componentes.Count.ToString();
@@ -87,11 +87,11 @@ namespace EditordeGrafos{
             for (int i = 0; i <= grafo.Count; i++){
                 for (int j = 0; j <= grafo.Count ; j++){
                     if (i == 0 && j>0){
-                        dataGridView1.Rows[i].Cells[j].Value = grafo[j-1].NOMBRE.ToString();
+                        dataGridView1.Rows[i].Cells[j].Value = grafo[j-1].Name.ToString();
                     }
                     else{
                         if (j == 0 && i>0){
-                            dataGridView1.Rows[i].Cells[j].Value = grafo[i-1].NOMBRE.ToString();
+                            dataGridView1.Rows[i].Cells[j].Value = grafo[i-1].Name.ToString();
                         }
                         else{
                             if(i!=0 && j!=0){
@@ -112,11 +112,11 @@ namespace EditordeGrafos{
         }
 
         private void Interno_TextChanged(object sender, EventArgs e){
-            LabInterno.Text = grafo.Find(delegate(NodoP a) { if (a.NOMBRE.ToString() == Interno.Text)return true; else return false; }).GradoInterno.ToString() ;
+            LabInterno.Text = grafo.Find(delegate(NodoP a) { if (a.Name.ToString() == Interno.Text)return true; else return false; }).DegreeIn.ToString() ;
         }
 
         private void Externo_TextChanged(object sender, EventArgs e){
-            LabExterno.Text = grafo.Find(delegate(NodoP a) { if (a.NOMBRE.ToString() == Externo.Text)return true; else return false; }).GradoExterno.ToString();
+            LabExterno.Text = grafo.Find(delegate(NodoP a) { if (a.Name.ToString() == Externo.Text)return true; else return false; }).DegreeEx.ToString();
         }
 
         private void Relaciones_CheckedChanged(object sender, EventArgs e){
@@ -129,11 +129,11 @@ namespace EditordeGrafos{
             for (int i = 0; i <= grafo.Count; i++){
                 for (int j = 0; j <= grafo.Count; j++){
                     if (i == 0 && j > 0) {
-                        dataGridView1.Rows[i].Cells[j].Value = grafo[j - 1].NOMBRE.ToString();
+                        dataGridView1.Rows[i].Cells[j].Value = grafo[j - 1].Name.ToString();
                     }
                     else {
                         if (j == 0 && i > 0) {
-                            dataGridView1.Rows[i].Cells[j].Value = grafo[i - 1].NOMBRE.ToString();
+                            dataGridView1.Rows[i].Cells[j].Value = grafo[i - 1].Name.ToString();
                         }
                         else {
                             if (i != 0 && j != 0) {
@@ -162,7 +162,7 @@ namespace EditordeGrafos{
             for (int i = 0; i <= grafo.Count; i++){
                 for (int j = 0; j <= grafo.Aristas.Count; j++){
                     if (j == 0 && i > 0) {
-                        dataGridView1.Rows[i].Cells[j].Value = grafo[i - 1].NOMBRE.ToString();
+                        dataGridView1.Rows[i].Cells[j].Value = grafo[i - 1].Name.ToString();
                     }
                     else {
                         if (i == 0 && j > 0) {
@@ -170,7 +170,7 @@ namespace EditordeGrafos{
                         }
                         else {
                             if (i != 0 && j != 0) {
-                                if (grafo.Aristas[j - 1].Origin.NOMBRE.ToString().CompareTo(grafo[i - 1].NOMBRE.ToString()) == 0 || grafo.Aristas[j - 1].Destiny.NOMBRE.ToString().CompareTo(grafo[i - 1].NOMBRE.ToString()) == 0) {
+                                if (grafo.Aristas[j - 1].Origin.Name.ToString().CompareTo(grafo[i - 1].Name.ToString()) == 0 || grafo.Aristas[j - 1].Destiny.Name.ToString().CompareTo(grafo[i - 1].Name.ToString()) == 0) {
                                     rel = 1;
                                 }
                                 else { 
@@ -200,11 +200,11 @@ namespace EditordeGrafos{
                         g = CreateGraphics();
             
                         foreach (NodoP nod in grafo){
-                            g.DrawString(nod.NOMBRE.ToString() + "->",new Font("Arial",10),Brushes.Black,x,y);
+                            g.DrawString(nod.Name.ToString() + "->",new Font("Arial",10),Brushes.Black,x,y);
                             x += 20;
-                            foreach(NodoRel re in nod.relaciones){
+                            foreach(NodoRel re in nod.relations){
                                 x += 15;
-                                g.DrawString(re.ARRIBA.NOMBRE.ToString() + ",", new Font("Arial", 10), Brushes.Black, x, y);
+                                g.DrawString(re.Up.Name.ToString() + ",", new Font("Arial", 10), Brushes.Black, x, y);
                             }
                             x = Relaciones.Location.X;
                             y += 20;

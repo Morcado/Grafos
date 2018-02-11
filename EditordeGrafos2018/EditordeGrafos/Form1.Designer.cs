@@ -54,8 +54,8 @@
             this.NombreAristas = new System.Windows.Forms.ToolStripMenuItem();
             this.PesoAristas = new System.Windows.Forms.ToolStripMenuItem();
             this.Configuracion = new System.Windows.Forms.ToolStripMenuItem();
-            this.PropiedadesGrafo = new System.Windows.Forms.ToolStripMenuItem();
             this.ConfigurarNodAri = new System.Windows.Forms.ToolStripMenuItem();
+            this.PropiedadesGrafo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.AgregaNod = new System.Windows.Forms.ToolStripButton();
             this.Dirigida = new System.Windows.Forms.ToolStripButton();
@@ -69,6 +69,7 @@
             this.MenuArista = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.Peso = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.Intercamb = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.MenuArista.SuspendLayout();
@@ -266,23 +267,24 @@
             // 
             this.Configuracion.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ConfigurarNodAri,
-            this.PropiedadesGrafo});
+            this.PropiedadesGrafo,
+            this.Intercamb});
             this.Configuracion.Name = "Configuracion";
             this.Configuracion.Size = new System.Drawing.Size(94, 20);
             this.Configuracion.Text = "Configuración";
             this.Configuracion.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.Configuracion_DropDownItemClicked);
-            // 
-            // PropiedadesGrafo
-            // 
-            this.PropiedadesGrafo.Name = "PropiedadesGrafo";
-            this.PropiedadesGrafo.Size = new System.Drawing.Size(189, 22);
-            this.PropiedadesGrafo.Text = "Propiedades del grafo";
             // 
             // ConfigurarNodAri
             // 
             this.ConfigurarNodAri.Name = "ConfigurarNodAri";
             this.ConfigurarNodAri.Size = new System.Drawing.Size(201, 22);
             this.ConfigurarNodAri.Text = "Configurar nodo y arista";
+            // 
+            // PropiedadesGrafo
+            // 
+            this.PropiedadesGrafo.Name = "PropiedadesGrafo";
+            this.PropiedadesGrafo.Size = new System.Drawing.Size(201, 22);
+            this.PropiedadesGrafo.Text = "Propiedades del grafo";
             // 
             // toolStrip1
             // 
@@ -417,6 +419,12 @@
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
             // 
+            // Intercamb
+            // 
+            this.Intercamb.Name = "Intercamb";
+            this.Intercamb.Size = new System.Drawing.Size(201, 22);
+            this.Intercamb.Text = "Intercambio";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -489,6 +497,7 @@
         private System.Windows.Forms.ToolStripMenuItem ConfigurarNodAri;
         private System.Windows.Forms.ToolStripMenuItem NombreAristas;
         private System.Windows.Forms.ToolStripMenuItem PesoAristas;
+        private System.Windows.Forms.ToolStripMenuItem Intercamb;
     }
 }
 

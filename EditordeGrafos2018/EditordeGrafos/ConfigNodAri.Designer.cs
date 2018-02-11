@@ -69,6 +69,7 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "Aceptar";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button3
             // 
@@ -106,7 +107,6 @@
             this.label2.Size = new System.Drawing.Size(85, 13);
             this.label2.TabIndex = 0;
             this.label2.Text = "Color de la arista";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // button4
             // 
@@ -116,7 +116,7 @@
             this.button4.TabIndex = 2;
             this.button4.Text = "Color";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button2_Click);
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // ConfigNodAri
             // 
@@ -135,6 +135,7 @@
             this.MinimizeBox = false;
             this.Name = "ConfigNodAri";
             this.Text = "Form2";
+            this.Load += new System.EventHandler(this.ConfigNodAri_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ConfigNodAri_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);

@@ -16,8 +16,7 @@ namespace EditordeGrafos{
         private bool pesoAristasVisible;
         private int radio;
         private int[][] matriz;
-        private Color aristaDi;
-        private Color aristaNoDi;
+        private Color arista;
         private Color colorNodo;
         private List<Edge> aristas;
         //private int[][] MatrizCostos;
@@ -25,14 +24,9 @@ namespace EditordeGrafos{
 
         #region get's & set's
         
-        public Color ColorAristaDi{ 
-            get { return aristaDi; } 
-            set { aristaDi = value; } 
-        }
-
-        public Color ColorAristaNoDi{ 
-            get { return aristaNoDi; } 
-            set { aristaNoDi = value; }
+        public Color ColorArista{ 
+            get { return arista; } 
+            set { arista = value; } 
         }
 
         public Color ColorNodo {
@@ -68,8 +62,7 @@ namespace EditordeGrafos{
 
         public Grafo(){
             aristas = new List<Edge>();
-            aristaDi = Color.Black;
-            aristaNoDi = Color.Black;
+            arista = Color.Black;
             nombreAristasVisible = false;
             pesoAristasVisible = false;
             colorNodo = Color.White;
@@ -78,8 +71,7 @@ namespace EditordeGrafos{
 
         public Grafo(Grafo gr){
             aristas = new List<Edge>();
-            aristaDi = gr.ColorAristaDi;
-            aristaNoDi = gr.ColorAristaNoDi;
+            arista = gr.ColorArista;
             colorNodo = gr.colorNodo;
             NodoP aux1,aux2;
             radio = gr.Radio;
@@ -92,16 +84,16 @@ namespace EditordeGrafos{
             }
 
             foreach(NodoP n in gr){
-                aux1 = Find(delegate(NodoP bu) { if (bu.NOMBRE == n.NOMBRE)return true; else return false; });
-                foreach (NodoRel rel in n.relaciones){
-                    aux2 = Find(delegate(NodoP je) { if (je.NOMBRE == rel.ARRIBA.NOMBRE)return true; else return false; });
+                aux1 = Find(delegate(NodoP bu) { if (bu.Name == n.Name)return true; else return false; });
+                foreach (NodoRel rel in n.relations){
+                    aux2 = Find(delegate(NodoP je) { if (je.Name == rel.Up.Name)return true; else return false; });
                     aux1.insertaRelacion(aux2, Aristas.Count);
                 }
             }
 
             foreach (Edge ar in gr.aristas){
-                aux1 = Find(delegate(NodoP bu) { if (bu.NOMBRE == ar.Origin.NOMBRE)return true; else return false; });
-                aux2 = Find(delegate(NodoP bu) { if (bu.NOMBRE == ar.Destiny.NOMBRE)return true; else return false; });
+                aux1 = Find(delegate(NodoP bu) { if (bu.Name == ar.Origin.Name)return true; else return false; });
+                aux2 = Find(delegate(NodoP bu) { if (bu.Name == ar.Destiny.Name)return true; else return false; });
                 k = new Edge(ar.Type, aux1, aux2, ar.Name);
                 k.Weight = ar.Weight;
                 AgregaArista(k);
@@ -122,21 +114,21 @@ namespace EditordeGrafos{
         public void RemueveArista(Edge ar){
             NodoRel rel;
             
-            rel = ar.Origin.relaciones.Find(delegate(NodoRel np) { if (np.ARRIBA.NOMBRE==ar.Destiny.NOMBRE)return true; else return false; });
+            rel = ar.Origin.relations.Find(delegate(NodoRel np) { if (np.Up.Name==ar.Destiny.Name)return true; else return false; });
             if (rel != null){
-                ar.Origin.relaciones.Remove(rel);
-                ar.Origin.GRADO--;
-                ar.Destiny.GRADO--;
-                ar.Origin.GradoExterno--;
-                ar.Destiny.GradoInterno--;
+                ar.Origin.relations.Remove(rel);
+                ar.Origin.Degree--;
+                ar.Destiny.Degree--;
+                ar.Origin.DegreeEx--;
+                ar.Destiny.DegreeIn--;
             }
             if (ar.Type == 2){
-                rel = ar.Destiny.relaciones.Find(delegate(NodoRel np) { if (np.ARRIBA.NOMBRE==ar.Origin.NOMBRE)return true; else return false; });
+                rel = ar.Destiny.relations.Find(delegate(NodoRel np) { if (np.Up.Name==ar.Origin.Name)return true; else return false; });
                 
                 if (rel != null){
-                    ar.Destiny.relaciones.Remove(rel);
-                    ar.Destiny.GradoExterno--;
-                    ar.Origin.GradoInterno--;
+                    ar.Destiny.relations.Remove(rel);
+                    ar.Destiny.DegreeEx--;
+                    ar.Origin.DegreeIn--;
                 }
             }
             aristas.Remove(ar);
@@ -147,17 +139,17 @@ namespace EditordeGrafos{
             remover=new List<Edge>();
             
             foreach(NodoP a in this){
-                rel = a.relaciones.Find(delegate(NodoRel np) { if (np.ARRIBA.NOMBRE==rem.NOMBRE)return true; else return false; });
+                rel = a.relations.Find(delegate(NodoRel np) { if (np.Up.Name==rem.Name)return true; else return false; });
                 if (rel != null){
-                    a.relaciones.Remove(rel);
-                    a.GRADO--;
-                    a.GradoExterno--;
+                    a.relations.Remove(rel);
+                    a.Degree--;
+                    a.DegreeEx--;
                     if(aristas[0].Type == 0 || aristas[0].Type == 2){
-                        a.GradoInterno--;
+                        a.DegreeIn--;
                     }
                 }
             }
-            remover=aristas.FindAll(delegate(Edge ar){if(ar.Origin.NOMBRE==rem.NOMBRE||ar.Destiny.NOMBRE==rem.NOMBRE)return true;else return false;});
+            remover=aristas.FindAll(delegate(Edge ar){if(ar.Origin.Name==rem.Name||ar.Destiny.Name==rem.Name)return true;else return false;});
             if(remover!=null)
                 foreach(Edge re in remover){
                     aristas.Remove(re);
@@ -170,8 +162,8 @@ namespace EditordeGrafos{
 
         public void pinta(Graphics g)
         {
-            Pen pendi = new Pen(aristaDi);
-            Pen penNdi = new Pen(aristaNoDi);
+            Pen pendi = new Pen(arista);
+            Pen penNdi = new Pen(arista);
             Pen pen = new Pen(Color.Black);
             AdjustableArrowCap end=new AdjustableArrowCap(6,6);
             SolidBrush nod;
@@ -194,65 +186,65 @@ namespace EditordeGrafos{
             if(aristas.Count > 0){
                 foreach (Edge a in aristas){
                     if(a.Type != 1){
-                        if(a.Origin.NOMBRE == a.Destiny.NOMBRE){
-                            g.DrawBezier(penNdi, new Point(a.Origin.POS.X + ((a.Destiny.POS.X - a.Origin.POS.X) / 2) - 10, a.Origin.POS.Y + ((a.Destiny.POS.Y - a.Origin.POS.Y) / 2) - 5), new Point(a.Origin.POS.X + ((a.Destiny.POS.X - a.Origin.POS.X) / 2) - 40, a.Origin.POS.Y - ((a.Destiny.POS.Y - a.Origin.POS.Y) / 2) - 60), new Point(a.Origin.POS.X + 40, a.Destiny.POS.Y - 60), new Point(a.Destiny.POS.X + 10, a.Destiny.POS.Y - 5));
+                        if(a.Origin.Name == a.Destiny.Name){
+                            g.DrawBezier(penNdi, new Point(a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) - 10, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) - 5), new Point(a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) - 40, a.Origin.Position.Y - ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) - 60), new Point(a.Origin.Position.X + 40, a.Destiny.Position.Y - 60), new Point(a.Destiny.Position.X + 10, a.Destiny.Position.Y - 5));
                         }
                         else{
-                            g.DrawLine(penNdi, a.Origin.POS.X, a.Origin.POS.Y, a.Destiny.POS.X, a.Destiny.POS.Y);
+                            g.DrawLine(penNdi, a.Origin.Position.X, a.Origin.Position.Y, a.Destiny.Position.X, a.Destiny.Position.Y);
                         }
 
-                        repetidas = aristas.FindAll(delegate(Edge repe) { if (repe.Origin.NOMBRE == a.Origin.NOMBRE && repe.Destiny.NOMBRE == a.Destiny.NOMBRE || (a.Origin.NOMBRE == repe.Destiny.NOMBRE && a.Destiny.NOMBRE == repe.Origin.NOMBRE))return true;else return false; });
+                        repetidas = aristas.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name || (a.Origin.Name == repe.Destiny.Name && a.Destiny.Name == repe.Origin.Name))return true;else return false; });
                         
                         if(repetidas.Count > 1 && a.Painted==false){
-                            if((a.Destiny.POS.Y - a.Origin.POS.Y) != 0 ){
-                                g.DrawString(repetidas.Count.ToString(), new Font("Arial", 10), Brushes.Black, a.Origin.POS.X + ((a.Destiny.POS.X - a.Origin.POS.X) / 2) + 4, a.Origin.POS.Y + ((a.Destiny.POS.Y - a.Origin.POS.Y) / 2) + 4);                                foreach (Edge re in repetidas)
+                            if((a.Destiny.Position.Y - a.Origin.Position.Y) != 0 ){
+                                g.DrawString(repetidas.Count.ToString(), new Font("Arial", 10), Brushes.Black, a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) + 4, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) + 4);                                foreach (Edge re in repetidas)
                                 re.Painted = true;
                             }
                         }
                     }
                     else{
-                        if(a.Origin.NOMBRE == a.Destiny.NOMBRE){
-                            g.DrawBezier(pendi, new Point(a.Origin.POS.X - 10, a.Origin.POS.Y - 5), new Point(a.Origin.POS.X - 40, a.Origin.POS.Y - 60), new Point(a.Origin.POS.X + 40, a.Destiny.POS.Y - 60), new Point(a.Destiny.POS.X + 10, a.Destiny.POS.Y - 10));
+                        if(a.Origin.Name == a.Destiny.Name){
+                            g.DrawBezier(pendi, new Point(a.Origin.Position.X - 10, a.Origin.Position.Y - 5), new Point(a.Origin.Position.X - 40, a.Origin.Position.Y - 60), new Point(a.Origin.Position.X + 40, a.Destiny.Position.Y - 60), new Point(a.Destiny.Position.X + 10, a.Destiny.Position.Y - 10));
                         }
                         else{
-                            if(aristas.Find(delegate(Edge bus) { if (bus.Origin.NOMBRE == a.Destiny.NOMBRE && bus.Destiny.NOMBRE == a.Origin.NOMBRE)return true; else return false; }) == null){
-                                double teta1 = Math.Atan2((double)(a.Destiny.POS.Y - a.Origin.POS.Y),(double)( a.Destiny.POS.X - a.Origin.POS.X));
-                                float x1 = a.Origin.POS.X + (float)((Math.Cos(teta1)) * (s.Height/2));
-                                float y1 = a.Origin.POS.Y + (float)((Math.Sin(teta1)) * (s.Height / 2));
+                            if(aristas.Find(delegate(Edge bus) { if (bus.Origin.Name == a.Destiny.Name && bus.Destiny.Name == a.Origin.Name)return true; else return false; }) == null){
+                                double teta1 = Math.Atan2((double)(a.Destiny.Position.Y - a.Origin.Position.Y),(double)( a.Destiny.Position.X - a.Origin.Position.X));
+                                float x1 = a.Origin.Position.X + (float)((Math.Cos(teta1)) * (s.Height/2));
+                                float y1 = a.Origin.Position.Y + (float)((Math.Sin(teta1)) * (s.Height / 2));
 
-                                double teta2 = Math.Atan2(a.Origin.POS.Y - a.Destiny.POS.Y, a.Origin.POS.X - a.Destiny.POS.X);
-                                float x2 = a.Destiny.POS.X + (float)((Math.Cos(teta2)) * (s.Height / 2));
-                                float y2 = a.Destiny.POS.Y + (float)((Math.Sin(teta2)) * (s.Height / 2));
+                                double teta2 = Math.Atan2(a.Origin.Position.Y - a.Destiny.Position.Y, a.Origin.Position.X - a.Destiny.Position.X);
+                                float x2 = a.Destiny.Position.X + (float)((Math.Cos(teta2)) * (s.Height / 2));
+                                float y2 = a.Destiny.Position.Y + (float)((Math.Sin(teta2)) * (s.Height / 2));
                                 g.DrawLine(pendi, x1, y1, x2, y2);
 
-                                if(aristas.FindAll(delegate(Edge repe) { if (repe.Origin.NOMBRE == a.Origin.NOMBRE && repe.Destiny.NOMBRE == a.Destiny.NOMBRE)return true; else return false; }).Count > 1){
-                                    if((a.Destiny.POS.Y - a.Origin.POS.Y) != 0){
-                                        g.DrawString(aristas.FindAll(delegate(Edge repe) { if (repe.Origin.NOMBRE == a.Origin.NOMBRE && repe.Destiny.NOMBRE == a.Destiny.NOMBRE)return true; else return false; }).Count.ToString(), new Font("Arial", 10), Brushes.Black, a.Origin.POS.X + ((a.Destiny.POS.X - a.Origin.POS.X) / 2) + 4, a.Origin.POS.Y + ((a.Destiny.POS.Y - a.Origin.POS.Y) / 2) + 4);
+                                if(aristas.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name)return true; else return false; }).Count > 1){
+                                    if((a.Destiny.Position.Y - a.Origin.Position.Y) != 0){
+                                        g.DrawString(aristas.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name)return true; else return false; }).Count.ToString(), new Font("Arial", 10), Brushes.Black, a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) + 4, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) + 4);
                                     }
                                 }
 
                             }
                             else{
                                 if(a.Painted == false){
-                                    dy = a.Destiny.POS.Y - a.Origin.POS.Y;
-                                    dx = a.Destiny.POS.X - a.Origin.POS.X;
+                                    dy = a.Destiny.Position.Y - a.Origin.Position.Y;
+                                    dx = a.Destiny.Position.X - a.Origin.Position.X;
 
-                                    p3x = (dx * 1 / 3) + a.Origin.POS.X;
-                                    p3y = (dy * 1 / 3) + a.Origin.POS.Y;
-                                    p4x = (dx * 2 / 3) + a.Origin.POS.X;
-                                    p4y = (dy * 2 / 3) + a.Origin.POS.Y;
+                                    p3x = (dx * 1 / 3) + a.Origin.Position.X;
+                                    p3y = (dy * 1 / 3) + a.Origin.Position.Y;
+                                    p4x = (dx * 2 / 3) + a.Origin.Position.X;
+                                    p4y = (dy * 2 / 3) + a.Origin.Position.Y;
 
                                     d = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
                                     r = .35 * d;
 
-                                    if(a.Destiny.POS.X != a.Origin.POS.X){
+                                    if(a.Destiny.Position.X != a.Origin.Position.X){
                                         ang = Math.Atan((double)((double)dy / (double)dx));
                                     }
                                     else{
                                         ang = 90;
                                     }
 
-                                    if(a.Destiny.POS.X > a.Origin.POS.X){
+                                    if(a.Destiny.Position.X > a.Origin.Position.X){
                                         an = ang + 89.8;
                                     }
                                     else{
@@ -262,34 +254,34 @@ namespace EditordeGrafos{
                                     B = new PointF((float)((r * Math.Cos(an)) + p4x), (float)((r * Math.Sin(an)) + p4y /*+ 15 * (an / Math.Abs(an))*/));
                                     A = new PointF((float)((r * Math.Cos(an)) + p3x), (float)((r * Math.Sin(an)) + p3y /*+ 15 * (an / Math.Abs(an))*/));
                                     
-                                    if(a.Destiny.POS.X > a.Origin.POS.X){
+                                    if(a.Destiny.Position.X > a.Origin.Position.X){
                                         an = ang + 89.56;
                                     }
                                     else{
                                         an = ang - 89.56;
                                     }
 
-                                    g.DrawBezier(pendi, new PointF(a.Origin.POS.X + (float)((Math.Cos(an)) * (s.Height / 2)), a.Origin.POS.Y + (float)((Math.Sin(an)) * (s.Height / 2))), A, B, new PointF(a.Destiny.POS.X + (float)((Math.Cos(an)) * (s.Height / 2)), a.Destiny.POS.Y + (float)((Math.Sin(an)) * (s.Height / 2))));
+                                    g.DrawBezier(pendi, new PointF(a.Origin.Position.X + (float)((Math.Cos(an)) * (s.Height / 2)), a.Origin.Position.Y + (float)((Math.Sin(an)) * (s.Height / 2))), A, B, new PointF(a.Destiny.Position.X + (float)((Math.Cos(an)) * (s.Height / 2)), a.Destiny.Position.Y + (float)((Math.Sin(an)) * (s.Height / 2))));
                                     a.Painted = true;                   
                                 }
                             }
-                            if(aristas.FindAll(delegate(Edge repe) { if (repe.Origin.NOMBRE == a.Origin.NOMBRE && repe.Destiny.NOMBRE == a.Destiny.NOMBRE)return true; else return false; }).Count > 1){
-                                if((a.Destiny.POS.Y - a.Origin.POS.Y)!=0){
-                                    g.DrawString(aristas.FindAll(delegate(Edge repe) { if (repe.Origin.NOMBRE == a.Origin.NOMBRE && repe.Destiny.NOMBRE == a.Destiny.NOMBRE)return true; else return false; }).Count.ToString(), new Font("Arial", 10), Brushes.Black, a.Destiny.POS.X,A.Y-10);
+                            if(aristas.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name)return true; else return false; }).Count > 1){
+                                if((a.Destiny.Position.Y - a.Origin.Position.Y)!=0){
+                                    g.DrawString(aristas.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name)return true; else return false; }).Count.ToString(), new Font("Arial", 10), Brushes.Black, a.Destiny.Position.X,A.Y-10);
                                 }
                             }
                         }
                     }
                    
                     if (nombreAristasVisible){
-                        g.DrawString(a.Name, new Font("Bold", 10), Brushes.Blue, a.Origin.POS.X + ((a.Destiny.POS.X - a.Origin.POS.X) / 3) + 4, a.Origin.POS.Y + ((a.Destiny.POS.Y - a.Origin.POS.Y) / 2) + 1);
+                        g.DrawString(a.Name, new Font("Bold", 10), Brushes.Blue, a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 3) + 4, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) + 1);
                     }
                     if (pesoAristasVisible){
-                        if (aristas.Find(delegate(Edge bus) { if (bus.Origin.NOMBRE == a.Destiny.NOMBRE && bus.Destiny.NOMBRE == a.Origin.NOMBRE)return true; else return false; }) == null){
-                            g.DrawString(a.Weight.ToString(), new Font("Bold", 10), Brushes.Blue, a.Origin.POS.X + ((a.Destiny.POS.X - a.Origin.POS.X) / 2) + 4, a.Origin.POS.Y + ((a.Destiny.POS.Y - a.Origin.POS.Y) / 2) + 4);
+                        if (aristas.Find(delegate(Edge bus) { if (bus.Origin.Name == a.Destiny.Name && bus.Destiny.Name == a.Origin.Name)return true; else return false; }) == null){
+                            g.DrawString(a.Weight.ToString(), new Font("Bold", 10), Brushes.Blue, a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) + 4, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) + 4);
                         }
                         else{
-                            g.DrawString(a.Weight.ToString(), new Font("Bold", 10), Brushes.Blue, a.Destiny.POS.X, A.Y - 10);
+                            g.DrawString(a.Weight.ToString(), new Font("Bold", 10), Brushes.Blue, a.Destiny.Position.X, A.Y - 10);
                         }
                     }
                     
@@ -300,22 +292,22 @@ namespace EditordeGrafos{
             }
             foreach (NodoP n in this){
                 pendi.Width = 3;
-                if(n.SELECCIONADO==false){
-                    nod = new SolidBrush(n.COLOR);
+                if(n.Selected==false){
+                    nod = new SolidBrush(n.Color);
                 }
                 else{
                     nod = new SolidBrush(Color.Red);
                 }
 
-                Rectangle re = new Rectangle(n.POS.X - (s.Height / 2), n.POS.Y - (s.Height / 2), s.Width, s.Height);
+                Rectangle re = new Rectangle(n.Position.X - (s.Height / 2), n.Position.Y - (s.Height / 2), s.Width, s.Height);
                 g.FillEllipse(nod, re);
                 g.DrawEllipse(pen, re);
-                //g.DrawString(n.NOMBRE.ToString(), new Font("Bold", 10), Brushes.Black, n.POS.X -5, n.POS.Y -7);
+                //g.DrawString(n.Name.ToString(), new Font("Bold", 10), Brushes.Black, n.POS.X -5, n.POS.Y -7);
                 if(radio<25){
-                    g.DrawString(n.NOMBRE.ToString(), new Font("Bold", 6), Brushes.Black, (n.POS.X -3), (n.POS.Y-5 )  );
+                    g.DrawString(n.Name.ToString(), new Font("Bold", 6), Brushes.Black, (n.Position.X -3), (n.Position.Y-5 )  );
                 }
                 else{
-                    g.DrawString(n.NOMBRE.ToString(), new Font("Bold", 10), Brushes.Black, (n.POS.X -5), (n.POS.Y-7 )  );
+                    g.DrawString(n.Name.ToString(), new Font("Bold", 10), Brushes.Black, (n.Position.X -5), (n.Position.Y-7 )  );
                 }
             }
             pendi.Dispose();
@@ -336,13 +328,13 @@ namespace EditordeGrafos{
             }
             
             this.Sort(delegate(NodoP a, NodoP b) { 
-                return a.NOMBRE.CompareTo(b.NOMBRE); 
+                return a.Name.CompareTo(b.Name); 
             });
 
             foreach(NodoP nod in this){
                 j=0;
                 foreach(NodoP nod2 in this){
-                    if (nod.relaciones.Find(delegate(NodoRel r) { if (nod2.NOMBRE == r.ARRIBA.NOMBRE )return true; else return false; }) != null){
+                    if (nod.relations.Find(delegate(NodoRel r) { if (nod2.Name == r.Up.Name )return true; else return false; }) != null){
                         matriz[i][j] = 1;
 
                     }
@@ -356,16 +348,16 @@ namespace EditordeGrafos{
         }
        
         public int Componentes2(NodoP nodito,List<NodoP> compo){
-            if(nodito.relaciones.Find(delegate(NodoRel r) { if (r.VISITADA!=true )return true; else return false; }) == null){
+            if(nodito.relations.Find(delegate(NodoRel r) { if (r.Visited!=true )return true; else return false; }) == null){
                 return 1;
             }
             else{
                 compo.Add(nodito);
-                foreach (NodoRel a in nodito.relaciones){
-                    if (a.VISITADA == false){
-                        a.VISITADA = true;
-                        compo.Add(a.ARRIBA);
-                        Componentes2(a.ARRIBA, compo);
+                foreach (NodoRel a in nodito.relations){
+                    if (a.Visited == false){
+                        a.Visited = true;
+                        compo.Add(a.Up);
+                        Componentes2(a.Up, compo);
                     }
                 }
                 return 0;
@@ -383,16 +375,16 @@ namespace EditordeGrafos{
                 foreach(NodoP nod in this){
                     foreach(List<NodoP> n in componentes){
                         if(enco == false)
-                            if(n.Find(delegate(NodoP f) { if (f.NOMBRE == nod.NOMBRE)return true; else return false; }) != null)
+                            if(n.Find(delegate(NodoP f) { if (f.Name == nod.Name)return true; else return false; }) != null)
                                 enco = true;
                     }
                     if(enco == false){
                         if(aristas[0].Type == 1){
                             foreach(List<NodoP> n in componentes){
                                 foreach(NodoP ee in n){
-                                    foreach(NodoRel r in ee.relaciones){
+                                    foreach(NodoRel r in ee.relations){
                                         if(enco2 == false)
-                                            if (n.Find(delegate(NodoP f) { if (f.NOMBRE == r.ARRIBA.NOMBRE)return true; else return false; }) != null)
+                                            if (n.Find(delegate(NodoP f) { if (f.Name == r.Up.Name)return true; else return false; }) != null)
                                                 enco2 = true;
                                     }
                                 }
@@ -413,8 +405,8 @@ namespace EditordeGrafos{
                     enco = false;
                 }
                 foreach(NodoP re in this){
-                    foreach(NodoRel rela in re.relaciones){
-                        rela.VISITADA = false;
+                    foreach(NodoRel rela in re.relations){
+                        rela.Visited = false;
                     }
                 }
                 return componentes.Count;
@@ -426,7 +418,7 @@ namespace EditordeGrafos{
 
         public void desseleccionar(){
             foreach (NodoP r in this){
-                r.SELECCIONADO = false;
+                r.Selected = false;
             }
         }
 
@@ -441,7 +433,7 @@ namespace EditordeGrafos{
             foreach(NodoP nodin in this){
                 foreach(List<NodoP> c in listas){
                     if(found == false)
-                        if (c.Find(delegate(NodoP a) { if (a.relaciones.Find(delegate(NodoRel r) { if (r.ARRIBA.NOMBRE == nodin.NOMBRE)return true; else return false; }) != null || nodin.relaciones.Find(delegate(NodoRel rela){if(rela.ARRIBA.NOMBRE==a.NOMBRE)return true;else return false;})!=null)return true; else return false; }) == null)
+                        if (c.Find(delegate(NodoP a) { if (a.relations.Find(delegate(NodoRel r) { if (r.Up.Name == nodin.Name)return true; else return false; }) != null || nodin.relations.Find(delegate(NodoRel rela){if(rela.Up.Name==a.Name)return true;else return false;})!=null)return true; else return false; }) == null)
                         {
                             c.Add(nodin);
                             found = true;
@@ -456,7 +448,7 @@ namespace EditordeGrafos{
             }
             foreach(List<NodoP> a in listas){
                 foreach (NodoP n in a){
-                    n.COLOR = co;
+                    n.Color = co;
                 }
                 if (re + 100 >= 255){
                     re = 0;

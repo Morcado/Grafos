@@ -84,30 +84,30 @@ namespace EditordeGrafos{
 
             if(tip == 1){
                 PointF pF = new PointF();
-                float x1 = Origin.POS.X + (float)((Math.Cos(angulo * Math.PI / 180)) * (15));
-                float y1 = Origin.POS.Y + (float)((Math.Sin(angulo * Math.PI / 180)) * (15));
+                float x1 = Origin.Position.X + (float)((Math.Cos(angulo * Math.PI / 180)) * (15));
+                float y1 = Origin.Position.Y + (float)((Math.Sin(angulo * Math.PI / 180)) * (15));
                 pF.X = x1;
                 pF.Y = y1;
                 return pF;
             }
             else{
-                dy = Destiny.POS.Y - Origin.POS.Y;
-                dx = Destiny.POS.X - Origin.POS.X;
-                p3x = (dx * 1 / 3) + Origin.POS.X;
-                p3y = (dy * 1 / 3) + Origin.POS.Y;
-                p4x = (dx * 2 / 3) + Origin.POS.X;
-                p4y = (dy * 2 / 3) + Origin.POS.Y;
+                dy = Destiny.Position.Y - Origin.Position.Y;
+                dx = Destiny.Position.X - Origin.Position.X;
+                p3x = (dx * 1 / 3) + Origin.Position.X;
+                p3y = (dy * 1 / 3) + Origin.Position.Y;
+                p4x = (dx * 2 / 3) + Origin.Position.X;
+                p4y = (dy * 2 / 3) + Origin.Position.Y;
                 d = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
                 r = .35 * d;
 
-                if(Destiny.POS.X != Origin.POS.X){
+                if(Destiny.Position.X != Origin.Position.X){
                     ang = Math.Atan((double)((double)dy / (double)dx));
                 }
                 else{
                     ang = 90;
                 }
 
-                if(Destiny.POS.X > Origin.POS.X){
+                if(Destiny.Position.X > Origin.Position.X){
                     an = ang + 90;
                 }
                 else{
@@ -128,19 +128,19 @@ namespace EditordeGrafos{
 
         public bool toca(Point pos){
             Rectangle mouse = new Rectangle(pos.X, pos.Y, 3, 3);
-            Rectangle pix = new Rectangle(Origin.POS.X, Origin.POS.Y, 3, 3);
+            Rectangle pix = new Rectangle(Origin.Position.X, Origin.Position.Y, 3, 3);
 
             PointF p1 = Punto(-50,1);
             PointF p2 = Punto(-140,1);
             
 
-            int x0 = Origin.POS.X;
-            int y0 = Origin.POS.Y;
-            int x1 = Destiny.POS.X;
-            int y1 = Destiny.POS.Y;
+            int x0 = Origin.Position.X;
+            int y0 = Origin.Position.Y;
+            int x1 = Destiny.Position.X;
+            int y1 = Destiny.Position.Y;
 
-            int dx = Destiny.POS.X - Origin.POS.X;
-            int dy = Destiny.POS.Y - Origin.POS.Y;
+            int dx = Destiny.Position.X - Origin.Position.X;
+            int dy = Destiny.Position.Y - Origin.Position.Y;
 
             if (Math.Abs(dx) > Math.Abs(dy)){
                 float m = (float)dy / (float)dx;
@@ -218,14 +218,14 @@ namespace EditordeGrafos{
                 List<double> ptList = new List<double>();
                 Bezier bc = new Bezier();
 
-                ptList.Add(Origin.POS.X);
-                ptList.Add(Origin.POS.Y);
+                ptList.Add(Origin.Position.X);
+                ptList.Add(Origin.Position.Y);
                 ptList.Add(p1.X);
                 ptList.Add(p1.Y);
                 ptList.Add(p2.X);
                 ptList.Add(p2.Y);
-                ptList.Add(destiny.POS.X);
-                ptList.Add(destiny.POS.Y);
+                ptList.Add(destiny.Position.X);
+                ptList.Add(destiny.Position.Y);
                
                 const int Puntos = 200;
                 double[] ptind = new double[ptList.Count];
