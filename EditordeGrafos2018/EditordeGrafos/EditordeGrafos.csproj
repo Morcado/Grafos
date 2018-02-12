@@ -58,11 +58,6 @@
     <Compile Include="ConfigNodAri.Designer.cs">
       <DependentUpon>ConfigNodAri.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="PropiedadesGrafo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,7 +81,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
@@ -107,28 +101,7 @@
     <None Include="Resources\CrossHair-Mouse-Cursor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\dirigida.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Nodiri.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Sin título.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\arrow_out.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\eliminaN.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AddNode.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AristaDir.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\add_node.png" />

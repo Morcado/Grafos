@@ -64,7 +64,9 @@ namespace EditordeGrafos{
             EliminaNodo.Enabled = EliminaNod.Enabled = false;
             MueveGrafo.Enabled = MueveGraf.Enabled = false;
             EliminaArista.Enabled = EliminaArist.Enabled = false;
-
+            EliminaGrafo.Enabled = EliminaGraf.Enabled = false;
+            Guardar.Enabled = Guard.Enabled = false;
+            NombreAristas.Enabled = PesoAristas.Enabled = false;
             //PropiedadesGraf.Enabled = false;
             band = false;
             //Intercambio.Enabled = true;
@@ -317,6 +319,7 @@ namespace EditordeGrafos{
             MueveGrafo.Checked = MueveGraf.Checked = false;
             EliminaNodo.Checked = EliminaNod.Checked = false;
             EliminaArista.Checked = EliminaArist.Checked = false;
+
             graph.desseleccionar();
         }
 
@@ -530,6 +533,9 @@ namespace EditordeGrafos{
                         MueveNodo.Enabled=MueveNod.Enabled = true;
                         EliminaNodo.Enabled=EliminaNod.Enabled = true;
                         EliminaArista.Enabled = EliminaArist.Enabled = true;
+                        EliminaGrafo.Enabled = EliminaGraf.Enabled = true;
+                        Guardar.Enabled = Guard.Enabled = true;
+                        NombreAristas.Enabled = PesoAristas.Enabled = true;
                         //gactivo = true;
                         nu = null;          
                         break;
