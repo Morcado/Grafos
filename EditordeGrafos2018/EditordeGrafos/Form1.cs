@@ -65,16 +65,16 @@ namespace EditordeGrafos{
             MueveGrafo.Enabled = MueveGraf.Enabled = false;
             EliminaArista.Enabled = EliminaArist.Enabled = false;
 
-            PropiedadesGraf.Enabled = false;
+            //PropiedadesGraf.Enabled = false;
             band = false;
-            Intercambio.Enabled = true;
+            //Intercambio.Enabled = true;
             accion = 0;
             //gactivo = false;
             pt2 = new Point();
             nombre = 'A';
             b_mov = false;
             time = new Timer();
-            Intercambio.Enabled = false;
+            //Intercambio.Enabled = false;
             time.Tick += time_Tick;
         }       
 
@@ -191,296 +191,275 @@ namespace EditordeGrafos{
         #endregion
         #region menus
 
-        private void Archivo_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            ArchivoToolStripMenuItem.HideDropDown();
-            switch(e.ClickedItem.Name){
-                case "Nuevo":
-                    band = false;
-                    Intercambio.Enabled = false;
-                    b_mov = false;
+        private void mnuNuevo_Click(object sender, EventArgs e) {
+            band = false;
+            //Intercambio.Enabled = false;
+            b_mov = false;
 
-                    BackColor = Color.White;
-                    graphics.Clear(BackColor);
-                    AgregaNod.Enabled = true;
-                    MueveNodo.Enabled = MueveNod.Enabled = false;
-                    AgregaRelacion.Enabled = Dirigida.Enabled = NoDirigida.Enabled = false;
-                    EliminaNodo.Enabled = EliminaNod.Enabled = false;
-                    MueveGrafo.Enabled = MueveGraf.Enabled = false;
-                    AristaNoDirigida.Enabled = true;
-                    AristaDirigida.Enabled= true;
-                    EliminaArista.Enabled = EliminaArist.Enabled = false;
-                    graph2 = new Grafo();
-                    PropiedadesGraf.Enabled=false;
-                    graph = new Grafo();
-                    nombre = 'A';
-                    //gactivo = false;
-                    break;
+            BackColor = Color.White;
+            graphics.Clear(BackColor);
+            AgregaNod.Enabled = true;
+            MueveNodo.Enabled = MueveNod.Enabled = false;
+            AgregaRelacion.Enabled = Dirigida.Enabled = NoDirigida.Enabled = false;
+            EliminaNodo.Enabled = EliminaNod.Enabled = false;
+            MueveGrafo.Enabled = MueveGraf.Enabled = false;
+            AristaNoDirigida.Enabled = true;
+            AristaDirigida.Enabled = true;
+            EliminaArista.Enabled = EliminaArist.Enabled = false;
+            graph2 = new Grafo();
+            //PropiedadesGraf.Enabled = false;
+            graph = new Grafo();
+            nombre = 'A';
+        }
 
-                case "Abrir":      
-                    OpenFileDialog filed = new OpenFileDialog();
-                    filed.InitialDirectory = Application.StartupPath+"\\Ejemplos";
-                    filed.DefaultExt = ".grafo";                    
-                    string namefile;
-                    filed.Filter = "Grafo Files (*.grafo)|*.grafo|All files (*.*)|*.*";
-                    if (filed.ShowDialog() == DialogResult.OK){
-                        namefile = filed.FileName;
-                        
-                        try{
-                            using (Stream stream = File.Open(namefile, FileMode.Open)){
-                               BinaryFormatter bin = new BinaryFormatter();
-                               graph = (Grafo)bin.Deserialize(stream);
-                               graph.pinta(graphics);
-                            }
-                        }
-                        catch (IOException exe){
-                            MessageBox.Show(exe.ToString());
-                        }
+        private void mnuAbrir_Click(object sender, EventArgs e) {
+            OpenFileDialog filed = new OpenFileDialog();
+            filed.InitialDirectory = Application.StartupPath + "\\Ejemplos";
+            filed.DefaultExt = ".grafo";
+            string namefile;
+            filed.Filter = "Grafo Files (*.grafo)|*.grafo|All files (*.*)|*.*";
+            if (filed.ShowDialog() == DialogResult.OK) {
+                namefile = filed.FileName;
 
-                        graph2 = new Grafo();
-                        AgregaRelacion.Enabled = Dirigida.Enabled=NoDirigida.Enabled = true;
-                        AgregaNod.Enabled = true;
-                        Intercambio.Enabled = true;
-
-                        
-                        if (graph.Aristas.Count > 0 && graph.Aristas[0].Type == 1) {
-                            AristaDirigida.Enabled = Dirigida.Enabled = true;
-                            AristaNoDirigida.Enabled = NoDirigida.Enabled =  false;
-                        }
-                        else {
-                            AristaNoDirigida.Enabled = NoDirigida.Enabled = true;
-                            AristaDirigida.Enabled = Dirigida.Enabled = false;
-                        }
-                        
-
-                        MueveGrafo.Enabled = MueveGraf.Enabled = true;
-                        MueveNodo.Enabled = MueveNod.Enabled = true;
-                        EliminaNodo.Enabled = EliminaNod.Enabled = true;
-                        EliminaArista.Enabled = EliminaArist.Enabled = true;
-                        
-                        accion = 1;
-                        AgregaNod.Checked = AgregaNodo.Checked = true;
-                        MueveNod.Checked = MueveNodo.Checked = false;
-                        MueveGrafo.Checked = MueveGraf.Checked = false;
-                        EliminaNodo.Checked = EliminaNod.Checked = false;
-                        EliminaArista.Checked = EliminaArist.Checked = false;
-                        PropiedadesGraf.Enabled = true;
-                        graph.desseleccionar();
-                        nombre = 'A';
-
-                        for (int nn = 0; nn < graph.Count; nn++){
-                            nombre++;
-                        }
+                try {
+                    using (Stream stream = File.Open(namefile, FileMode.Open)) {
+                        BinaryFormatter bin = new BinaryFormatter();
+                        graph = (Grafo)bin.Deserialize(stream);
+                        graph.pinta(graphics);
                     }
-                    break;
-                case "Guardar":
-                    SaveFileDialog sav = new SaveFileDialog();
-                    sav.Filter = "Grafo Files (*.grafo)|*.grafo|All files (*.*)|*.*";
-                    sav.InitialDirectory = Application.StartupPath + "\\ProyectosGrafo";
-                    String nombr;
-                    if(sav.ShowDialog() == DialogResult.OK){
-                        nombr=sav.FileName;
+                }
+                catch (IOException exe) {
+                    MessageBox.Show(exe.ToString());
+                }
 
-                        try{
-                            using (Stream stream = File.Open(nombr, FileMode.Create)){
-                                BinaryFormatter bin = new BinaryFormatter();
-                                bin.Serialize(stream,graph);
-                            }
-                        }
-                        catch (IOException exe){
-                            MessageBox.Show(exe.ToString());
-                        }
+                graph2 = new Grafo();
+                AgregaRelacion.Enabled = Dirigida.Enabled = NoDirigida.Enabled = true;
+                AgregaNod.Enabled = true;
+                //Intercambio.Enabled = true;
+
+                if (graph.Aristas.Count > 0 && graph.Aristas[0].Type == 1) {
+                    AristaDirigida.Enabled = Dirigida.Enabled = true;
+                    AristaNoDirigida.Enabled = NoDirigida.Enabled = false;
+                }
+                else {
+                    AristaNoDirigida.Enabled = NoDirigida.Enabled = true;
+                    AristaDirigida.Enabled = Dirigida.Enabled = false;
+                }
+
+                MueveGrafo.Enabled = MueveGraf.Enabled = true;
+                MueveNodo.Enabled = MueveNod.Enabled = true;
+                EliminaNodo.Enabled = EliminaNod.Enabled = true;
+                EliminaArista.Enabled = EliminaArist.Enabled = true;
+
+                accion = 1;
+                AgregaNod.Checked = AgregaNodo.Checked = true;
+                MueveNod.Checked = MueveNodo.Checked = false;
+                MueveGrafo.Checked = MueveGraf.Checked = false;
+                EliminaNodo.Checked = EliminaNod.Checked = false;
+                EliminaArista.Checked = EliminaArist.Checked = false;
+                //PropiedadesGraf.Enabled = true;
+                graph.desseleccionar();
+                nombre = 'A';
+
+                for (int nn = 0; nn < graph.Count; nn++) {
+                    nombre++;
+                }
+            }
+        }
+
+        private void mnuGuardar_Click(object sender, EventArgs e) {
+            SaveFileDialog sav = new SaveFileDialog();
+            sav.Filter = "Grafo Files (*.grafo)|*.grafo|All files (*.*)|*.*";
+            sav.InitialDirectory = Application.StartupPath + "\\ProyectosGrafo";
+            String nombr;
+            if (sav.ShowDialog() == DialogResult.OK) {
+                nombr = sav.FileName;
+
+                try {
+                    using (Stream stream = File.Open(nombr, FileMode.Create)) {
+                        BinaryFormatter bin = new BinaryFormatter();
+                        bin.Serialize(stream, graph);
                     }
-                    break;
-                case "BorraGrafo":
-                    graph = new Grafo();
-                    graphics.Clear(BackColor);
-                    graph2 = new Grafo();
-                    nombre = 'A';
-                    break;
+                }
+                catch (IOException exe) {
+                    MessageBox.Show(exe.ToString());
+                }
+            }
+        }
 
+        private void mnuBorraGrafo_Click(object sender, EventArgs e) {
+            graph = new Grafo();
+            graphics.Clear(BackColor);
+            graph2 = new Grafo();
+            nombre = 'A';
+        }
+
+        private void mnuSalir_Click(object sender, EventArgs e) {
+            if (MessageBox.Show("¿Salir?", "Salir", MessageBoxButtons.OKCancel) == DialogResult.OK) {
+                System.Windows.Forms.Application.Exit();
+            }
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
+            switch (e.ClickedItem.Name) {
+                
                 case "Salir":
                     System.Windows.Forms.Application.Exit();
                     break;
             }
         }
 
-        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e){
-            switch(e.ClickedItem.Name){
-                case "AgregaNod":
-                case "AgregaNodo":
-                    pt2 = new Point();
-                    accion = 1;
-                    AgregaNod.Checked=AgregaNodo.Checked = true;
-                    MueveNod.Checked = MueveNodo.Checked = false;
-                    MueveGrafo.Checked = MueveGraf.Checked = false;
-                    EliminaNodo.Checked = EliminaNod.Checked = false;
-                    EliminaArista.Checked=EliminaArist.Checked = false;
-                    
-                    graph.desseleccionar();
-                    break;
-                case "MueveNodo":
-                case "MueveNod":
-                    band = true;
-                    accion = 2;
-                    MueveNod.Checked = MueveNodo.Checked = true;
-                    AgregaNod.Checked=AgregaNodo.Checked = false;
-                    EliminaNodo.Checked = EliminaNod.Checked = false;
-                    MueveGrafo.Checked = MueveGraf.Checked = false;
-                    EliminaArista.Checked=EliminaArist.Checked = false;
-                    graph.desseleccionar();
-                    break;
-                case "EliminaNodo":
-                case "EliminaNod":
-                    accion = 4;
-                    EliminaNodo.Checked = EliminaNod.Checked = true;
-                    MueveNod.Checked = MueveNodo.Checked = false;
-                    AgregaNod.Checked=AgregaNodo.Checked = false;       
-                    MueveGrafo.Checked = MueveGraf.Checked = false;
-                    EliminaArista.Checked = EliminaArist.Checked = false;
-                    graph.desseleccionar();
-                    break;
-                case "MueveGrafo":
-                case "MueveGraf":
-                    MueveGrafo.Checked = MueveGraf.Checked = true;
-                    EliminaNodo.Checked = EliminaNod.Checked = false;
-                    MueveNod.Checked = MueveNodo.Checked = false;
-                    AgregaNod.Checked=AgregaNodo.Checked = false;
-                    EliminaArista.Checked = EliminaArist.Checked = false;
-                    accion = 5;
-                    graph.desseleccionar();
-                    break;
-                case "EliminaArista":
-                case "EliminaArist":
-                    accion = 6;
-                    EliminaArista.Checked = EliminaArist.Checked = true;
-                    MueveGrafo.Checked = MueveGraf.Checked = false;
-                    EliminaNodo.Checked = EliminaNod.Checked = false;
-                    MueveNod.Checked = MueveNodo.Checked = false;
-                    AgregaNod.Checked=AgregaNodo.Checked = false;
-                    graph.desseleccionar();
-                    break;
-                case "PropiedadesGrafo":
-                case "PropiedadesGraf":
-                     Form f;
-                     if(AristaDirigida.Enabled==false)
-                        f = new PropiedadesGrafo(graph,2);
-                     else
-                        f = new PropiedadesGrafo(graph,1);
-                     f.Activate();
-                     f.Show();
-                     graph.desseleccionar();
-                    break;
-                case "Intercambio":
-                    int cont=0;
-                    char name='A';
-                    bool num;
-                    int aux;
-                    if((int.TryParse(graph[0].Name.ToString(),out aux))==true){
-                        num=true;
-                    }
-                    else{
-                        num=false;
-                    }
-
-                    if(num == true){
-                        foreach (NodoP cambio in graph){
-                            cambio.Name = name.ToString();
-                            name++;
-                        }
-                        nombre = 'A';
-                        for (int i = 0; i < graph.Count; i++){
-                            nombre++;
-                        }
-                    }
-                    else{
-                        numero = graph.Count;
-                        foreach (NodoP cambio in graph){
-                            cambio.Name = cont.ToString();
-                            cont++;
-                        }
-                    }
-                    break;
-                case "Dirigida":
-                    accion = 3;
-                    band = true;
-
-                    MueveNod.Checked = MueveNodo.Checked = false;
-                    Intercambio.Enabled = true;
-                    AgregaNod.Checked = AgregaNodo.Checked = false;
-                    EliminaNodo.Checked = EliminaNod.Checked = false;
-                    MueveGrafo.Checked = MueveGraf.Checked = false;
-                    EliminaArista.Checked = EliminaArist.Checked = false;
-                    AgregaRelacion.Checked = true;
-
-                    fl.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-                    fl.StartCap = LineCap.RoundAnchor;
-                    fl.Width = 4;
-                    tipoarista = 1;
-                    AristaNoDirigida.Enabled=NoDirigida.Enabled = false;
-                    Dirigida.Checked=AristaDirigida.Checked = true;
-                    
-                    graph.desseleccionar();
-                    break;
-                case "NoDirigida":
-                    accion = 3;
-                    band = true;
-                    MueveNod.Checked = MueveNodo.Checked = false;
-                    Intercambio.Enabled = true;
-                    AgregaNod.Checked = AgregaNodo.Checked = false;
-                    EliminaNodo.Checked = EliminaNod.Checked = false;
-                    MueveGrafo.Checked = MueveGraf.Checked = false;
-                    EliminaArista.Checked = EliminaArist.Checked = false;
-                    AgregaRelacion.Checked = true;
-                    fl.EndCap = System.Drawing.Drawing2D.LineCap.NoAnchor;
-                    fl.StartCap = LineCap.NoAnchor;
-                    fl.Width = 4;
-                    tipoarista = 2;
-                    graph.desseleccionar();
-                    AristaDirigida.Enabled=Dirigida.Enabled = false;
-                    NoDirigida.Checked = AristaNoDirigida.Checked = false;
-
-                    break;
-
-            }
+        private void mnuAgregaNod_Click(object sender, EventArgs e) {
+            pt2 = new Point();
+            accion = 1;
+            AgregaNod.Checked = AgregaNodo.Checked = true;
+            MueveNod.Checked = MueveNodo.Checked = false;
+            MueveGrafo.Checked = MueveGraf.Checked = false;
+            EliminaNodo.Checked = EliminaNod.Checked = false;
+            EliminaArista.Checked = EliminaArist.Checked = false;
+            graph.desseleccionar();
         }
 
-        private void RelacionClicked(object sender, ToolStripItemClickedEventArgs e){
+        private void mnuMueveNodo_Click(object sender, EventArgs e) {
+            band = true;
+            accion = 2;
+            MueveNod.Checked = MueveNodo.Checked = true;
+            AgregaNod.Checked = AgregaNodo.Checked = false;
+            EliminaNodo.Checked = EliminaNod.Checked = false;
+            MueveGrafo.Checked = MueveGraf.Checked = false;
+            EliminaArista.Checked = EliminaArist.Checked = false;
+            graph.desseleccionar();
+        }
+
+        private void mnuMueveGrafo_Click(object sender, EventArgs e) {
+            MueveGrafo.Checked = MueveGraf.Checked = true;
+            EliminaNodo.Checked = EliminaNod.Checked = false;
+            MueveNod.Checked = MueveNodo.Checked = false;
+            AgregaNod.Checked = AgregaNodo.Checked = false;
+            EliminaArista.Checked = EliminaArist.Checked = false;
+            accion = 5;
+            graph.desseleccionar();
+        }
+
+        private void mnuEliminaNodo_Click(object sender, EventArgs e) {
+            accion = 4;
+            EliminaNodo.Checked = EliminaNod.Checked = true;
+            MueveNod.Checked = MueveNodo.Checked = false;
+            AgregaNod.Checked=AgregaNodo.Checked = false;       
+            MueveGrafo.Checked = MueveGraf.Checked = false;
+            EliminaArista.Checked = EliminaArist.Checked = false;
+            graph.desseleccionar();
+        }
+
+        private void mnuEliminaArista_Click(object sender, EventArgs e) {
+            accion = 6;
+            EliminaArista.Checked = EliminaArist.Checked = true;
+            MueveGrafo.Checked = MueveGraf.Checked = false;
+            EliminaNodo.Checked = EliminaNod.Checked = false;
+            MueveNod.Checked = MueveNodo.Checked = false;
+            AgregaNod.Checked = AgregaNodo.Checked = false;
+            graph.desseleccionar();
+        }
+
+        private void mnuPropGrafo_Click(object sender, EventArgs e) {
+            using (var f = new PropiedadesGrafo(graph, AristaDirigida.Enabled ? 1 : 2)) {
+                var result = f.ShowDialog();
+                graph.desseleccionar();
+            }
+            Form1_Paint(this, null);
+        }
+
+        private void mnuIntercamb_Click(object sender, EventArgs e) {
+            int cont = 0;
+            char name = 'A';
+            bool num;
+            int aux;
+            if ((int.TryParse(graph[0].Name.ToString(), out aux)) == true) {
+                num = true;
+            }
+            else {
+                num = false;
+            }
+
+            if (num == true) {
+                foreach (NodoP cambio in graph) {
+                    cambio.Name = name.ToString();
+                    name++;
+                }
+                nombre = 'A';
+                for (int i = 0; i < graph.Count; i++) {
+                    nombre++;
+                }
+            }
+            else {
+                numero = graph.Count;
+                foreach (NodoP cambio in graph) {
+                    cambio.Name = cont.ToString();
+                    cont++;
+                }
+            }
+            Form1_Paint(this, null);
+        }
+
+        private void mnuAristaDir_Click(object sender, EventArgs e) {
             accion = 3;
             band = true;
+            
             MueveNod.Checked = MueveNodo.Checked = false;
-            Intercambio.Enabled = true;
+            //Intercambio.Enabled = true;
             AgregaNod.Checked = AgregaNodo.Checked = false;
             EliminaNodo.Checked = EliminaNod.Checked = false;
             MueveGrafo.Checked = MueveGraf.Checked = false;
             EliminaArista.Checked = EliminaArist.Checked = false;
             AgregaRelacion.Checked = true;
 
-            switch(e.ClickedItem.Name){
-                case "Dirigida":
-                case "AristaDirigida":
-                    fl.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-                    fl.StartCap = LineCap.RoundAnchor;
-                    fl.Width = 4;
-                    tipoarista = 1;
-                    AristaNoDirigida.Enabled=NoDirigida.Enabled = false;
-                    Dirigida.Checked=AristaDirigida.Checked = true;
+            fl.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+            fl.StartCap = LineCap.RoundAnchor;
+            fl.Width = 4;
+            tipoarista = 1;
+            AristaNoDirigida.Enabled = NoDirigida.Enabled = false;
+            Dirigida.Checked = AristaDirigida.Checked = true;
 
-                    graph.desseleccionar();
+            graph.desseleccionar();
+        }
 
-                    break;
-                case "NoDirigida":
-                case "AristaNoDirigida":
-                    fl.EndCap = System.Drawing.Drawing2D.LineCap.NoAnchor;
-                    fl.StartCap = LineCap.NoAnchor;
-                    fl.Width = 4;
-                    tipoarista = 2;
-                    graph.desseleccionar();
-                    AristaDirigida.Enabled=Dirigida.Enabled = false;
-                    NoDirigida.Checked = AristaNoDirigida.Checked = false;
-                    
-                    break;
+        private void mnuAristaNoDir_Click(object sender, EventArgs e) {
+            accion = 3;
+            band = true;
+            MueveNod.Checked = MueveNodo.Checked = false;
+            //Intercambio.Enabled = true;
+            AgregaNod.Checked = AgregaNodo.Checked = false;
+            EliminaNodo.Checked = EliminaNod.Checked = false;
+            MueveGrafo.Checked = MueveGraf.Checked = false;
+            EliminaArista.Checked = EliminaArist.Checked = false;
+            AgregaRelacion.Checked = true;
+            fl.EndCap = System.Drawing.Drawing2D.LineCap.NoAnchor;
+            fl.StartCap = LineCap.NoAnchor;
+            fl.Width = 4;
+            tipoarista = 2;
+            graph.desseleccionar();
+            AristaDirigida.Enabled = Dirigida.Enabled = false;
+            NoDirigida.Checked = AristaNoDirigida.Checked = false;
+        }
+
+        private void mnuConfigNodAri_Click(object sender, EventArgs e) {
+            using (var f2 = new ConfigNodAri(graph)) {
+                var result = f2.ShowDialog();
+                if (result == DialogResult.OK) {
+                    foreach (NodoP colNodo in graph) {
+                        colNodo.Color = f2.ColNodo;
+                    }
+                    graph.Radio = f2.Radio;
+                    graph.ColorNodo = f2.ColNodo;
+                    graph.ColorArista = f2.ColArista;
+                    graph.ColBordeNodo = f2.ColBordeNodo;
+                    graph.AnchoBordeNodo = f2.AnchoBordeNodo;
+                    graph.AnchoArista = f2.AnchoArista;
+                    graph.NombreAristasVisible = f2.NombreArista;
+                    graph.PesoAristasVisible = f2.PesoArista;
+                }
             }
+            Form1_Paint(this, null);
         }
 
         private void Ver_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e){
@@ -493,62 +472,6 @@ namespace EditordeGrafos{
                     break;
             }
             graph.pinta(graphics);
-        }
-
-        private void Configuracion_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e){
-            switch (e.ClickedItem.Name){
-                case "PropiedadesGrafo":
-                    using (var f = new PropiedadesGrafo(graph, AristaDirigida.Enabled ? 1 : 2)) {
-                        var result = f.ShowDialog();
-                        graph.desseleccionar();
-                    }
-                    break;
-                case "ConfigurarNodAri":
-                    using (var f2 = new ConfigNodAri(graph)) {
-                        var result = f2.ShowDialog();
-                        if (result == DialogResult.OK) {
-                            foreach (NodoP colNodo in graph) {
-                                
-                                colNodo.Color = f2.ColNodo;
-                            }
-                            graph.Radio = f2.Radio;
-                            graph.ColorNodo = f2.ColNodo;
-                            graph.ColorArista = f2.ColArista;
-                        }
-                    }
-                    break;
-                case "Intercamb":
-                    int cont=0;
-                    char name='A';
-                    bool num;
-                    int aux;
-                    if((int.TryParse(graph[0].Name.ToString(),out aux))==true){
-                        num=true;
-                    }
-                    else{
-                        num=false;
-                    }
-
-                    if(num == true){
-                        foreach (NodoP cambio in graph){
-                            cambio.Name = name.ToString();
-                            name++;
-                        }
-                        nombre = 'A';
-                        for (int i = 0; i < graph.Count; i++){
-                            nombre++;
-                        }
-                    }
-                    else{
-                        numero = graph.Count;
-                        foreach (NodoP cambio in graph){
-                            cambio.Name = cont.ToString();
-                            cont++;
-                        }
-                    }
-                    break;
-            }
-            Form1_Paint(this, null);
         }
 
         private void MenuArista_Closing(object sender, ToolStripDropDownClosingEventArgs e){
@@ -599,8 +522,8 @@ namespace EditordeGrafos{
                             nu.Color = graph[0].Color;
                         }
                         graph.AgregaNodo(nu);
-                        Intercambio.Enabled = true;
-                        PropiedadesGraf.Enabled = true;
+                        //Intercambio.Enabled = true;
+                        //PropiedadesGraf.Enabled = true;
                         AgregaRelacion.Enabled= true;
                        
                         MueveGrafo.Enabled = MueveGraf.Enabled = true;
@@ -642,8 +565,9 @@ namespace EditordeGrafos{
                             arista = graph.Aristas[i];
                             if (arista.toca(pt2)){
                                 graph.RemueveArista(arista);
-                                if(b_coloreando==true)
-                                graph.colorear();
+                                if (b_coloreando == true) {
+                                    graph.colorear();
+                                }
                                 break;
                             }
                         }
@@ -807,18 +731,40 @@ namespace EditordeGrafos{
 
         #endregion
 
-        /*private void TamNodo_ValueChange(object sender, EventArgs e){
 
-            int res = graph.RADIO;
-            if(tamañoToolStripMenuItem.Text != null){
-                graph.RADIO = int.Parse(Conf_TamNodo.Text);
-            }
-            else{
-                graph.RADIO = res;
-                Conf_TamNodo.Text = res.ToString();
-            }
-        }
-         * */
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

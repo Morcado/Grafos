@@ -12,10 +12,41 @@ namespace EditordeGrafos{
     public partial class ConfigNodAri : Form{
         private Color colNodo;
         private Color colArista;
-        private int radio;
+        private Color colBordeNodo;
         private Graphics g;
         private Rectangle r, r1, r2;
         private int borde;
+        private int radio;
+        private int anchoBordeNodo;
+        private int anchoArista;
+        private bool nombreArista;
+        private bool pesoArista;
+
+        public bool PesoArista {
+            get { return pesoArista; }
+            set { pesoArista = value; }
+        }
+
+        public bool NombreArista {
+            get { return nombreArista; }
+            set { nombreArista = value; }
+        }
+     
+	    public Color ColBordeNodo{
+		    get { return colBordeNodo;}
+		    set { colBordeNodo = value;}
+	    }
+
+
+        public int AnchoBordeNodo{
+            get { return anchoBordeNodo; }
+            set { anchoBordeNodo = value; }
+        }
+
+        public int AnchoArista {
+            get { return anchoArista; }
+            set { anchoArista = value; }
+        }
 
         public int Radio {
             get { return radio; }
@@ -32,54 +63,91 @@ namespace EditordeGrafos{
             set { colNodo = value; }
         }
 
+        private void ConfigNodAri_Load(object sender, EventArgs e) {
+            
+        }
+
         public ConfigNodAri(Grafo graph){
             InitializeComponent();
-            g = CreateGraphics(); 
-            borde = 20; //separacion del rectangulo del area cliente
+            g = CreateGraphics();
+            borde = 12; //separacion del rectangulo del area cliente
             r = r1 = r2 = this.ClientRectangle;
 
             r1.X += borde;
             r1.Width = r.Width / 2 - borde;
-            r1.Y += 100;
+            r1.Y += 160;
             r1.Height = 100;
 
             r2.X = r.Width / 2;
             r2.Width = r.Width / 2 - borde;
-            r2.Y = 100;
+            r2.Y = 160;
             r2.Height = 100;
            
             numericUpDown1.Maximum = 100;
-            numericUpDown1.Minimum = 0;
+            numericUpDown1.Minimum = 10;
             numericUpDown1.Increment = 10;
+
+            numericUpDown2.Maximum = 10;
+            numericUpDown2.Minimum = 1;
+            numericUpDown2.Increment = 1;
+
+            numericUpDown3.Maximum = 10;
+            numericUpDown3.Minimum = 1;
+            numericUpDown3.Increment = 1;
+
+            numericUpDown3.Value = graph.AnchoArista;
+            numericUpDown2.Value = graph.AnchoBordeNodo;
             numericUpDown1.Value = graph.Radio;
+
+            colBordeNodo = graph.ColBordeNodo;
             colNodo = graph.ColorNodo;
             colArista = graph.ColorArista;
-            this.ConfigNodAri_Load(this, null);
-            //g.DrawEllipse(new Pen(graph.ColorNodo), 20, 100, graph.Radio, graph.Radio);
-        }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e){
-            radio = decimal.ToInt32(numericUpDown1.Value);
-            this.ConfigNodAri_Paint(this, null);
-        }
+            checkBox1.Checked = graph.NombreAristasVisible;
+            checkBox2.Checked = graph.PesoAristasVisible;
 
-        private void button2_Click(object sender, EventArgs e) { //color nodo
-            using(var c = new ColorDialog()){
-                var result = c.ShowDialog();
-                if (result == DialogResult.OK) {
-                    colNodo = c.Color;
-                }
-            }
-            this.ConfigNodAri_Paint(this, null);
+            Invalidate();
+            
         }
 
         private void ConfigNodAri_Paint(object sender, PaintEventArgs e) {
             g.Clear(BackColor);
             g.DrawRectangle(new Pen(Color.LightGray), r1);
             g.DrawRectangle(new Pen(Color.LightGray), r2);
-            g.FillEllipse(new SolidBrush(colNodo), (r1.X + r1.Width/2) - radio/2, (r1.Y + r1.Height/2) - radio/2, radio, radio);
-            g.DrawEllipse(new Pen(Color.Black), (r1.X + r1.Width / 2) - radio / 2, (r1.Y + r1.Height / 2) - radio / 2, radio, radio);
-            g.DrawLine(new Pen(colArista), r2.Left + 10, r2.Top + r2.Height/2, r2.Right - 10, r2.Bottom - r2.Height/2);
+            g.FillEllipse(new SolidBrush(colNodo), (r1.X + r1.Width / 2) - radio / 2, (r1.Y + r1.Height / 2) - radio / 2, radio, radio);
+            g.DrawEllipse(new Pen(colBordeNodo, anchoBordeNodo), (r1.X + r1.Width / 2) - radio / 2, (r1.Y + r1.Height / 2) - radio / 2, radio, radio);
+            g.DrawLine(new Pen(colArista, anchoArista), r2.Left + 10, r2.Top + r2.Height / 2, r2.Right - 10, r2.Bottom - r2.Height / 2);
+            g.DrawString("A", new Font("Bold", radio/4), Brushes.Black, (r1.X + r1.Width / 2) - radio/4, (r1.Y + r1.Height / 2) - radio/4);
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e){
+            radio = decimal.ToInt32(numericUpDown1.Value);
+            Invalidate();
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e) {
+            anchoBordeNodo = decimal.ToInt32(numericUpDown2.Value);
+            Invalidate();
+        }
+
+        private void button3_Click(object sender, EventArgs e) { //color nodo
+            using(var c = new ColorDialog()){
+                var result = c.ShowDialog();
+                if (result == DialogResult.OK) {
+                    colNodo = c.Color;
+                }
+            }
+            Invalidate();
+        }
+
+        private void button4_Click(object sender, EventArgs e) { // color borde nodo
+            using (var c = new ColorDialog()) {
+                var result = c.ShowDialog();
+                if (result == DialogResult.OK) {
+                    colBordeNodo = c.Color;
+                }
+            }
+            Invalidate();
         }
 
         private void button1_Click(object sender, EventArgs e) {
@@ -87,18 +155,28 @@ namespace EditordeGrafos{
             this.Close();
         }
 
-        private void ConfigNodAri_Load(object sender, EventArgs e) {
-
-        }
-
-        private void button4_Click(object sender, EventArgs e) { // color arisatara
+        private void button5_Click(object sender, EventArgs e) { // color aris|atara
             using (var c = new ColorDialog()) {
                 var result = c.ShowDialog();
                 if (result == DialogResult.OK) {
                     colArista = c.Color;
                 }
             }
-            this.ConfigNodAri_Paint(this, null);
+            Invalidate();
+        }
+
+        private void numericUpDown3_ValueChanged(object sender, EventArgs e) {
+            anchoArista = decimal.ToInt32(numericUpDown3.Value);
+            Invalidate();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e) {
+            nombreArista = checkBox1.Checked;
+           
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e) {
+            pesoArista = checkBox2.Checked;
         }
     }
 }

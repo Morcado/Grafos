@@ -15,15 +15,32 @@ namespace EditordeGrafos{
         private bool nombreAristasVisible;
         private bool pesoAristasVisible;
         private int radio;
+        private int anchoBordeNodo;
+        private int anchoArista;
         private int[][] matriz;
         private Color arista;
         private Color colorNodo;
+        private Color colBordeNodo;
+
         private List<Edge> aristas;
-        //private int[][] MatrizCostos;
-        //private NodoP[][] P;
 
         #region get's & set's
-        
+
+        public int AnchoArista {
+            get { return anchoArista; }
+            set { anchoArista = value; }
+        }
+
+        public Color ColBordeNodo {
+            get { return colBordeNodo; }
+            set { colBordeNodo = value; }
+        }
+
+        public int AnchoBordeNodo{
+            get { return anchoBordeNodo; }
+            set { anchoBordeNodo = value; }
+        }
+
         public Color ColorArista{ 
             get { return arista; } 
             set { arista = value; } 
@@ -67,6 +84,9 @@ namespace EditordeGrafos{
             pesoAristasVisible = false;
             colorNodo = Color.White;
             radio = 30;
+            anchoBordeNodo = 1;
+            anchoArista = 1;
+            colBordeNodo = Color.Black;
         }
 
         public Grafo(Grafo gr){
@@ -76,6 +96,9 @@ namespace EditordeGrafos{
             NodoP aux1,aux2;
             radio = gr.Radio;
             Edge k = new Edge();
+            anchoBordeNodo = 1;
+            anchoArista = 1;
+            colBordeNodo = Color.Black;
             nombreAristasVisible = gr.NombreAristasVisible;
             pesoAristasVisible = gr.PesoAristasVisible;
             
@@ -162,15 +185,13 @@ namespace EditordeGrafos{
 
         public void pinta(Graphics g)
         {
-            Pen pendi = new Pen(arista);
-            Pen penNdi = new Pen(arista);
-            Pen pen = new Pen(Color.Black);
+            Pen pendi = new Pen(arista, anchoArista);
+            Pen penNdi = new Pen(arista, anchoArista);
+            Pen pen = new Pen(colBordeNodo, anchoBordeNodo);
+
             AdjustableArrowCap end=new AdjustableArrowCap(6,6);
             SolidBrush nod;
-            pen.Width = 1;
-            penNdi.Width = 1;
             pendi.CustomEndCap = end;
-            pendi.Width =1;
             Size s = new Size(radio, radio);
             double p3x,p3y, p4x,p4y;
             double ang;
@@ -302,13 +323,7 @@ namespace EditordeGrafos{
                 Rectangle re = new Rectangle(n.Position.X - (s.Height / 2), n.Position.Y - (s.Height / 2), s.Width, s.Height);
                 g.FillEllipse(nod, re);
                 g.DrawEllipse(pen, re);
-                //g.DrawString(n.Name.ToString(), new Font("Bold", 10), Brushes.Black, n.POS.X -5, n.POS.Y -7);
-                if(radio<25){
-                    g.DrawString(n.Name.ToString(), new Font("Bold", 6), Brushes.Black, (n.Position.X -3), (n.Position.Y-5 )  );
-                }
-                else{
-                    g.DrawString(n.Name.ToString(), new Font("Bold", 10), Brushes.Black, (n.Position.X -5), (n.Position.Y-7 )  );
-                }
+                g.DrawString(n.Name.ToString(), new Font("Bold", radio / 4), new SolidBrush(colBordeNodo), (n.Position.X - radio/4 + radio/12), (n.Position.Y - radio/4 + radio/12));
             }
             pendi.Dispose();
             penNdi.Dispose();
