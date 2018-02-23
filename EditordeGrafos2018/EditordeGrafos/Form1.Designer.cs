@@ -54,7 +54,6 @@
             this.PesoAristas = new System.Windows.Forms.ToolStripMenuItem();
             this.Configuracion = new System.Windows.Forms.ToolStripMenuItem();
             this.ConfigurarNodAri = new System.Windows.Forms.ToolStripMenuItem();
-            this.PropiedadesGrafo = new System.Windows.Forms.ToolStripMenuItem();
             this.Intercamb = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Nuev = new System.Windows.Forms.ToolStripButton();
@@ -73,9 +72,11 @@
             this.EliminaGrafo = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.MenuArista = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.Peso = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.Complemento = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.MenuArista.SuspendLayout();
@@ -190,7 +191,7 @@
             // 
             this.AristaDirigida.Image = ((System.Drawing.Image)(resources.GetObject("AristaDirigida.Image")));
             this.AristaDirigida.Name = "AristaDirigida";
-            this.AristaDirigida.Size = new System.Drawing.Size(152, 22);
+            this.AristaDirigida.Size = new System.Drawing.Size(135, 22);
             this.AristaDirigida.Tag = "d";
             this.AristaDirigida.Text = "Dirigida";
             this.AristaDirigida.Click += new System.EventHandler(this.mnuAristaDir_Click);
@@ -199,7 +200,7 @@
             // 
             this.AristaNoDirigida.Image = ((System.Drawing.Image)(resources.GetObject("AristaNoDirigida.Image")));
             this.AristaNoDirigida.Name = "AristaNoDirigida";
-            this.AristaNoDirigida.Size = new System.Drawing.Size(152, 22);
+            this.AristaNoDirigida.Size = new System.Drawing.Size(135, 22);
             this.AristaNoDirigida.Tag = "nd";
             this.AristaNoDirigida.Text = "No Dirigida";
             this.AristaNoDirigida.Click += new System.EventHandler(this.mnuAristaNoDir_Click);
@@ -278,7 +279,6 @@
             // 
             this.Configuracion.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ConfigurarNodAri,
-            this.PropiedadesGrafo,
             this.Intercamb});
             this.Configuracion.Name = "Configuracion";
             this.Configuracion.Size = new System.Drawing.Size(94, 20);
@@ -291,14 +291,6 @@
             this.ConfigurarNodAri.Size = new System.Drawing.Size(201, 22);
             this.ConfigurarNodAri.Text = "Configurar nodo y arista";
             this.ConfigurarNodAri.Click += new System.EventHandler(this.mnuConfigNodAri_Click);
-            // 
-            // PropiedadesGrafo
-            // 
-            this.PropiedadesGrafo.Image = ((System.Drawing.Image)(resources.GetObject("PropiedadesGrafo.Image")));
-            this.PropiedadesGrafo.Name = "PropiedadesGrafo";
-            this.PropiedadesGrafo.Size = new System.Drawing.Size(201, 22);
-            this.PropiedadesGrafo.Text = "Propiedades del grafo";
-            this.PropiedadesGrafo.Click += new System.EventHandler(this.mnuPropGrafo_Click);
             // 
             // Intercamb
             // 
@@ -328,7 +320,9 @@
             this.EliminaNod,
             this.EliminaGrafo,
             this.toolStripButton6,
-            this.toolStripButton9});
+            this.toolStripButton9,
+            this.toolStripButton2,
+            this.Complemento});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
@@ -489,6 +483,17 @@
             this.toolStripButton9.Text = "Configuración";
             this.toolStripButton9.Click += new System.EventHandler(this.mnuConfigNodAri_Click);
             // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(36, 36);
+            this.toolStripButton2.Text = "Intercambio";
+            this.toolStripButton2.Click += new System.EventHandler(this.mnuIntercamb_Click);
+            // 
             // MenuArista
             // 
             this.MenuArista.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -509,6 +514,16 @@
             // 
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
+            // 
+            // Complemento
+            // 
+            this.Complemento.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Complemento.Image = ((System.Drawing.Image)(resources.GetObject("Complemento.Image")));
+            this.Complemento.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Complemento.Name = "Complemento";
+            this.Complemento.Size = new System.Drawing.Size(23, 36);
+            this.Complemento.Text = "Complemento";
+            this.Complemento.Click += new System.EventHandler(this.mnuComplemento);
             // 
             // Form1
             // 
@@ -573,7 +588,6 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.ToolStripButton Dirigida;
         private System.Windows.Forms.ToolStripButton NoDirigida;
-        private System.Windows.Forms.ToolStripMenuItem PropiedadesGrafo;
         private System.Windows.Forms.ToolStripMenuItem verToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ConfigurarNodAri;
         private System.Windows.Forms.ToolStripMenuItem NombreAristas;
@@ -589,6 +603,8 @@
         private System.Windows.Forms.ToolStripButton EliminaGrafo;
         private System.Windows.Forms.ToolStripSeparator toolStripButton6;
         private System.Windows.Forms.ToolStripButton toolStripButton9;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton Complemento;
     }
 }
 

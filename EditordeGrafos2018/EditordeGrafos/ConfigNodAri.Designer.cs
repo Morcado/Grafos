@@ -46,6 +46,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -249,12 +250,23 @@
             this.label8.TabIndex = 0;
             this.label8.Text = "Ancho";
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(336, 309);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.TabIndex = 2;
+            this.button6.Text = "Por defecto";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // ConfigNodAri
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(503, 344);
             this.Controls.Add(this.button2);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -295,5 +307,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button button6;
     }
 }

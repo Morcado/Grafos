@@ -35,8 +35,8 @@ namespace EditordeGrafos{
         }
 
         public Color Color{
-            get {return color;} 
-            set {color=value;}
+            get { return color; } 
+            set { color=value; }
         }
 
         public int DegreeIn {
@@ -85,9 +85,9 @@ namespace EditordeGrafos{
         #endregion
         #region operaciones
 
-        public bool insertaRelacion(NodoP nueva, int num){
+        public bool InsertRelation(NodoP newRel, int num){
             NodoRel n;
-            n=new NodoRel(nueva,"e"+num.ToString());
+            n = new NodoRel(newRel, "e" + num.ToString());
            
             relations.Add(n);
             return true;

@@ -133,17 +133,21 @@ namespace EditordeGrafos{
             PointF p1 = Punto(-50,1);
             PointF p2 = Punto(-140,1);
             
-
             int x0 = Origin.Position.X;
             int y0 = Origin.Position.Y;
             int x1 = Destiny.Position.X;
             int y1 = Destiny.Position.Y;
 
-            int dx = Destiny.Position.X - Origin.Position.X;
-            int dy = Destiny.Position.Y - Origin.Position.Y;
+            int dx = Destiny.Position.X - Origin.Position.X; //nodo origen y destino
+            int dy = Destiny.Position.Y - Origin.Position.Y; //nodo origen y destino
 
-            if (Math.Abs(dx) > Math.Abs(dy)){
+
+
+            if (Math.Abs(dx) > Math.Abs(dy)){ // si esta 90 grados hasta 46 
                 float m = (float)dy / (float)dx;
+                if (m == 0) {
+                    
+                }
                 float b = y0 - m * x0;
                 if (dx < 0){
                     dx = -1;
@@ -152,9 +156,10 @@ namespace EditordeGrafos{
                     dx = 1;
                 }
 
-                while (x0 != x1){
+                while (x0 != x1){ //calcula las pendientes de toda la linea
                     x0 += dx;
                     y0 = (int)Math.Round(m * x0 + b);
+
                     pix.X = x0;
                     pix.Y = y0;
 
@@ -164,7 +169,7 @@ namespace EditordeGrafos{
                 }
             }
             else{
-                if (dy != 0){
+                if (dy != 0){ // si esta de 45 a 0 grados
                     float m = (float)dx / (float)dy;      
                     float b = x0 - m * y0;
                     if(dy < 0){
@@ -187,7 +192,7 @@ namespace EditordeGrafos{
                 }
             }
 
-            if(Destiny == Origin){
+            if(Destiny == Origin){ // si es completamente en 45 grados
                 List<double> ptList = new List<double>();
                 Bezier bc = new Bezier();
 

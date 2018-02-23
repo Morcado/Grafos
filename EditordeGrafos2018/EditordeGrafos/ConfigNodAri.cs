@@ -95,16 +95,16 @@ namespace EditordeGrafos{
             numericUpDown3.Minimum = 1;
             numericUpDown3.Increment = 1;
 
-            numericUpDown3.Value = graph.AnchoArista;
-            numericUpDown2.Value = graph.AnchoBordeNodo;
-            numericUpDown1.Value = graph.Radio;
+            numericUpDown3.Value = graph.EdgeWidth;
+            numericUpDown2.Value = graph.NodeBorderWidth;
+            numericUpDown1.Value = graph.NodeRadio;
 
-            colBordeNodo = graph.ColBordeNodo;
-            colNodo = graph.ColorNodo;
-            colArista = graph.ColorArista;
+            colBordeNodo = graph.NodeBorderColor;
+            colNodo = graph.NodeColor;
+            colArista = graph.EdgeColor;
 
-            checkBox1.Checked = graph.NombreAristasVisible;
-            checkBox2.Checked = graph.PesoAristasVisible;
+            checkBox1.Checked = graph.EdgeNamesVisible;
+            checkBox2.Checked = graph.EdgeWeightVisible;
 
             Invalidate();
             
@@ -120,12 +120,12 @@ namespace EditordeGrafos{
             g.DrawString("A", new Font("Bold", radio/4), Brushes.Black, (r1.X + r1.Width / 2) - radio/4, (r1.Y + r1.Height / 2) - radio/4);
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e){
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e){ //tamaño del nodo
             radio = decimal.ToInt32(numericUpDown1.Value);
             Invalidate();
         }
 
-        private void numericUpDown2_ValueChanged(object sender, EventArgs e) {
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e) { // ancho del bode del nodo
             anchoBordeNodo = decimal.ToInt32(numericUpDown2.Value);
             Invalidate();
         }
@@ -150,7 +150,7 @@ namespace EditordeGrafos{
             Invalidate();
         }
 
-        private void button1_Click(object sender, EventArgs e) {
+        private void button1_Click(object sender, EventArgs e) { // OK
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -165,18 +165,30 @@ namespace EditordeGrafos{
             Invalidate();
         }
 
-        private void numericUpDown3_ValueChanged(object sender, EventArgs e) {
+        private void numericUpDown3_ValueChanged(object sender, EventArgs e) { // ancho de la arista
             anchoArista = decimal.ToInt32(numericUpDown3.Value);
             Invalidate();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e) {
+        private void checkBox1_CheckedChanged(object sender, EventArgs e) { // nombre de arista
             nombreArista = checkBox1.Checked;
-           
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e) {
+        private void checkBox2_CheckedChanged(object sender, EventArgs e) { // peso de la arista
             pesoArista = checkBox2.Checked;
+        }
+
+        private void button6_Click(object sender, EventArgs e) { // por defecto
+            numericUpDown1.Value = 30;
+            radio = decimal.ToInt32(numericUpDown1.Value);
+            numericUpDown2.Value = 1;
+            anchoBordeNodo = decimal.ToInt32(numericUpDown2.Value);
+            colNodo = Color.White;
+            colBordeNodo = Color.Black;
+            colArista = Color.Black;
+            numericUpDown3.Value = 1;
+            anchoArista = decimal.ToInt32(numericUpDown3.Value);
+            Invalidate();
         }
     }
 }

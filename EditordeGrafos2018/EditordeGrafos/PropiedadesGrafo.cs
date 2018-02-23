@@ -30,14 +30,14 @@ namespace EditordeGrafos{
             grafo = gra;
             AutoScroll = true;
             Vertices.Text = grafo.Count().ToString();
-            Aristas.Text = grafo.Aristas.Count().ToString();
-            if (grafo.Aristas.Count > 0) {
-                if (grafo.Aristas.ToArray()[0].Type == 2) {
-                    Grado.Text = ((grafo.Aristas.Count()) * 2).ToString();
+            Aristas.Text = grafo.EdgesList.Count().ToString();
+            if (grafo.EdgesList.Count > 0) {
+                if (grafo.EdgesList.ToArray()[0].Type == 2) {
+                    Grado.Text = ((grafo.EdgesList.Count()) * 2).ToString();
                 }
             }
             else {
-                Grado.Text = ((grafo.Aristas.Count())).ToString();
+                Grado.Text = ((grafo.EdgesList.Count())).ToString();
             }
 
             List<List<NodoP>> componentes=new List<List<NodoP>>();
@@ -152,7 +152,7 @@ namespace EditordeGrafos{
         }
 
         private void Incidencia_CheckedChanged(object sender, EventArgs e){
-            dataGridView1.ColumnCount = grafo.Aristas.Count+1;
+            dataGridView1.ColumnCount = grafo.EdgesList.Count + 1;
             dataGridView1.RowCount = grafo.Count + 1;
             dataGridView1.Visible = true;
             band = false;
@@ -160,17 +160,17 @@ namespace EditordeGrafos{
             g.Clear(BackColor);
             int rel=0;
             for (int i = 0; i <= grafo.Count; i++){
-                for (int j = 0; j <= grafo.Aristas.Count; j++){
+                for (int j = 0; j <= grafo.EdgesList.Count; j++) {
                     if (j == 0 && i > 0) {
                         dataGridView1.Rows[i].Cells[j].Value = grafo[i - 1].Name.ToString();
                     }
                     else {
                         if (i == 0 && j > 0) {
-                            dataGridView1.Rows[i].Cells[j].Value = grafo.Aristas[j - 1].Name.ToString();
+                            dataGridView1.Rows[i].Cells[j].Value = grafo.EdgesList[j - 1].Name.ToString();
                         }
                         else {
                             if (i != 0 && j != 0) {
-                                if (grafo.Aristas[j - 1].Origin.Name.ToString().CompareTo(grafo[i - 1].Name.ToString()) == 0 || grafo.Aristas[j - 1].Destiny.Name.ToString().CompareTo(grafo[i - 1].Name.ToString()) == 0) {
+                                if (grafo.EdgesList[j - 1].Origin.Name.ToString().CompareTo(grafo[i - 1].Name.ToString()) == 0 || grafo.EdgesList[j - 1].Destiny.Name.ToString().CompareTo(grafo[i - 1].Name.ToString()) == 0) {
                                     rel = 1;
                                 }
                                 else { 

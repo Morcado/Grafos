@@ -13,8 +13,8 @@ namespace EditordeGrafos{
         private NodoP up;
 
         public string Name{ 
-            get {return name;} 
-            set {name = value;} 
+            get { return name; } 
+            set { name = value; } 
         }
         public NodoP Up{
             get {return up;}

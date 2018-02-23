@@ -1,4 +1,4 @@
-﻿Oscar Armando González Patiño
+Oscar Armando González Patiño
 Avances de Grafos
 --------------------------------------------------------------------------------
 
@@ -16,12 +16,49 @@ Revisión.
 	-Agregar la Configuración.
 	-Este mismo archivo lo voy a regresar y tu tambien me lo regresas con la fecha y descripción del avance. Como arriba.	
 ---------------------------------------------------------------------------------
-Fecha
-2 feb 2018
-
--se entrega configuracion del nodo
--aun no se guardan los cambios, pero lo voy a implementar
+Fecha: 2 feb 2018
 
 Descripción del avance.
-
-		
+	-se entrega configuracion del nodo				NO
+	-aun no se guardan los cambios, pero lo voy a implementar	
+----------------------------------
+Revisión:
+	-Este avance es muy pobre, aplicate Patus!!!!
+	-Lea bien los documentos, porque falta organizar las opciones de las barras!!!
+	-Configuración en el MenuStrip lleva su opción y ademas la del Intercambio L/N.
+	-En el ToolStrip, va al último y antes la del intercambio.
+	-Los Gets y Sets son obligatorios porque la Configuración es bidireccional!!!
+	Ademas Falta:
+		-No has quitado la excepción de:
+		 	if (grafo.Aristas[0].Tipo == 1) 
+			Al leer un grafo que tiene solo nodos, hay que validar que se pueda leer.
+		-Mover el grafo, moviendo un nodo y no dentro de la área del grago.
+		-Eliminar la arista el la arista y no dentro del nodo, la dejan para el 2o examen.
+		-Pero todo lo demas es Derecho a Examen, lo mas complejo es la Configuración y no tiene nada!!!
+--------------------------------------------------------------------------------
+Fecha: 12 de Febrero de 2018
+    -Toolstrip y menustrip organizado			NOOOOOOO No sabes leer o no le dedicas!!!
+    -Se agragaron las opciones que faltaban			Muy pobre!!!
+    -Se bloquean los botones cuando no hay grafo		mmmmmmm!!!!!
+    -Excepcion arreglada cuando se abre un grafo sin aristas		OK
+    -Gets y sets impelmentados
+    -Dialogo de configuracion completo			NOOOO
+        +Se cambia el color del nodo, color del borde del nodo, tamaño	OK
+        +Se cambia el color y ancho de la arista			No, falta default
+----------------------------------------------------------------------
+Revisión:
+	-Sigues sin leer!!!
+	-PROPIEDADES NO VAAAAAAA!!!!! 	Asi esta dificil!!!
+	-Hay que centrar la letra de acuerdo al tamaño del NODO!!!	
+	.Hay que tener los defaults cuando se habra la Configuración!!!
+	-Elimina Grafo del ToolBar no Activo y el Borra grafo?
+	-Las Barras NO ordenadas!!! Hay que leer o entender?
+	{Al abrir un grafo deja un nodo nuevo sdonde esta el cursor?
+	-Falta el intercambia en nombre de los Nodos en ToolBar y LEER-ENTENDER como va el acomodo.
+	-Todo lo que pedí era para las primeras 2 semanas, creo que van muy mal!!!
+	-
+--------------------------------------------------------------------------------
+Fecha: 20 de febrero de 2018
+    -Se agrega funcion de complemento de grafo en la clase grafo (aun con bugs)
+    -Se elimina propiedades
+    -Agrega intercambio en el toolstrip
