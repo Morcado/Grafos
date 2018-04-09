@@ -46,11 +46,11 @@
   <ItemGroup>
     <Compile Include="Edge.cs" />
     <Compile Include="Bezier.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Editor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Editor.Designer.cs">
+      <DependentUpon>Editor.cs</DependentUpon>
     </Compile>
     <Compile Include="ConfigNodAri.cs">
       <SubType>Form</SubType>
@@ -58,25 +58,40 @@
     <Compile Include="ConfigNodAri.Designer.cs">
       <DependentUpon>ConfigNodAri.cs</DependentUpon>
     </Compile>
-    <Compile Include="PropiedadesGrafo.cs">
+    <Compile Include="Notas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PropiedadesGrafo.Designer.cs">
-      <DependentUpon>PropiedadesGrafo.cs</DependentUpon>
+    <Compile Include="Notas.Designer.cs">
+      <DependentUpon>Notas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraphProperties.Designer.cs">
+      <DependentUpon>GraphProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="Grafo.cs" />
-    <Compile Include="NodoP.cs" />
-    <Compile Include="NodoRel.cs" />
+    <Compile Include="NodeP.cs" />
+    <Compile Include="NodeR.cs" />
+    <Compile Include="Plantilla.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Plantilla.Designer.cs">
+      <DependentUpon>Plantilla.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Editor.resx">
+      <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigNodAri.resx">
       <DependentUpon>ConfigNodAri.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PropiedadesGrafo.resx">
-      <DependentUpon>PropiedadesGrafo.cs</DependentUpon>
+    <EmbeddedResource Include="Notas.resx">
+      <DependentUpon>Notas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphProperties.resx">
+      <DependentUpon>GraphProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace EditordeGrafos{
-    public partial class PropiedadesGrafo : Form{
+    public partial class GraphProperties : Form{
         Grafo grafo;
         Graphics g;
         int tipo;
         private bool band;
         private int accion;
 
-        public PropiedadesGrafo(Grafo gra, int tip){
+        public GraphProperties(Grafo gra, int tip){
             tipo=tip;
             grafo = new Grafo();
             bool enco=false;
@@ -40,20 +40,20 @@ namespace EditordeGrafos{
                 Grado.Text = ((grafo.EdgesList.Count())).ToString();
             }
 
-            List<List<NodoP>> componentes=new List<List<NodoP>>();
-            List<NodoP> nue=new List<NodoP>();
+            List<List<NodeP>> componentes=new List<List<NodeP>>();
+            List<NodeP> nue=new List<NodeP>();
             if (tipo == 2){
                 Text = "Grafo - Propiedades (No Dirigido)";
-                foreach (NodoP nod in grafo){
-                    foreach (List<NodoP> n in componentes){
+                foreach (NodeP nod in grafo){
+                    foreach (List<NodeP> n in componentes){
                         if (enco == false) {
-                            if (n.Find(delegate(NodoP f) { if (f.Name == nod.Name)return true; else return false; }) != null) {
+                            if (n.Find(delegate(NodeP f) { if (f.Name == nod.Name)return true; else return false; }) != null) {
                                 enco = true;
                             }
                         }
                     }
                     if (enco == false){
-                        nue = new List<NodoP>();
+                        nue = new List<NodeP>();
                         grafo.Componentes2(nod, nue);
                         componentes.Add(nue);
                     }
@@ -69,13 +69,13 @@ namespace EditordeGrafos{
             Externo.Visible = true;
             Interno.Items.Clear();
             Externo.Items.Clear();
-            foreach(NodoP nodo in grafo){
+            foreach(NodeP nodo in grafo){
                 Interno.Items.Add(nodo.Name.ToString());
                 Externo.Items.Add(nodo.Name.ToString());
             }
                 
-            foreach (NodoP re in grafo){
-                foreach (NodoRel rela in re.relations){
+            foreach (NodeP re in grafo){
+                foreach (NodeR rela in re.relations){
                     rela.Visited = false;
                 }
             }
@@ -83,7 +83,7 @@ namespace EditordeGrafos{
             dataGridView1.ColumnCount = grafo.Count+1;
             dataGridView1.RowCount = grafo.Count+1;
   
-            grafo.CreaMatriz();
+            grafo.CreateMatrix();
             for (int i = 0; i <= grafo.Count; i++){
                 for (int j = 0; j <= grafo.Count ; j++){
                     if (i == 0 && j>0){
@@ -112,11 +112,11 @@ namespace EditordeGrafos{
         }
 
         private void Interno_TextChanged(object sender, EventArgs e){
-            LabInterno.Text = grafo.Find(delegate(NodoP a) { if (a.Name.ToString() == Interno.Text)return true; else return false; }).DegreeIn.ToString() ;
+            LabInterno.Text = grafo.Find(delegate(NodeP a) { if (a.Name.ToString() == Interno.Text)return true; else return false; }).DegreeIn.ToString() ;
         }
 
         private void Externo_TextChanged(object sender, EventArgs e){
-            LabExterno.Text = grafo.Find(delegate(NodoP a) { if (a.Name.ToString() == Externo.Text)return true; else return false; }).DegreeEx.ToString();
+            LabExterno.Text = grafo.Find(delegate(NodeP a) { if (a.Name.ToString() == Externo.Text)return true; else return false; }).DegreeEx.ToString();
         }
 
         private void Relaciones_CheckedChanged(object sender, EventArgs e){
@@ -199,10 +199,10 @@ namespace EditordeGrafos{
                         }
                         g = CreateGraphics();
             
-                        foreach (NodoP nod in grafo){
+                        foreach (NodeP nod in grafo){
                             g.DrawString(nod.Name.ToString() + "->",new Font("Arial",10),Brushes.Black,x,y);
                             x += 20;
-                            foreach(NodoRel re in nod.relations){
+                            foreach(NodeR re in nod.relations){
                                 x += 15;
                                 g.DrawString(re.Up.Name.ToString() + ",", new Font("Arial", 10), Brushes.Black, x, y);
                             }

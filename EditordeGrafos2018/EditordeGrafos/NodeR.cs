@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 namespace EditordeGrafos{
     [Serializable()]
 
-    public class NodoRel{
+    public class NodeR{
         private bool visited;
         private string name;
-        private NodoP up;
+        private NodeP up;
 
         public string Name{ 
             get { return name; } 
             set { name = value; } 
         }
-        public NodoP Up{
+        public NodeP Up{
             get {return up;}
         }
         public bool Visited{ 
@@ -24,7 +24,7 @@ namespace EditordeGrafos{
             set { visited = value; } 
         }
         
-        public NodoRel(NodoP np, string nam){
+        public NodeR(NodeP np, string nam){
             up = np;
             visited = false;
             name = nam;
