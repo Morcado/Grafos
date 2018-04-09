@@ -887,14 +887,59 @@ public partial class Editor : Form{
     }
 
     private void NPartita(object sender, EventArgs e) {
+        List<NodeP> grupo = new List<NodeP>();
+        List<List<NodeP>> grupos = new List<List<NodeP>>();
+        Random r = new Random();
 
+        graph.Desel();
+
+        if(graph.Count > 0) {
+            grupo.Add(graph[0]);
+            graph[0].Vis = true;
+            foreach (NodeP n1 in graph) {
+                foreach (NodeP n2 in graph) {
+                    if (n1 != n2 && !n2.Vis && !nodoDentroGrupo(grupo, n2) && !aristaDentroGrupo(grupo, n2)){
+                        Console.WriteLine("Se agrega " + n2.Name + " al grupo " + grupos.Count);
+                        grupo.Add(n2);
+                        n2.Vis = true;
+                    }
+                }
+                grupos.Add(grupo); 
+
+                Color col = Color.FromArgb(r.Next(255), r.Next(255), r.Next(255));
+
+                for (int i = 0; i < grupo.Count; i++) {
+                    foreach (NodeP np in graph) {
+                        if (grupo[i] == np) {
+                            np.Color = col;
+                        }
+                    }
+                }
+                    
+                grupo.Clear();
+            }
+        }
+
+       
     }
 
     private bool nodoDentroGrupo(List<NodeP> g1, NodeP nn) {
+        foreach (NodeP ng in g1) {
+            if (ng.Name == nn.Name) {
+                return true;
+            }
+        }
         return false;
     }
 
     private bool aristaDentroGrupo(List<NodeP> g1, NodeP nn) {
+        foreach (NodeP ng in g1) {
+            foreach (Edge ed in graph.EdgesList) {
+                if ((ed.Origin.Name == nn.Name && ed.Destiny.Name == ng.Name) || (ed.Origin.Name == ng.Name && ed.Destiny.Name == nn.Name)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 }

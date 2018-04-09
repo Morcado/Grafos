@@ -96,4 +96,7 @@ Fecha: 16 de marzo 2018
         los pone en un listview como una pila, y en otro listview agrega los que se eligen para borrar
         -Se pueden borrar desde el grafo o desde el combo
     - Se arregla el bug de abrir un grafo y agregar un nodo en donde está el mouse
-    - 
+--------------------------------------------------------------------------------
+Fecha: 9 abril 2018
+    Se agrega KN
+    Se agrega grafo npartita y lo dibuja de coloresS
