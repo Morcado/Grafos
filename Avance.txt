@@ -1,4 +1,4 @@
-Oscar Armando González Patiño
+﻿Oscar Armando González Patiño
 Avances de Grafos
 --------------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ Fecha: 12 de Febrero de 2018
     -Dialogo de configuracion completo			NOOOO
         +Se cambia el color del nodo, color del borde del nodo, tamaño	OK
         +Se cambia el color y ancho de la arista			No, falta default
-----------------------------------------------------------------------
+--------------------------------------------------------------------------------
 Revisión:
 	-Sigues sin leer!!!
 	-PROPIEDADES NO VAAAAAAA!!!!! 	Asi esta dificil!!!
@@ -59,6 +59,41 @@ Revisión:
 	-
 --------------------------------------------------------------------------------
 Fecha: 20 de febrero de 2018
-    -Se agrega funcion de complemento de grafo en la clase grafo (aun con bugs)
-    -Se elimina propiedades
-    -Agrega intercambio en el toolstrip
+    -Se agrega funcion de complemento de grafo en la clase grafo (aun con bugs). Para qué, si no puedes con lo mas elemental.
+    										Les dije que para los ya tenían detalles.
+	-Se elimina propiedades			mmm
+    -Agrega intercambio en el toolstrip.	nada
+--------------------------------------------------------------------------------
+Revisión:
+	-De plano andas muy mal y todo porque te dedicas a otra cosa y no a lo que debes.
+	-NO has arreglado ni siquiera los detalles de los menus y eso es pura talacha.
+	-Nuevo, no va.
+	-Al leer un grafo truena.
+	-Los menus siguen igual, etc, etc.
+-Conclusión:
+		-No llevas nada significativo, sigue sin cambios efectivos.
+		-No le dedicas!!!
+--------------------------------------------------------------------------------
+Fecha: 23 de febrero de 2018
+    -Se corrige el bug de mover grafo
+    -Se corrige el bug de eliminar arisita
+    -Se arreglo el menu
+    -Elimina y borra grafo
+--------------------------------------
+Revisión: 26Febrero2018.
+			-NO VOY A REVISAR HASTA QUE TERMINES, PUEDES ENVIAR AVANCES.
+
+			-Porque? Porque sigues con correcciones que NO TIENEN NINGUNA DIFICULTAD
+				y no lo has HECHO¡¡¡
+			-Tienes que tener un ORDEN, inicia con los MENUS!!!
+-------------------------------------------------------------
+Fecha: 3 marzo 2018
+    -Se corrigen los menus y unos bugs al abrir un grafo
+--------------------------------------------------------------------------------
+Fecha: 16 de marzo 2018
+    Entrega examen (equipo con Robledo Briones Manuel Alejandro)
+        -Se muestra un diálogo que en un listviwe pone los nodos y elimina los que son dependientes de un nodo
+        los pone en un listview como una pila, y en otro listview agrega los que se eligen para borrar
+        -Se pueden borrar desde el grafo o desde el combo
+    - Se arregla el bug de abrir un grafo y agregar un nodo en donde está el mouse
+    - 

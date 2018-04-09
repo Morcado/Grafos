@@ -15,16 +15,16 @@ namespace EditordeGrafos{
         private bool visited;
         private int type;
         private int weight;
-        private NodoP origin;
-        private NodoP destiny;
+        private NodeP origin;
+        private NodeP destiny;
         private string name;
 
-        public NodoP Origin{
+        public NodeP Origin{
             get { return origin; }
             set { origin=value; }
         }
 
-        public NodoP Destiny{ 
+        public NodeP Destiny{ 
             get { return destiny; } 
             set { destiny = value; } 
         }
@@ -57,7 +57,7 @@ namespace EditordeGrafos{
            
         }
 
-        public Edge(int type, NodoP origin, NodoP destiny, string name){
+        public Edge(int type, NodeP origin, NodeP destiny, string name){
             this.type = type;
             this.origin = origin;
             this.destiny = destiny;
