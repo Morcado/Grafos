@@ -890,5 +890,12 @@ public partial class Editor : Form{
 
     }
 
+    private bool nodoDentroGrupo(List<NodeP> g1, NodeP nn) {
+        return false;
+    }
+
+    private bool aristaDentroGrupo(List<NodeP> g1, NodeP nn) {
+        return false;
+    }
 }
 }

@@ -104,7 +104,7 @@
             this.MenuArista = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.Peso = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.NPartitaa = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.MenuArista.SuspendLayout();
@@ -432,7 +432,7 @@
             this.toolStripSeparator28,
             this.examen,
             this.insertaKN,
-            this.toolStripButton2});
+            this.NPartitaa});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
@@ -727,15 +727,15 @@
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
             // 
-            // toolStripButton2
+            // NPartitaa
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 36);
-            this.toolStripButton2.Text = "toolStripButton2";
-            this.toolStripButton2.Click += new System.EventHandler(this.NPartita);
+            this.NPartitaa.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.NPartitaa.Image = ((System.Drawing.Image)(resources.GetObject("NPartitaa.Image")));
+            this.NPartitaa.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.NPartitaa.Name = "NPartitaa";
+            this.NPartitaa.Size = new System.Drawing.Size(23, 36);
+            this.NPartitaa.Text = "N Partita";
+            this.NPartitaa.Click += new System.EventHandler(this.NPartita);
             // 
             // Editor
             // 
@@ -844,7 +844,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
         private System.Windows.Forms.ToolStripButton examen;
         private System.Windows.Forms.ToolStripButton insertaKN;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton NPartitaa;
     }
 }
 
