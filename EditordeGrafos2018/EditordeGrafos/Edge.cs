@@ -15,16 +15,16 @@ namespace EditordeGrafos{
         private bool visited;
         private int type;
         private int weight;
-        private NodeP origin;
-        private NodeP destiny;
+        private NodoP origin;
+        private NodoP destiny;
         private string name;
 
-        public NodeP Origin{
+        public NodoP Origin{
             get { return origin; }
             set { origin=value; }
         }
-        
-        public NodeP Destiny{ 
+
+        public NodoP Destiny{ 
             get { return destiny; } 
             set { destiny = value; } 
         }
@@ -57,7 +57,7 @@ namespace EditordeGrafos{
            
         }
 
-        public Edge(int type, NodeP origin, NodeP destiny, string name){
+        public Edge(int type, NodoP origin, NodoP destiny, string name){
             this.type = type;
             this.origin = origin;
             this.destiny = destiny;
@@ -81,6 +81,7 @@ namespace EditordeGrafos{
             double p3x, p3y, p4x, p4y;
             PointF A, B;
             dy = dx = 0;
+
             if(tip == 1){
                 PointF pF = new PointF();
                 float x1 = Origin.Position.X + (float)((Math.Cos(angulo * Math.PI / 180)) * (15));
@@ -221,7 +222,7 @@ namespace EditordeGrafos{
                 p2 = Punto(1, 3);
                 List<double> ptList = new List<double>();
                 Bezier bc = new Bezier();
-                
+
                 ptList.Add(Origin.Position.X);
                 ptList.Add(Origin.Position.Y);
                 ptList.Add(p1.X);

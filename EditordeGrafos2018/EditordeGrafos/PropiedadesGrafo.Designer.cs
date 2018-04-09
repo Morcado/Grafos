@@ -1,6 +1,6 @@
 ﻿namespace EditordeGrafos
 {
-    partial class GraphProperties
+    partial class PropiedadesGrafo
     {
         /// <summary>
         /// Required designer variable.

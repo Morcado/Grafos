@@ -9,23 +9,17 @@ using System.Windows.Forms;
 namespace EditordeGrafos{
     [Serializable()]
 
-    public class NodeP{
+    public class NodoP{
         private bool visited;
         private bool selected;
-        private bool vis;
         private int degree;
         private int degreeIn;
         private int degreeEx;
         private string name;
         private Point position;
         private Color color;
-        public List<NodeR> relations;
-
-        public bool Vis {
-            get { return vis; }
-            set { vis = value; }
-        }
-
+        public List<NodoRel> relations;
+        
         public Point Position { 
             get { return position; } 
             set { position = value; } 
@@ -64,14 +58,14 @@ namespace EditordeGrafos{
 
         #region constructores
 
-        public NodeP(){
+        public NodoP(){
 
         }
 
-        public NodeP(NodeP co){
+        public NodoP(NodoP co){
             position = co.Position;
             name = co.Name;
-            relations = new List<NodeR>();
+            relations = new List<NodoRel>();
             degree = co.Degree;
             degreeEx = co.DegreeEx;
             degreeIn = co.DegreeIn;
@@ -79,10 +73,10 @@ namespace EditordeGrafos{
             selected = false;
         }
 
-        public NodeP(Point p, char n){
+        public NodoP(Point p, char n){
             position = p;
             name = n.ToString();
-            relations = new List<NodeR>();
+            relations = new List<NodoRel>();
             degree = 0;
             color = Color.White;
             selected = false;
@@ -91,9 +85,9 @@ namespace EditordeGrafos{
         #endregion
         #region operaciones
 
-        public bool InsertRelation(NodeP newRel, int num){
-            NodeR n;
-            n = new NodeR(newRel, "e" + num.ToString());
+        public bool InsertRelation(NodoP newRel, int num){
+            NodoRel n;
+            n = new NodoRel(newRel, "e" + num.ToString());
            
             relations.Add(n);
             return true;

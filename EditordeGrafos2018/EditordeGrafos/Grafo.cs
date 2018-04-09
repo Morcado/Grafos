@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace EditordeGrafos{
 [Serializable()]
 
-public class Grafo:List<NodeP>{
+public class Grafo:List<NodoP>{
     private bool edgeNamesVisible;
     private bool edgeWeightVisible;
     private int nodeRadio;
@@ -93,7 +93,7 @@ public class Grafo:List<NodeP>{
         edgesList = new List<Edge>();
         edgeColor = gr.EdgeColor;
         nodeColor = gr.nodeColor;
-        NodeP aux1,aux2;
+        NodoP aux1,aux2;
         nodeRadio = gr.NodeRadio;
         Edge k = new Edge();
         nodeBorderWidth = 1;
@@ -103,21 +103,21 @@ public class Grafo:List<NodeP>{
         edgeWeightVisible = gr.EdgeWeightVisible;
             
 
-        foreach (NodeP n in gr){
-            this.Add(new NodeP(n));
+        foreach (NodoP n in gr){
+            this.Add(new NodoP(n));
         }
 
-        foreach(NodeP n in gr){
-            aux1 = Find(delegate(NodeP bu) { if (bu.Name == n.Name)return true; else return false; });
-            foreach (NodeR rel in n.relations){
-                aux2 = Find(delegate(NodeP je) { if (je.Name == rel.Up.Name)return true; else return false; });
+        foreach(NodoP n in gr){
+            aux1 = Find(delegate(NodoP bu) { if (bu.Name == n.Name)return true; else return false; });
+            foreach (NodoRel rel in n.relations){
+                aux2 = Find(delegate(NodoP je) { if (je.Name == rel.Up.Name)return true; else return false; });
                 aux1.InsertRelation(aux2, EdgesList.Count);
             }
         }
 
         foreach (Edge ar in gr.edgesList){
-            aux1 = Find(delegate(NodeP bu) { if (bu.Name == ar.Origin.Name)return true; else return false; });
-            aux2 = Find(delegate(NodeP bu) { if (bu.Name == ar.Destiny.Name)return true; else return false; });
+            aux1 = Find(delegate(NodoP bu) { if (bu.Name == ar.Origin.Name)return true; else return false; });
+            aux2 = Find(delegate(NodoP bu) { if (bu.Name == ar.Destiny.Name)return true; else return false; });
             k = new Edge(ar.Type, aux1, aux2, ar.Name);
             k.Weight = ar.Weight;
             AddEdge(k);
@@ -127,7 +127,7 @@ public class Grafo:List<NodeP>{
     #endregion
     #region operaciones
 
-    public void AddNode(NodeP n){ 
+    public void AgregaNodo(NodoP n){ 
         Add(n);
     }
 
@@ -135,9 +135,10 @@ public class Grafo:List<NodeP>{
         edgesList.Add(A);
     }
 
-    public void RemoveEdge(Edge ar){
-        NodeR rel;
-        rel = ar.Origin.relations.Find(delegate(NodeR np) { if (np.Up.Name==ar.Destiny.Name)return true; else return false; });
+    public void RemueveArista(Edge ar){
+        NodoRel rel;
+            
+        rel = ar.Origin.relations.Find(delegate(NodoRel np) { if (np.Up.Name==ar.Destiny.Name)return true; else return false; });
         if (rel != null){
             ar.Origin.relations.Remove(rel);
             ar.Origin.Degree--;
@@ -146,7 +147,7 @@ public class Grafo:List<NodeP>{
             ar.Destiny.DegreeIn--;
         }
         if (ar.Type == 2){
-            rel = ar.Destiny.relations.Find(delegate(NodeR np) { if (np.Up.Name==ar.Origin.Name)return true; else return false; });
+            rel = ar.Destiny.relations.Find(delegate(NodoRel np) { if (np.Up.Name==ar.Origin.Name)return true; else return false; });
                 
             if (rel != null){
                 ar.Destiny.relations.Remove(rel);
@@ -156,13 +157,13 @@ public class Grafo:List<NodeP>{
         }
         edgesList.Remove(ar);
     }
-    public void RemoveNode(NodeP rem){
-        NodeR rel;
+    public void RemueveNodo(NodoP rem){
+        NodoRel rel;
         List<Edge>remover;
         remover=new List<Edge>();
             
-        foreach(NodeP a in this){
-            rel = a.relations.Find(delegate(NodeR np) { if (np.Up.Name==rem.Name)return true; else return false; });
+        foreach(NodoP a in this){
+            rel = a.relations.Find(delegate(NodoRel np) { if (np.Up.Name==rem.Name)return true; else return false; });
             if (rel != null){
                 a.relations.Remove(rel);
                 a.Degree--;
@@ -204,7 +205,7 @@ public class Grafo:List<NodeP>{
         double dy,dx;
         dy = dx=0;
         List<Edge> repetidas = new List<Edge>();
-        if(edgesList!=null && edgesList.Count > 0){
+        if(edgesList.Count > 0){
             foreach (Edge a in edgesList){
                 if(a.Type != 1){
                     if(a.Origin.Name == a.Destiny.Name){
@@ -308,26 +309,23 @@ public class Grafo:List<NodeP>{
                     
             }
         }
-        if (edgesList != null) {
-            foreach (Edge des in edgesList) {
-                des.Painted = false;
-            }
+        foreach (Edge des in edgesList){
+            des.Painted = false;
         }
-        if (this.Count > 0 && nodeRadio != 0)  {
-            foreach (NodeP n in this) {
-                pendi.Width = 3;
-                if (n.Selected == false) {
-                    nod = new SolidBrush(n.Color);
-                }
-                else {
-                    nod = new SolidBrush(Color.Red);
-                }
-
-                Rectangle re = new Rectangle(n.Position.X - (s.Height / 2), n.Position.Y - (s.Height / 2), s.Width, s.Height);
-                g.FillEllipse(nod, re);
-                g.DrawEllipse(pen, re);
-                g.DrawString(n.Name.ToString(), new Font("Bold", nodeRadio / 4), new SolidBrush(nodeBorderColor), (n.Position.X - nodeRadio / 4 + nodeRadio / 12), (n.Position.Y - nodeRadio / 4 + nodeRadio / 12));
+        foreach (NodoP n in this){
+            pendi.Width = 3;
+            if(n.Selected==false){
+                nod = new SolidBrush(n.Color);
             }
+            else{
+                nod = new SolidBrush(Color.Red);
+            }
+
+            Rectangle re = new Rectangle(n.Position.X - (s.Height / 2), n.Position.Y - (s.Height / 2), s.Width, s.Height);
+            g.DrawRectangle(pen, re);
+            g.FillEllipse(nod, re);
+            g.DrawEllipse(pen, re);
+            g.DrawString(n.Name.ToString(), new Font("Bold", nodeRadio / 4), new SolidBrush(nodeBorderColor), (n.Position.X - nodeRadio/4 + nodeRadio/12), (n.Position.Y - nodeRadio/4 + nodeRadio/12));
         }
         pendi.Dispose();
         penNdi.Dispose();
@@ -338,7 +336,7 @@ public class Grafo:List<NodeP>{
     #endregion
     #region algoritmos
 
-    public void CreateMatrix(){ //
+    public void CreaMatriz(){ //
         matriz = new int[Count][];
         int i = 0, j;
             
@@ -346,14 +344,14 @@ public class Grafo:List<NodeP>{
             matriz[x]=new int[Count];
         }
             
-        this.Sort(delegate(NodeP a, NodeP b) { 
+        this.Sort(delegate(NodoP a, NodoP b) { 
             return a.Name.CompareTo(b.Name); 
         });
 
-        foreach(NodeP nod in this){
+        foreach(NodoP nod in this){
             j=0;
-            foreach(NodeP nod2 in this){
-                if (nod.relations.Find(delegate(NodeR r) {if(nod2.Name == r.Up.Name) return true; else return false; }) != null){
+            foreach(NodoP nod2 in this){
+                if (nod.relations.Find(delegate(NodoRel r) {if(nod2.Name == r.Up.Name) return true; else return false; }) != null){
                     matriz[i][j] = 1;
                 }
                 else{
@@ -365,13 +363,13 @@ public class Grafo:List<NodeP>{
         }
     }
        
-    public int Componentes2(NodeP nodito, List<NodeP> compo){
-        if(nodito.relations.Find(delegate(NodeR r) { if (r.Visited!=true )return true; else return false; }) == null){
+    public int Componentes2(NodoP nodito, List<NodoP> compo){
+        if(nodito.relations.Find(delegate(NodoRel r) { if (r.Visited!=true )return true; else return false; }) == null){
             return 1;
         }
         else{
             compo.Add(nodito);
-            foreach (NodeR a in nodito.relations){
+            foreach (NodoRel a in nodito.relations){
                 if (a.Visited == false){
                     a.Visited = true;
                     compo.Add(a.Up);
@@ -385,45 +383,45 @@ public class Grafo:List<NodeP>{
     public int Componentes(){
         bool enco = false;
         bool enco2=false;
-        List<List<NodeP>> componentes = new List<List<NodeP>>();
-        List<NodeP> nue = new List<NodeP>();
+        List<List<NodoP>> componentes = new List<List<NodoP>>();
+        List<NodoP> nue = new List<NodoP>();
         Grafo aux = new Grafo(this);
 
         if(edgesList.Count != 0){
-            foreach(NodeP nod in this){
-                foreach(List<NodeP> n in componentes){
+            foreach(NodoP nod in this){
+                foreach(List<NodoP> n in componentes){
                     if(enco == false)
-                        if(n.Find(delegate(NodeP f) { if (f.Name == nod.Name)return true; else return false; }) != null)
+                        if(n.Find(delegate(NodoP f) { if (f.Name == nod.Name)return true; else return false; }) != null)
                             enco = true;
                 }
                 if(enco == false){
                     if(edgesList[0].Type == 1){
-                        foreach(List<NodeP> n in componentes){
-                            foreach(NodeP ee in n){
-                                foreach(NodeR r in ee.relations){
+                        foreach(List<NodoP> n in componentes){
+                            foreach(NodoP ee in n){
+                                foreach(NodoRel r in ee.relations){
                                     if(enco2 == false)
-                                        if (n.Find(delegate(NodeP f) { if (f.Name == r.Up.Name)return true; else return false; }) != null)
+                                        if (n.Find(delegate(NodoP f) { if (f.Name == r.Up.Name)return true; else return false; }) != null)
                                             enco2 = true;
                                 }
                             }
                         }
                         if(enco2 == false){
-                            nue = new List<NodeP>();
+                            nue = new List<NodoP>();
                             this.Componentes2(nod, nue);
                             componentes.Add(nue);
                         }
                         enco2 = false;
                     }
                     else{
-                        nue = new List<NodeP>();
+                        nue = new List<NodoP>();
                         this.Componentes2(nod, nue);
                         componentes.Add(nue);
                     }
                 }
                 enco = false;
             }
-            foreach(NodeP re in this){
-                foreach(NodeR rela in re.relations){
+            foreach(NodoP re in this){
+                foreach(NodoRel rela in re.relations){
                     rela.Visited = false;
                 }
             }
@@ -435,37 +433,37 @@ public class Grafo:List<NodeP>{
     }
 
     public void Deselect(){
-        foreach (NodeP r in this){
+        foreach (NodoP r in this){
             r.Selected = false;
         }
     }
 
-    public List<List<NodeP>> colorear(){
+    public List<List<NodoP>> colorear(){
             
         bool found = false;
         int re = 0, g = 0, b = 255;            
         Color co = Color.FromArgb(re, g, b);
-        List<List<NodeP>> listas=new List<List<NodeP>>();
-        List<NodeP> au = new List<NodeP>();
+        List<List<NodoP>> listas=new List<List<NodoP>>();
+        List<NodoP> au = new List<NodoP>();
             
-        foreach(NodeP nodin in this){
-            foreach(List<NodeP> c in listas){
+        foreach(NodoP nodin in this){
+            foreach(List<NodoP> c in listas){
                 if(found == false)
-                    if (c.Find(delegate(NodeP a) { if (a.relations.Find(delegate(NodeR r) { if (r.Up.Name == nodin.Name)return true; else return false; }) != null || nodin.relations.Find(delegate(NodeR rela){if(rela.Up.Name==a.Name)return true;else return false;})!=null)return true; else return false; }) == null)
+                    if (c.Find(delegate(NodoP a) { if (a.relations.Find(delegate(NodoRel r) { if (r.Up.Name == nodin.Name)return true; else return false; }) != null || nodin.relations.Find(delegate(NodoRel rela){if(rela.Up.Name==a.Name)return true;else return false;})!=null)return true; else return false; }) == null)
                     {
                         c.Add(nodin);
                         found = true;
                     }
             }
             if (found == false){
-                au = new List<NodeP>();
+                au = new List<NodoP>();
                 au.Add(nodin);
                 listas.Add(au);
             }
             found = false;
         }
-        foreach (List<NodeP> a in listas) {
-            foreach (NodeP n in a) {
+        foreach(List<NodoP> a in listas){
+            foreach (NodoP n in a){
                 n.Color = co;
             }
             if (re + 100 >= 255){
@@ -487,89 +485,39 @@ public class Grafo:List<NodeP>{
                 re += 100;
                 b = 180;
             }
-            co = Color.FromArgb(co.R - co.R + re, co.G - co.G + g, co.B - co.B + b);      
+            co = Color.FromArgb(co.R-co.R+re, co.G-co.G+g, co.B-co.B+b );      
         }
-        return(listas);
+        return listas;
 
     }
 
-    public bool Connected(NodeP a, NodeP b) { // regresa si dos nodos está conectados
-        for (int i = 0; i < a.relations.Count; i++) {
-            if (a.relations[i].Up == b) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Edge GiveEdge(NodeP a, NodeP b){ // regresa la arista entre dos nodos que si se sabe que tiene aristas
-        for (int i = 0; i < edgesList.Count; i++) {
-            if (edgesList[i].Origin == a && edgesList[i].Destiny == b) {
-                return (edgesList[i]);
-            }
-            if (edgesList[i].Origin == b && edgesList[i].Destiny == a) {
-                return (edgesList[i]);
-            }
-        }
-        return(null);
-    }
-
-    public void Complemento() { // saca el complemento del grafo
-        Edge rel;
-        int i, j;
-
-        for (int k = 0; k < Count; k++) {
-            this[k].Vis = false;
-        }
-
-            if (Count >= 2) {
-                for (i = 0; i < Count; i++) { // recorre todo el grafo
-                    for (j = 0; j < Count; j++) {
-                        if (i != j && !this[j].Vis) { // si no apunta a si mismo y no esta visitado
-                            if (Connected(this[i], this[j])) { // si esta conectados los nodos, remueve la arista
-                                rel = GiveEdge(this[i], this[j]);
-                                RemoveEdge(rel);
-                                this[i].Vis = true;
-                            }
-                            else { // si los nodos no estan conectados
-                                this[i].relations.Add(new NodeR(this[j], this[j].Name));
-                                this[j].relations.Add(new NodeR(this[i], this[i].Name));
-                                this.edgesList.Add(new Edge(0, this[i], this[j], "a"));
-                                this[i].Degree++;
-                                this[j].Degree++;
-                                this[i].Vis = true;
-                            }
-                            
-                        }
-                    }
-                }
-            }
-
-        /*
-        if (nodoOriginal.relations.Count > 0){// si tiene alguna relacion el nodo original en el que esta
-
+    public Grafo Complement() { // saca el complemento del grafo
+        Grafo graph2 = new Grafo(this);
+        int i = 0, j = 0;
+        NodoP npn;
+        NodoRel rpr, aux;
+        char nodName = 'A';
+        List<Edge> inverse = new List<Edge>();
+        foreach (NodoP np in this) { // recorre la lista principal
+            nodName = 'A';
+            npn = graph2.ElementAt<NodoP>(i); // obtiene el nodo del nuevo grafo
             for (j = 0; j < this.Count; j++) { // recorre todas las relaciones cada nodo del gafo principal
+                aux = npn.relations.ElementAt<NodoRel>(j);
 
-                relOriginal = nodoOriginal.relations.ElementAt<NodoRel>(j); // obtiene cada nodo de la lista de relaciones
-
-                if (relOriginal.Name != nodName.ToString()) {
-                    nodoNuevo.relations.Add(relOriginal);
-                    inverse.Add(new Edge(0, nodoOriginal, relOriginal.Up, relOriginal.Name));
+                if (aux.Name != nodName.ToString()) {
+                    npn.relations.Add(aux);
+                    inverse.Add(new Edge(2, np, aux.Up, aux.Name));
                 }
                 nodName++;
             }
+            j = 0;
         }
-        else { // si no tiene ninguna relacion el nodo original
-            for(j = 1; j < this.Count; j++){
-                inverse.Add.(new Edge(0, nodoNuevo, ))
-                npn.relations.Add()
-            }
-        }
-        */
-        //edgesList.Clear();
-        //edgesList = inverse;
-    }}
+        edgesList.Clear();
+        edgesList = inverse;
+        return graph2;
+    }
+
     #endregion
 }
-
+}
    
