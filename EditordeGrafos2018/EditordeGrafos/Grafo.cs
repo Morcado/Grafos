@@ -514,13 +514,16 @@ public class Grafo:List<NodeP>{
         return(null);
     }
 
-    public void Complemento() { // saca el complemento del grafo
-        Edge rel;
-        int i, j;
-
+    public void Desel() {
         for (int k = 0; k < Count; k++) {
             this[k].Vis = false;
         }
+    }
+
+    public void Complemento() { // saca el complemento del grafo
+        Edge rel;
+        int i, j;
+        Desel();
 
             if (Count >= 2) {
                 for (i = 0; i < Count; i++) { // recorre todo el grafo

@@ -864,5 +864,31 @@ public partial class Editor : Form{
         Dirigida.Enabled = NoDirigida.Enabled = true;
     }
 
+
+    private void InsertaKN(object sender, EventArgs e) {
+        Plantilla p = new Plantilla();
+        double x, y;
+        int deg = 0, ang = 0, dist = this.ClientRectangle.Height / 2 - 50;
+        nombre = 'A';
+        p.ShowDialog();
+        if (p.DialogResult == DialogResult.OK) {
+            ang = 360 / p.N;
+            this.mnuBorraGrafo_Click(this, null);
+            for (int i = 0; i < p.N; i++) {
+                x = dist * Math.Cos(Math.PI * deg / 180);
+                y = dist * Math.Sin(Math.PI * deg / 180);
+                int xx = Convert.ToInt32(x);
+                int yy = Convert.ToInt32(y);
+                graph.AddNode(new NodeP(new Point(xx + this.ClientRectangle.Width/2, yy + this.ClientRectangle.Height / 2 + 30), nombre++));
+                deg += ang;
+            }
+            graph.Complemento();
+        }
+    }
+
+    private void NPartita(object sender, EventArgs e) {
+
+    }
+
 }
 }

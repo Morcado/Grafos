@@ -100,9 +100,11 @@
             this.Complemento = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
             this.examen = new System.Windows.Forms.ToolStripButton();
+            this.insertaKN = new System.Windows.Forms.ToolStripButton();
             this.MenuArista = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.Peso = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.MenuArista.SuspendLayout();
@@ -428,7 +430,9 @@
             this.toolStripSeparator26,
             this.Complemento,
             this.toolStripSeparator28,
-            this.examen});
+            this.examen,
+            this.insertaKN,
+            this.toolStripButton2});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
@@ -692,6 +696,16 @@
             this.examen.Text = "Examen";
             this.examen.Click += new System.EventHandler(this.examen_Click);
             // 
+            // insertaKN
+            // 
+            this.insertaKN.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.insertaKN.Image = ((System.Drawing.Image)(resources.GetObject("insertaKN.Image")));
+            this.insertaKN.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.insertaKN.Name = "insertaKN";
+            this.insertaKN.Size = new System.Drawing.Size(23, 36);
+            this.insertaKN.Text = "Inserta KN";
+            this.insertaKN.Click += new System.EventHandler(this.InsertaKN);
+            // 
             // MenuArista
             // 
             this.MenuArista.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -712,6 +726,16 @@
             // 
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 36);
+            this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.Click += new System.EventHandler(this.NPartita);
             // 
             // Editor
             // 
@@ -819,6 +843,8 @@
         private System.Windows.Forms.ToolStripButton BorraGrafo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
         private System.Windows.Forms.ToolStripButton examen;
+        private System.Windows.Forms.ToolStripButton insertaKN;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
     }
 }
 
