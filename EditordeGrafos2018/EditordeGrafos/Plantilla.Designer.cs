@@ -114,6 +114,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Agregar grafo";
             this.Load += new System.EventHandler(this.Plantilla_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Plantilla_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

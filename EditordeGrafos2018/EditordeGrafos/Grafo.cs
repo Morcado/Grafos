@@ -339,32 +339,62 @@ public class Grafo:List<NodeP>{
                     }
                 }
             }
+    }
+            
 
-        /*
-        if (nodoOriginal.relations.Count > 0){// si tiene alguna relacion el nodo original en el que esta
-
-            for (j = 0; j < this.Count; j++) { // recorre todas las relaciones cada nodo del gafo principal
-
-                relOriginal = nodoOriginal.relations.ElementAt<NodoRel>(j); // obtiene cada nodo de la lista de relaciones
-
-                if (relOriginal.Name != nodName.ToString()) {
-                    nodoNuevo.relations.Add(relOriginal);
-                    inverse.Add(new Edge(0, nodoOriginal, relOriginal.Up, relOriginal.Name));
+public List<List<NodeP>> colorear(){
+    bool found = false;
+    int re = 0, g = 0, b = 255;            
+    Color co = Color.FromArgb(re, g, b);
+    List<List<NodeP>> listas=new List<List<NodeP>>();
+    List<NodeP> au = new List<NodeP>();
+        
+    foreach(NodeP nodin in this){
+        foreach(List<NodeP> c in listas){
+            if(found == false)
+                if (c.Find(delegate(NodeP a) { if (a.relations.Find(delegate(NodeR r) { if (r.Up.Name == nodin.Name)return true; else return false; }) != null || nodin.relations.Find(delegate(NodeR rela){if(rela.Up.Name==a.Name)return true;else return false;})!=null)return true; else return false; }) == null)
+                {
+                    c.Add(nodin);
+                    found = true;
                 }
-                nodName++;
+        }
+        if (found == false){
+            au = new List<NodeP>();
+            au.Add(nodin);
+            listas.Add(au);
+        }
+        found = false;
+    }
+    foreach (List<NodeP> a in listas) {
+        foreach (NodeP n in a) {
+            n.Color = co;
+        }
+        if (re + 100 >= 255){
+            re = 0;
+            if (g + 100 >= 255){
+                g = 0;
+                if (b + 150 >= 255){
+                    b = 0;
+                }
+                else{
+                    b += 150;
+                }
+            }
+            else{
+                g += 100;
             }
         }
-        else { // si no tiene ninguna relacion el nodo original
-            for(j = 1; j < this.Count; j++){
-                inverse.Add.(new Edge(0, nodoNuevo, ))
-                npn.relations.Add()
-            }
+        else{
+            re += 100;
+            b = 180;
         }
-        */
-        //edgesList.Clear();
-        //edgesList = inverse;
-    }}
+        co = Color.FromArgb(co.R - co.R + re, co.G - co.G + g, co.B - co.B + b);      
+    }
+    return(listas);
+}
+    }
     #endregion
 }
+
 
    

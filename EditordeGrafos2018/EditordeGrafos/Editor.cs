@@ -12,6 +12,7 @@ public partial class Editor : Form{
     private bool band;
     private bool b_cam;
     private bool b_tck;
+    private bool b_coloreando;
     private char nombre;
     private int icam;
     private int numero;
@@ -42,7 +43,7 @@ public partial class Editor : Form{
     }
     
     private void Form1_Load(object sender, EventArgs e){
-
+        b_coloreando = false;
         this.BackColor = Color.White;
         b_cam = false;
         icam = 0;
@@ -197,6 +198,7 @@ public partial class Editor : Form{
                 if (graph.EdgesList.Count > 0) {
                     EliminaArist.Enabled = EliminaArista.Enabled = true;
                 }
+                ActivaMenus();
                 graphics.DrawImage(bmp1, 0, 0);
                 break;
             case 4:
@@ -360,8 +362,9 @@ public partial class Editor : Form{
     }
 
     private void mnuEliminaArista_Click(object sender, EventArgs e) {
-        Uncheck();
         accion = 6;
+        Uncheck();
+        EliminaArist.Checked = true;
         graph.Deselect();
     }
 
@@ -551,17 +554,27 @@ public partial class Editor : Form{
                             mouseRec = new Rectangle(pt2.X, pt2.Y, 3, 3);
                             niRec = new Rectangle(niX - rad/2, niY - rad/2, rad, rad);
                             nfRec = new Rectangle(nfX - rad/2, nfY - rad/2, rad, rad);
+
+                            if (!(niRec.IntersectsWith(mouseRec))) {
+                                if (!(nfRec.IntersectsWith(mouseRec))) {
+                                    graph.RemoveEdge(arista);
+                                    if (b_coloreando == true) {
+                                        graph.colorear();
+                                    }
+                                    break;
+                                }
+                            }
                         }
                     }
                     if (graph.EdgesList.Count == 0) {
                         EliminaArist.Enabled = EliminaArista.Enabled = false;
                     }
                     break;
-                case 14:  
+                case 14:
                     Edge ari;
                     NodeP o, d;
 
-                    o=d=null;
+                    o = d = null;
                     if(b_cam == true){
                         ari = new Edge(); ;
                         graph = new Grafo(graph2);
@@ -629,7 +642,7 @@ public partial class Editor : Form{
         }
     }
 
-    public void pinta(Graphics g) {
+    private void pinta(Graphics g) {
         Pen pendi = new Pen(graph.EdgeColor, graph.EdgeWidth);
         Pen penNdi = new Pen(graph.EdgeColor, graph.EdgeWidth);
         Pen pen = new Pen(graph.NodeBorderColor, graph.NodeBorderWidth);
@@ -874,7 +887,7 @@ public partial class Editor : Form{
         EliminaNod.Enabled = EliminaNodo.Enabled = true;
         MueveNod.Enabled = MueveNodo.Enabled = true;
         AgregaNod.Enabled = AgregaNodo.Enabled = true;
-        if (graph.Count >= 2) {
+        if (graph.Count >= 1) {
             if (graph.EdgesList.Count == 0) {
                 AristaNoDirigida.Enabled = AristaDirigida.Enabled = true;
                 AristaNoDirigid.Enabled = AristaDirigid.Enabled = true;
@@ -947,31 +960,85 @@ public partial class Editor : Form{
     }
 
 
-    // Método que inserta un grafo KN, el usuario ingresa el numero de nodos a dibujar
-    private void InsertaKN(object sender, EventArgs e) {
-        Plantilla p = new Plantilla();
-        double x, y;
-        int deg = 0, ang = 0, dist = this.ClientRectangle.Height / 2 - 50;
-        nombre = 'A';
+    private void InsertaPlantilla(object sender, EventArgs e) {
+        Plantilla p = new Plantilla();   
         p.ShowDialog();
-        // El dialogo recoge el número de nodos para dibujar el KN
         if (p.DialogResult == DialogResult.OK) {
-            ang = 360 / p.N;
-            this.mnuBorraGrafo_Click(this, null);
-            /* Este ciclo va aumentando las coordenadas de x y y usando trigonometria para la nueva posicion del siguiente nodo
-            Va agregando los nodos en sentido horario o antihorario */
-            for (int i = 0; i < p.N; i++) {
-                x = dist * Math.Cos(Math.PI * deg / 180);
-                y = dist * Math.Sin(Math.PI * deg / 180);
-                int xx = Convert.ToInt32(x);
-                int yy = Convert.ToInt32(y);
-                graph.AddNode(new NodeP(new Point(xx + this.ClientRectangle.Width/2, yy + this.ClientRectangle.Height / 2 + 30), nombre++));
-                deg += ang;
+            switch(p.Tipo){
+                case "Kn":
+                    InsertaKn(p.N);
+                    break;
+                case "Cn":
+                    InsertaCn(p.N);
+                    break;
+                case "Wn":
+                    InsertaWn(p.N);
+                    break;
             }
-            graph.Complement();
         }
         ActivaMenus();
     }
+
+    private void InsertaWn(int n) {
+        InsertaCn(n);
+        graph.AddNode(new NodeP(new Point(this.ClientRectangle.Width / 2, this.ClientRectangle.Height / 2 + 30), nombre++));
+        for (int i = 0; i < graph.Count - 1; i++) {
+            graph[graph.Count - 1].relations.Add(new NodeR(graph[i], graph[i].Name));
+            graph.EdgesList.Add(new Edge(0, graph[graph.Count - 1], graph[i], "e" + i.ToString()));
+        }
+    }
+
+    private void InsertaCn(int n) {
+        double x, y;
+        float deg = 0, ang = 0, dist = this.ClientRectangle.Height / 2 - 50;
+        nombre = 'A';
+
+        // El dialogo recoge el número de nodos para dibujar el KN
+
+        ang = (float)(360.0 / n);
+        this.mnuBorraGrafo_Click(this, null);
+        /* Este ciclo va aumentando las coordenadas de x y y usando trigonometria para la nueva posicion del siguiente nodo
+        Va agregando los nodos en sentido horario o antihorario */
+        for (int i = 0; i < n; i++) {
+            x = dist * Math.Cos(Math.PI * deg / 180);
+            y = dist * Math.Sin(Math.PI * deg / 180);
+            int xx = Convert.ToInt32(x);
+            int yy = Convert.ToInt32(y);
+            graph.AddNode(new NodeP(new Point(xx + this.ClientRectangle.Width / 2, yy + this.ClientRectangle.Height / 2 + 30), nombre++));
+            deg += ang;
+        }
+        for (int i = 0; i < graph.Count - 1; i++) {
+            graph[i].relations.Add(new NodeR(graph[i + 1], graph[i + 1].Name));
+            graph.EdgesList.Add(new Edge(0, graph[i], graph[i + 1], "e" + i.ToString()));
+        }
+        graph[graph.Count -1].relations.Add(new NodeR(graph[0], graph[0].Name));
+        graph.EdgesList.Add(new Edge(0, graph[graph.Count -1], graph[0], "e" + (graph.Count-1).ToString()));
+    }
+
+    // Método que inserta un grafo KN, el usuario ingresa el numero de nodos a dibujar
+    private void InsertaKn(int n) {
+
+        double x, y;
+        int deg = 0, ang = 0, dist = this.ClientRectangle.Height / 2 - 50;
+        nombre = 'A';
+
+        // El dialogo recoge el número de nodos para dibujar el KN
+
+        ang = 360 / n;
+        this.mnuBorraGrafo_Click(this, null);
+        /* Este ciclo va aumentando las coordenadas de x y y usando trigonometria para la nueva posicion del siguiente nodo
+        Va agregando los nodos en sentido horario o antihorario */
+        for (int i = 0; i < n; i++) {
+            x = dist * Math.Cos(Math.PI * deg / 180);
+            y = dist * Math.Sin(Math.PI * deg / 180);
+            int xx = Convert.ToInt32(x);
+            int yy = Convert.ToInt32(y);
+            graph.AddNode(new NodeP(new Point(xx + this.ClientRectangle.Width / 2, yy + this.ClientRectangle.Height / 2 + 30), nombre++));
+            deg += ang;
+        }
+        graph.Complement();
+    }
+
 
     // funcion que divide el grafo en n partitas
     private void NPartita(object sender, EventArgs e) {
@@ -1065,5 +1132,7 @@ public partial class Editor : Form{
         graph2 = new Grafo();
         nombre = 'A';
     }
+
+
 }
 }

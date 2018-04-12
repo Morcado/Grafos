@@ -400,6 +400,7 @@
             // 
             this.toolStrip1.AllowItemReorder = true;
             this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Abri,
             this.toolStripSeparator15,
@@ -434,6 +435,7 @@
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
             this.toolStrip1.Size = new System.Drawing.Size(784, 39);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "Barra de Herramientas";
@@ -691,9 +693,9 @@
             // 
             // toolStrip2
             // 
-            this.toolStrip2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.toolStrip2.BackColor = System.Drawing.SystemColors.Control;
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Examen,
             this.toolStripSeparator29,
@@ -703,7 +705,8 @@
             this.toolStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.toolStrip2.Location = new System.Drawing.Point(0, 63);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(38, 140);
+            this.toolStrip2.Padding = new System.Windows.Forms.Padding(0);
+            this.toolStrip2.Size = new System.Drawing.Size(37, 430);
             this.toolStrip2.TabIndex = 2;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -733,7 +736,7 @@
             this.inserkn.Name = "inserkn";
             this.inserkn.Size = new System.Drawing.Size(36, 36);
             this.inserkn.Text = "Inserta KN";
-            this.inserkn.Click += new System.EventHandler(this.InsertaKN);
+            this.inserkn.Click += new System.EventHandler(this.InsertaPlantilla);
             // 
             // toolStripSeparator30
             // 
@@ -753,15 +756,15 @@
             // 
             // toolStrip3
             // 
-            this.toolStrip3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.toolStrip3.BackColor = System.Drawing.SystemColors.Control;
-            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.toolStrip3.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Complemento});
             this.toolStrip3.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.toolStrip3.Location = new System.Drawing.Point(1, 203);
+            this.toolStrip3.Location = new System.Drawing.Point(747, 63);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(37, 50);
+            this.toolStrip3.Size = new System.Drawing.Size(37, 430);
             this.toolStrip3.TabIndex = 3;
             this.toolStrip3.Text = "toolStrip3";
             // 
@@ -772,7 +775,7 @@
             this.Complemento.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.Complemento.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Complemento.Name = "Complemento";
-            this.Complemento.Size = new System.Drawing.Size(35, 36);
+            this.Complemento.Size = new System.Drawing.Size(34, 36);
             this.Complemento.Text = "Complemento";
             this.Complemento.Click += new System.EventHandler(this.mnuComplemento);
             // 
