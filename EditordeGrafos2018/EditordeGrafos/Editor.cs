@@ -8,10 +8,9 @@ using System.IO;
 
 namespace EditordeGrafos{
 public partial class Editor : Form{
-    //bool gactivo;
+
     private bool band;
     private bool b_cam;
-    private bool b_coloreando;
     private bool b_tck;
     private char nombre;
     private int icam;
@@ -50,7 +49,6 @@ public partial class Editor : Form{
         numero = 0;
         b_tck = false;
         CCE = new List<NodeP>();
-        b_coloreando = false;
         resp = Color.White;
         graph2 = new Grafo();
         ed = new Edge();
@@ -67,9 +65,8 @@ public partial class Editor : Form{
 
         pt2 = new Point();
         nombre = 'A';
-        time = new Timer();
- 
-        time.Tick += time_Tick;
+
+
     }       
 
     public Editor(){ 
@@ -189,31 +186,38 @@ public partial class Editor : Form{
                         des.DegreeEx++;
                         nu.DegreeIn++; 
                     }
-                    if(b_coloreando == true){
-                        graph.colorear();
-                    }
-
-                    graph.pinta(au);
+                    pinta(au);
                     band = false;
                     nu = null;                       
                 }
                 else{
-                    graph.pinta(au);
+                    pinta(au);
                 }
                 pt1 = pt2;
+                if (graph.EdgesList.Count > 0) {
+                    EliminaArist.Enabled = EliminaArista.Enabled = true;
+                }
                 graphics.DrawImage(bmp1, 0, 0);
                 break;
             case 4:
                 nu = (NodeP)graph.Find(delegate(NodeP a) { if (e.Location.X > a.Position.X - graph.NodeRadio / 2 && e.Location.X < a.Position.X + graph.NodeRadio && e.Location.Y > a.Position.Y - graph.NodeRadio / 2&& e.Location.Y < a.Position.Y + graph.NodeRadio)return true; else return false; });
                 if (nu != null){
                     graph.RemoveNode(nu);
-                    if (graph.Count < 2) {
+                    if (graph.Count < 2) {          
                         AristaNoDirigida.Enabled = AristaDirigida.Enabled = false;
-                        NoDirigida.Enabled = Dirigida.Enabled = false;
+                        AristaNoDirigid.Enabled = AristaDirigid.Enabled = false;
+                    }
+                    else {
+                        if (graph.EdgesList.Count == 0) {
+                            AristaNoDirigida.Enabled = AristaDirigida.Enabled = true;
+                            AristaNoDirigid.Enabled = AristaDirigid.Enabled = true;
+                        }
+
                     }
                     if (graph.Count == 0){
                         nombre = 'A';
                         DesactivaMenus();
+                        Uncheck();
                     }
                     Form1_Paint(this, null);
                     band = false;
@@ -221,10 +225,6 @@ public partial class Editor : Form{
                 break;
             case 5:
                 pt2 = pt1;
-                break;
-            case 7:
-                break;
-            case 9:
                 break;
             case 8:
                 SeleccionaNodos();
@@ -249,7 +249,7 @@ public partial class Editor : Form{
                 using (Stream stream = File.Open(namefile, FileMode.Open)) {
                     BinaryFormatter bin = new BinaryFormatter();
                     graph = (Grafo)bin.Deserialize(stream);
-                    graph.pinta(graphics);
+                    pinta(graphics);
                 }
             }
             catch (IOException exe) {
@@ -260,12 +260,12 @@ public partial class Editor : Form{
             ActivaMenus();
 
             if (graph.EdgesList != null && graph.EdgesList.Count > 0 && graph.EdgesList[0].Type == 1) {
-                AristaDirigida.Enabled = Dirigida.Enabled = true;
-                AristaNoDirigida.Enabled = NoDirigida.Enabled = false;
+                AristaDirigida.Enabled = AristaDirigid.Enabled = true;
+                AristaNoDirigida.Enabled = AristaNoDirigid.Enabled = false;
             }
             else {
-                AristaNoDirigida.Enabled = NoDirigida.Enabled = true;
-                AristaDirigida.Enabled = Dirigida.Enabled = false;
+                AristaNoDirigida.Enabled = AristaNoDirigid.Enabled = true;
+                AristaDirigida.Enabled = AristaDirigid.Enabled = false;
             }
 
             accion = 0;
@@ -330,6 +330,8 @@ public partial class Editor : Form{
 
     private void mnuAgregaNod_Click(object sender, EventArgs e) {
         pt2 = new Point();
+        Uncheck();
+        AgregaNod.Checked = true;
         accion = 1;
         graph.Deselect();
     }
@@ -337,41 +339,29 @@ public partial class Editor : Form{
     private void mnuMueveNodo_Click(object sender, EventArgs e) {
         band = true;
         accion = 2;
-        MueveNod.Checked = MueveNodo.Checked = true;
-        AgregaNod.Checked = AgregaNodo.Checked = false;
-        EliminaNodo.Checked = EliminaNod.Checked = false;
-        MueveGrafo.Checked = MueveGraf.Checked = false;
-        EliminaArista.Checked = EliminaArist.Checked = false;
+        Uncheck();
+        MueveNod.Checked = true;
+        
         graph.Deselect();
     }
 
     private void mnuMueveGrafo_Click(object sender, EventArgs e) {
-        MueveGrafo.Checked = MueveGraf.Checked = true;
-        EliminaNodo.Checked = EliminaNod.Checked = false;
-        MueveNod.Checked = MueveNodo.Checked = false;
-        AgregaNod.Checked = AgregaNodo.Checked = false;
-        EliminaArista.Checked = EliminaArist.Checked = false;
         accion = 5;
+        Uncheck();
+        MueveGraf.Checked = true;
         graph.Deselect();
     }
 
     private void mnuEliminaNodo_Click(object sender, EventArgs e) {
+        Uncheck();
+        EliminaNod.Checked = true;
         accion = 4;
-        EliminaNodo.Checked = EliminaNod.Checked = true;
-        MueveNod.Checked = MueveNodo.Checked = false;
-        AgregaNod.Checked=AgregaNodo.Checked = false;       
-        MueveGrafo.Checked = MueveGraf.Checked = false;
-        EliminaArista.Checked = EliminaArist.Checked = false;
         graph.Deselect();
     }
 
     private void mnuEliminaArista_Click(object sender, EventArgs e) {
+        Uncheck();
         accion = 6;
-        EliminaArista.Checked = EliminaArist.Checked = true;
-        MueveGrafo.Checked = MueveGraf.Checked = false;
-        EliminaNodo.Checked = EliminaNod.Checked = false;
-        MueveNod.Checked = MueveNodo.Checked = false;
-        AgregaNod.Checked = AgregaNodo.Checked = false;
         graph.Deselect();
     }
 
@@ -418,22 +408,14 @@ public partial class Editor : Form{
     private void mnuAristaDir_Click(object sender, EventArgs e) {
         accion = 3;
         band = true;
-            
-        MueveNod.Checked = MueveNodo.Checked = false;
-        //Intercambio.Enabled = true;
-        AgregaNod.Checked = AgregaNodo.Checked = false;
-        EliminaNodo.Checked = EliminaNod.Checked = false;
-        MueveGrafo.Checked = MueveGraf.Checked = false;
-        EliminaArista.Checked = EliminaArist.Checked = false;
-        AgregaRelacion.Checked = true;
-           
+
+        Uncheck();
+        AristaDirigid.Checked = true;
 
         fl.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
         fl.StartCap = LineCap.RoundAnchor;
         fl.Width = 4;
         tipoarista = 1;
-        AristaNoDirigida.Enabled = NoDirigida.Enabled = false;
-        Dirigida.Checked = AristaDirigida.Checked = true;
 
         graph.Deselect();
     }
@@ -441,15 +423,8 @@ public partial class Editor : Form{
     private void mnuAristaNoDir_Click(object sender, EventArgs e) {
         accion = 3;
         band = true;
-        MueveNod.Checked = MueveNodo.Checked = false;
-        AgregaNod.Checked = AgregaNodo.Checked = false;
-        EliminaNodo.Checked = EliminaNod.Checked = false;
-        MueveGrafo.Checked = MueveGraf.Checked = false;
-        EliminaArista.Checked = EliminaArist.Checked = false;
-        AgregaRelacion.Checked = true;
-        Complemento.Checked = true;
-        AristaDirigida.Enabled = Dirigida.Enabled = false;
-        NoDirigida.Checked = AristaNoDirigida.Checked = false;
+        Uncheck();
+        AristaNoDirigid.Checked = true;
 
         fl.EndCap = System.Drawing.Drawing2D.LineCap.NoAnchor;
         fl.StartCap = LineCap.NoAnchor;
@@ -460,7 +435,7 @@ public partial class Editor : Form{
     }
 
     private void mnuComplemento(object sender, EventArgs e) {
-        graph.Complemento();
+        graph.Complement();
         Invalidate();
     }
 
@@ -493,7 +468,7 @@ public partial class Editor : Form{
                 graph.EdgeWeightVisible = !graph.EdgeWeightVisible;
                 break;
         }
-        graph.pinta(graphics);
+        pinta(graphics);
     }
 
     private void MenuArista_Closing(object sender, ToolStripDropDownClosingEventArgs e){
@@ -512,7 +487,6 @@ public partial class Editor : Form{
         au = Graphics.FromImage(bmp1);
         au.Clear(BackColor);
         if(band){
-            //au.Clear(BackColor);
             switch(accion){                   
                 case 1:
                     bool num;
@@ -538,16 +512,12 @@ public partial class Editor : Form{
                         numero++;
                     }
 
-
                     if(graph.Count > 1){
                         nu.Color = graph[0].Color;
                     }
+                    ActivaMenus();
                     graph.AddNode(nu);
 
-                    ActivaMenus();
-                    if (graph.Count < 2) {
-                  
-                    }
                     nu = null;          
                     break;
                 case 2:
@@ -562,6 +532,7 @@ public partial class Editor : Form{
                     aux = graph;
                     break;
                 case 6: // elimina arista
+                   
                     Edge arista;
                     Rectangle mouseRec, niRec, nfRec;
                     int niX, niY, nfX, nfY; // coordenadas de los nodos iniciales o finalees
@@ -580,17 +551,10 @@ public partial class Editor : Form{
                             mouseRec = new Rectangle(pt2.X, pt2.Y, 3, 3);
                             niRec = new Rectangle(niX - rad/2, niY - rad/2, rad, rad);
                             nfRec = new Rectangle(nfX - rad/2, nfY - rad/2, rad, rad);
-
-                            if (!(niRec.IntersectsWith(mouseRec))) {
-                                if (!(nfRec.IntersectsWith(mouseRec))){
-                                    graph.RemoveEdge(arista);
-                                    if (b_coloreando == true) {
-                                        graph.colorear();
-                                    }
-                                    break;
-                                }
-                            }
                         }
+                    }
+                    if (graph.EdgesList.Count == 0) {
+                        EliminaArist.Enabled = EliminaArista.Enabled = false;
                     }
                     break;
                 case 14:  
@@ -624,11 +588,11 @@ public partial class Editor : Form{
                             ari = new Edge(1, d, o, "e" + (CCE.Count - icam).ToString());                                          
                             graph.AddEdge(ari);
                         }
-                        graph.pinta(graphics);                                  
+                        pinta(graphics);                                  
                     }
                     break;                    
             }
-            graph.pinta(au);
+            pinta(au);
             graphics.DrawImage(bmp1, 0, 0);
         }
         else{
@@ -660,10 +624,160 @@ public partial class Editor : Form{
                     
                     break;                    
             }
-            graph.pinta(au);
+            pinta(au);
             graphics.DrawImage(bmp1, 0, 0);
         }
-    }   
+    }
+
+    public void pinta(Graphics g) {
+        Pen pendi = new Pen(graph.EdgeColor, graph.EdgeWidth);
+        Pen penNdi = new Pen(graph.EdgeColor, graph.EdgeWidth);
+        Pen pen = new Pen(graph.NodeBorderColor, graph.NodeBorderWidth);
+
+        AdjustableArrowCap end = new AdjustableArrowCap(6, 6);
+        SolidBrush nod;
+        pendi.CustomEndCap = end;
+        Size s = new Size(graph.NodeRadio, graph.NodeRadio);
+        double p3x, p3y, p4x, p4y;
+        double ang;
+        PointF A, B;
+        A = new PointF();
+        double d;
+        double r;
+        double an;
+        //int multi;
+        double dy, dx;
+        dy = dx = 0;
+        List<Edge> repetidas = new List<Edge>();
+        if (graph.EdgesList != null && graph.EdgesList.Count > 0) {
+            foreach (Edge a in graph.EdgesList) {
+                if (a.Type != 1) {
+                    if (a.Origin.Name == a.Destiny.Name) {
+                        g.DrawBezier(penNdi, new Point(a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) - 10, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) - 5), new Point(a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) - 40, a.Origin.Position.Y - ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) - 60), new Point(a.Origin.Position.X + 40, a.Destiny.Position.Y - 60), new Point(a.Destiny.Position.X + 10, a.Destiny.Position.Y - 5));
+                    }
+                    else {
+                        g.DrawLine(penNdi, a.Origin.Position.X, a.Origin.Position.Y, a.Destiny.Position.X, a.Destiny.Position.Y);
+                    }
+
+                    repetidas = graph.EdgesList.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name || (a.Origin.Name == repe.Destiny.Name && a.Destiny.Name == repe.Origin.Name))return true; else return false; });
+
+                    if (repetidas.Count > 1 && a.Painted == false) {
+                        if ((a.Destiny.Position.Y - a.Origin.Position.Y) != 0) {
+                            g.DrawString(repetidas.Count.ToString(), new Font("Arial", 10), Brushes.Black, a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) + 4, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) + 4); foreach (Edge re in repetidas)
+                                re.Painted = true;
+                        }
+                    }
+                }
+                else {
+                    if (a.Origin.Name == a.Destiny.Name) {
+                        g.DrawBezier(pendi, new Point(a.Origin.Position.X - 10, a.Origin.Position.Y - 5), new Point(a.Origin.Position.X - 40, a.Origin.Position.Y - 60), new Point(a.Origin.Position.X + 40, a.Destiny.Position.Y - 60), new Point(a.Destiny.Position.X + 10, a.Destiny.Position.Y - 10));
+                    }
+                    else {
+                        if (graph.EdgesList.Find(delegate(Edge bus) { if (bus.Origin.Name == a.Destiny.Name && bus.Destiny.Name == a.Origin.Name)return true; else return false; }) == null) {
+                            double teta1 = Math.Atan2((double)(a.Destiny.Position.Y - a.Origin.Position.Y), (double)(a.Destiny.Position.X - a.Origin.Position.X));
+                            float x1 = a.Origin.Position.X + (float)((Math.Cos(teta1)) * (s.Height / 2));
+                            float y1 = a.Origin.Position.Y + (float)((Math.Sin(teta1)) * (s.Height / 2));
+
+                            double teta2 = Math.Atan2(a.Origin.Position.Y - a.Destiny.Position.Y, a.Origin.Position.X - a.Destiny.Position.X);
+                            float x2 = a.Destiny.Position.X + (float)((Math.Cos(teta2)) * (s.Height / 2));
+                            float y2 = a.Destiny.Position.Y + (float)((Math.Sin(teta2)) * (s.Height / 2));
+                            g.DrawLine(pendi, x1, y1, x2, y2);
+
+                            if (graph.EdgesList.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name)return true; else return false; }).Count > 1) {
+                                if ((a.Destiny.Position.Y - a.Origin.Position.Y) != 0) {
+                                    g.DrawString(graph.EdgesList.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name)return true; else return false; }).Count.ToString(), new Font("Arial", 10), Brushes.Black, a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) + 4, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) + 4);
+                                }
+                            }
+
+                        }
+                        else {
+                            if (a.Painted == false) {
+                                dy = a.Destiny.Position.Y - a.Origin.Position.Y;
+                                dx = a.Destiny.Position.X - a.Origin.Position.X;
+
+                                p3x = (dx * 1 / 3) + a.Origin.Position.X;
+                                p3y = (dy * 1 / 3) + a.Origin.Position.Y;
+                                p4x = (dx * 2 / 3) + a.Origin.Position.X;
+                                p4y = (dy * 2 / 3) + a.Origin.Position.Y;
+
+                                d = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
+                                r = .35 * d;
+
+                                if (a.Destiny.Position.X != a.Origin.Position.X) {
+                                    ang = Math.Atan((double)((double)dy / (double)dx));
+                                }
+                                else {
+                                    ang = 90;
+                                }
+
+                                if (a.Destiny.Position.X > a.Origin.Position.X) {
+                                    an = ang + 89.8;
+                                }
+                                else {
+                                    an = ang - 89.8;
+                                }
+
+                                B = new PointF((float)((r * Math.Cos(an)) + p4x), (float)((r * Math.Sin(an)) + p4y /*+ 15 * (an / Math.Abs(an))*/));
+                                A = new PointF((float)((r * Math.Cos(an)) + p3x), (float)((r * Math.Sin(an)) + p3y /*+ 15 * (an / Math.Abs(an))*/));
+
+                                if (a.Destiny.Position.X > a.Origin.Position.X) {
+                                    an = ang + 89.56;
+                                }
+                                else {
+                                    an = ang - 89.56;
+                                }
+
+                                g.DrawBezier(pendi, new PointF(a.Origin.Position.X + (float)((Math.Cos(an)) * (s.Height / 2)), a.Origin.Position.Y + (float)((Math.Sin(an)) * (s.Height / 2))), A, B, new PointF(a.Destiny.Position.X + (float)((Math.Cos(an)) * (s.Height / 2)), a.Destiny.Position.Y + (float)((Math.Sin(an)) * (s.Height / 2))));
+                                a.Painted = true;
+                            }
+                        }
+                        if (graph.EdgesList.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name)return true; else return false; }).Count > 1) {
+                            if ((a.Destiny.Position.Y - a.Origin.Position.Y) != 0) {
+                                g.DrawString(graph.EdgesList.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name)return true; else return false; }).Count.ToString(), new Font("Arial", 10), Brushes.Black, a.Destiny.Position.X, A.Y - 10);
+                            }
+                        }
+                    }
+                }
+
+                if (graph.EdgeNamesVisible) {
+                    g.DrawString(a.Name, new Font("Bold", 10), Brushes.Blue, a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 3) + 4, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) + 1);
+                }
+                if (graph.EdgeWeightVisible) {
+                    if (graph.EdgesList.Find(delegate(Edge bus) { if (bus.Origin.Name == a.Destiny.Name && bus.Destiny.Name == a.Origin.Name)return true; else return false; }) == null) {
+                        g.DrawString(a.Weight.ToString(), new Font("Bold", 10), Brushes.Blue, a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) + 4, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) + 4);
+                    }
+                    else {
+                        g.DrawString(a.Weight.ToString(), new Font("Bold", 10), Brushes.Blue, a.Destiny.Position.X, A.Y - 10);
+                    }
+                }
+
+            }
+        }
+        if (graph.EdgesList != null) {
+            foreach (Edge des in graph.EdgesList) {
+                des.Painted = false;
+            }
+        }
+        if (graph.Count > 0 && graph.NodeRadio != 0) {
+            foreach (NodeP n in graph) {
+                pendi.Width = 3;
+                if (n.Selected == false) {
+                    nod = new SolidBrush(n.Color);
+                }
+                else {
+                    nod = new SolidBrush(Color.Red);
+                }
+
+                Rectangle re = new Rectangle(n.Position.X - (s.Height / 2), n.Position.Y - (s.Height / 2), s.Width, s.Height);
+                g.FillEllipse(nod, re);
+                g.DrawEllipse(pen, re);
+                g.DrawString(n.Name.ToString(), new Font("Bold", graph.NodeRadio / 4), new SolidBrush(graph.NodeBorderColor), (n.Position.X - graph.NodeRadio / 4 + graph.NodeRadio / 12), (n.Position.Y - graph.NodeRadio / 4 + graph.NodeRadio / 12));
+            }
+        }
+        pendi.Dispose();
+        penNdi.Dispose();
+        pen.Dispose();
+    }
 
     #endregion
     #region otrosEventos
@@ -705,10 +819,10 @@ public partial class Editor : Form{
                 nu = null;
             }
         }
-        graph.pinta(graphics);
+        pinta(graphics);
     }
 
-    void time_Tick(object sender, EventArgs e){
+    /*void time_Tick(object sender, EventArgs e){
         b_tck = true;
         accion = 14;
         if (icam < 0){
@@ -721,6 +835,7 @@ public partial class Editor : Form{
 
         this.Form1_Paint(this, null);
     }
+     */
 
     public int componentes(){
         List<List<NodeP>> componentes = new List<List<NodeP>>();
@@ -753,31 +868,75 @@ public partial class Editor : Form{
 
     #endregion
 
+    // Método que activa todos los menús de toolstrip y del menu, cuando hay algo en el editor.
+    public void ActivaMenus() {
+        Guard.Enabled = Guardar.Enabled = true;
+        EliminaNod.Enabled = EliminaNodo.Enabled = true;
+        MueveNod.Enabled = MueveNodo.Enabled = true;
+        AgregaNod.Enabled = AgregaNodo.Enabled = true;
+        if (graph.Count >= 2) {
+            if (graph.EdgesList.Count == 0) {
+                AristaNoDirigida.Enabled = AristaDirigida.Enabled = true;
+                AristaNoDirigid.Enabled = AristaDirigid.Enabled = true;
+            }
+            else {
+                if (graph.EdgesList[0].Type == 1) {
+                    AristaDirigida.Enabled = AristaDirigid.Enabled = true;
+                    AristaNoDirigida.Enabled = AristaNoDirigid.Enabled = false;
+                }
+                else {
+                    AristaNoDirigida.Enabled = AristaNoDirigid.Enabled = true;
+                    AristaDirigida.Enabled = AristaDirigid.Enabled = false;
+                }
+            }
+        }
+
+        if (graph.EdgesList.Count > 0) {
+            EliminaArista.Enabled = EliminaArist.Enabled = true;
+        }
+
+        MueveGraf.Enabled = MueveGrafo.Enabled = true;
+        EliminaGrafo.Enabled = EliminaGraf.Enabled = true;
+        BorraGrafo.Enabled = BorraGraf.Enabled = true;
+        Intercamb.Enabled = Intercambio.Enabled = true;
+        Complemento.Enabled = true;
+    }
+
     // descativa la mayoría de los botones y reinicializa el grafo
     private void DesactivaMenus() {
         AgregaNodo.Enabled = AgregaNod.Enabled = true;
         MueveNodo.Enabled = MueveNod.Enabled = false;
-        AgregaRelacion.Enabled = Dirigida.Enabled = NoDirigida.Enabled = false;
+        AgregaRelacion.Enabled = AristaDirigid.Enabled = AristaNoDirigid.Enabled = false;
         EliminaNodo.Enabled = EliminaNod.Enabled = false;
         MueveGrafo.Enabled = MueveGraf.Enabled = false;
         EliminaArista.Enabled = EliminaArist.Enabled = false;
-        EliminaGrafo.Enabled = EliminaGraf.Enabled = false;
+        EliminaGraf.Enabled = EliminaGrafo.Enabled = false;
         Guardar.Enabled = Guard.Enabled = false;
         NombreAristas.Enabled = PesoAristas.Enabled = false;
-        BorraGrafo.Enabled = BorraGraf.Enabled = false;
+        BorraGraf.Enabled = BorraGrafo.Enabled = false;
         Intercambio.Enabled = Intercamb.Enabled = false;
         Complemento.Enabled = false;
-        NoDirigida.Enabled = Dirigida.Enabled = false;
+        AristaNoDirigid.Enabled = AristaDirigid.Enabled = false;
     }
 
-   
+    public void Uncheck() {
+        AgregaNod.Checked = false;
+        MueveNod.Checked = false;
+        EliminaNod.Checked = false;
+        AristaDirigid.Checked = false;
+        AristaNoDirigid.Checked = false;
+        EliminaArist.Checked = false;
+        MueveGraf.Checked = false;
+        BorraGraf.Checked = false;
+        EliminaGraf.Checked = false;
+    }
 
     // metodo del primer examen parcial
     private void examen_Click(object sender, EventArgs e) {
         EliminaNod.Enabled = EliminaNodo.Enabled = false;
         AgregaNod.Enabled = AgregaNodo.Enabled = false;
         AristaDirigida.Enabled = AristaNoDirigida.Enabled = false;
-        Dirigida.Enabled = NoDirigida.Enabled = false;
+        AristaDirigid.Enabled = AristaNoDirigid.Enabled = false;
         accion = 99;
         diag = new Notas(graph, this);
         diag.Location = new Point(this.ClientSize.Width + this.Left, this.Top);
@@ -787,24 +946,6 @@ public partial class Editor : Form{
         Form1_Paint(this, null);
     }
 
-    // Método que activa todos los menús de toolstrip y del menu, cuando hay algo en el editor.
-    public void ActivaMenus() {
-        Guard.Enabled = Guardar.Enabled = true;
-        EliminaNod.Enabled = EliminaNodo.Enabled = true;
-        MueveNod.Enabled = MueveNodo.Enabled = true;
-        AgregaNod.Enabled = AgregaNodo.Enabled = true;
-        if (graph.Count >= 2) {
-            AristaNoDirigida.Enabled = AristaDirigida.Enabled = true;
-            NoDirigida.Enabled = Dirigida.Enabled = true;
-        }
-  
-        EliminaArista.Enabled = EliminaArist.Enabled = true;
-        MueveGraf.Enabled = MueveGrafo.Enabled = true;
-        EliminaGraf.Enabled = EliminaGrafo.Enabled = true;
-        BorraGraf.Enabled = BorraGrafo.Enabled = true;
-        Intercamb.Enabled = Intercambio.Enabled = true;
-        Complemento.Enabled = true;
-    }
 
     // Método que inserta un grafo KN, el usuario ingresa el numero de nodos a dibujar
     private void InsertaKN(object sender, EventArgs e) {
@@ -827,7 +968,7 @@ public partial class Editor : Form{
                 graph.AddNode(new NodeP(new Point(xx + this.ClientRectangle.Width/2, yy + this.ClientRectangle.Height / 2 + 30), nombre++));
                 deg += ang;
             }
-            graph.Complemento();
+            graph.Complement();
         }
         ActivaMenus();
     }
@@ -877,7 +1018,6 @@ public partial class Editor : Form{
                     }
                 }
                 
-                
                 for (int i = 0; i < grupo.Count; i++) {
                     foreach (NodeP np in graph) {
                         if (grupo[i] == np) {
@@ -919,6 +1059,7 @@ public partial class Editor : Form{
 
     private void mnuBorraGrafo(object sender, EventArgs e) {
         DesactivaMenus();
+        Uncheck();
         graph = new Grafo();
         graphics.Clear(BackColor);
         graph2 = new Grafo();
