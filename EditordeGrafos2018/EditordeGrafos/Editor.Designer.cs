@@ -96,18 +96,23 @@
             this.Intercambio = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.Configuracio = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
-            this.Complemento = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
-            this.examen = new System.Windows.Forms.ToolStripButton();
-            this.insertaKN = new System.Windows.Forms.ToolStripButton();
             this.MenuArista = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.Peso = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.NPartitaa = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.Examen = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator29 = new System.Windows.Forms.ToolStripSeparator();
+            this.inserkn = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator30 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.Complemento = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.MenuArista.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
+            this.toolStrip3.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -124,7 +129,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(784, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "Menu";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // ArchivoToolStripMenuItem
             // 
@@ -320,7 +324,6 @@
             this.BorraGraf.Name = "BorraGraf";
             this.BorraGraf.Size = new System.Drawing.Size(213, 22);
             this.BorraGraf.Text = "Borra Grafo";
-            this.BorraGraf.Click += new System.EventHandler(this.borraTodoToolStripMenuItem_Click);
             // 
             // toolStripSeparator10
             // 
@@ -427,12 +430,7 @@
             this.Intercambio,
             this.toolStripSeparator25,
             this.Configuracio,
-            this.toolStripSeparator26,
-            this.Complemento,
-            this.toolStripSeparator28,
-            this.examen,
-            this.insertaKN,
-            this.NPartitaa});
+            this.toolStripSeparator28});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
@@ -626,7 +624,7 @@
             this.BorraGrafo.Name = "BorraGrafo";
             this.BorraGrafo.Size = new System.Drawing.Size(36, 36);
             this.BorraGrafo.Text = "EliminaGrafo";
-            this.BorraGrafo.Click += new System.EventHandler(this.borraTodoToolStripMenuItem_Click);
+            this.BorraGrafo.Click += new System.EventHandler(this.mnuBorraGrafo);
             // 
             // toolStripButton6
             // 
@@ -665,46 +663,10 @@
             this.Configuracio.Text = "Configuración";
             this.Configuracio.Click += new System.EventHandler(this.mnuConfigNodAri_Click);
             // 
-            // toolStripSeparator26
-            // 
-            this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(6, 39);
-            // 
-            // Complemento
-            // 
-            this.Complemento.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Complemento.Image = ((System.Drawing.Image)(resources.GetObject("Complemento.Image")));
-            this.Complemento.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.Complemento.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Complemento.Name = "Complemento";
-            this.Complemento.Size = new System.Drawing.Size(36, 36);
-            this.Complemento.Text = "Complemento";
-            this.Complemento.Click += new System.EventHandler(this.mnuComplemento);
-            // 
             // toolStripSeparator28
             // 
             this.toolStripSeparator28.Name = "toolStripSeparator28";
             this.toolStripSeparator28.Size = new System.Drawing.Size(6, 39);
-            // 
-            // examen
-            // 
-            this.examen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.examen.Image = ((System.Drawing.Image)(resources.GetObject("examen.Image")));
-            this.examen.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.examen.Name = "examen";
-            this.examen.Size = new System.Drawing.Size(23, 36);
-            this.examen.Text = "Examen";
-            this.examen.Click += new System.EventHandler(this.examen_Click);
-            // 
-            // insertaKN
-            // 
-            this.insertaKN.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.insertaKN.Image = ((System.Drawing.Image)(resources.GetObject("insertaKN.Image")));
-            this.insertaKN.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.insertaKN.Name = "insertaKN";
-            this.insertaKN.Size = new System.Drawing.Size(23, 36);
-            this.insertaKN.Text = "Inserta KN";
-            this.insertaKN.Click += new System.EventHandler(this.InsertaKN);
             // 
             // MenuArista
             // 
@@ -727,15 +689,92 @@
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
             // 
-            // NPartitaa
+            // toolStrip2
             // 
-            this.NPartitaa.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.NPartitaa.Image = ((System.Drawing.Image)(resources.GetObject("NPartitaa.Image")));
-            this.NPartitaa.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.NPartitaa.Name = "NPartitaa";
-            this.NPartitaa.Size = new System.Drawing.Size(23, 36);
-            this.NPartitaa.Text = "N Partita";
-            this.NPartitaa.Click += new System.EventHandler(this.NPartita);
+            this.toolStrip2.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.toolStrip2.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Examen,
+            this.toolStripSeparator29,
+            this.inserkn,
+            this.toolStripSeparator30,
+            this.toolStripButton3});
+            this.toolStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.toolStrip2.Location = new System.Drawing.Point(0, 63);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(38, 140);
+            this.toolStrip2.TabIndex = 2;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // Examen
+            // 
+            this.Examen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Examen.Image = ((System.Drawing.Image)(resources.GetObject("Examen.Image")));
+            this.Examen.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.Examen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Examen.Name = "Examen";
+            this.Examen.Padding = new System.Windows.Forms.Padding(0, 0, 1, 0);
+            this.Examen.Size = new System.Drawing.Size(36, 36);
+            this.Examen.Text = "Examen Parcial 2";
+            this.Examen.Click += new System.EventHandler(this.examen_Click);
+            // 
+            // toolStripSeparator29
+            // 
+            this.toolStripSeparator29.Name = "toolStripSeparator29";
+            this.toolStripSeparator29.Size = new System.Drawing.Size(36, 6);
+            // 
+            // inserkn
+            // 
+            this.inserkn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.inserkn.Image = ((System.Drawing.Image)(resources.GetObject("inserkn.Image")));
+            this.inserkn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.inserkn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.inserkn.Name = "inserkn";
+            this.inserkn.Size = new System.Drawing.Size(36, 36);
+            this.inserkn.Text = "Inserta KN";
+            this.inserkn.Click += new System.EventHandler(this.InsertaKN);
+            // 
+            // toolStripSeparator30
+            // 
+            this.toolStripSeparator30.Name = "toolStripSeparator30";
+            this.toolStripSeparator30.Size = new System.Drawing.Size(36, 6);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(36, 36);
+            this.toolStripButton3.Text = "N Partita";
+            this.toolStripButton3.Click += new System.EventHandler(this.NPartita);
+            // 
+            // toolStrip3
+            // 
+            this.toolStrip3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolStrip3.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Complemento});
+            this.toolStrip3.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.toolStrip3.Location = new System.Drawing.Point(1, 203);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Size = new System.Drawing.Size(37, 50);
+            this.toolStrip3.TabIndex = 3;
+            this.toolStrip3.Text = "toolStrip3";
+            // 
+            // Complemento
+            // 
+            this.Complemento.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Complemento.Image = ((System.Drawing.Image)(resources.GetObject("Complemento.Image")));
+            this.Complemento.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.Complemento.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Complemento.Name = "Complemento";
+            this.Complemento.Size = new System.Drawing.Size(35, 36);
+            this.Complemento.Text = "Complemento";
+            this.Complemento.Click += new System.EventHandler(this.mnuComplemento);
             // 
             // Editor
             // 
@@ -744,6 +783,8 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(784, 493);
+            this.Controls.Add(this.toolStrip3);
+            this.Controls.Add(this.toolStrip2);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
@@ -763,6 +804,10 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.MenuArista.ResumeLayout(false);
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
+            this.toolStrip3.ResumeLayout(false);
+            this.toolStrip3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -814,7 +859,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripButton6;
         private System.Windows.Forms.ToolStripButton Configuracio;
         private System.Windows.Forms.ToolStripButton Intercambio;
-        private System.Windows.Forms.ToolStripButton Complemento;
         private System.Windows.Forms.ToolStripMenuItem BorraGraf;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
@@ -838,13 +882,17 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator27;
         private System.Windows.Forms.ToolStripButton BorraGrafo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
-        private System.Windows.Forms.ToolStripButton examen;
-        private System.Windows.Forms.ToolStripButton insertaKN;
-        private System.Windows.Forms.ToolStripButton NPartitaa;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton Examen;
+        private System.Windows.Forms.ToolStripButton inserkn;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator29;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
+        private System.Windows.Forms.ToolStrip toolStrip3;
+        private System.Windows.Forms.ToolStripButton Complemento;
     }
 }
 

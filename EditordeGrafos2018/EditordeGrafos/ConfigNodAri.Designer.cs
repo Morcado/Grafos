@@ -273,6 +273,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ConfigNodAri";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configuración";
             this.Load += new System.EventHandler(this.ConfigNodAri_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ConfigNodAri_Paint);

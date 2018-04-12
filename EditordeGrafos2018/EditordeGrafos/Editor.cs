@@ -42,12 +42,10 @@ public partial class Editor : Form{
         set { accion = value; }
     }
     
-
     private void Form1_Load(object sender, EventArgs e){
 
         this.BackColor = Color.White;
         b_cam = false;
-        
         icam = 0;
         numero = 0;
         b_tck = false;
@@ -62,28 +60,15 @@ public partial class Editor : Form{
         file = new BinaryFormatter();
         graph = new Grafo();
 
-        AgregaNodo.Enabled = AgregaNod.Enabled = true; 
-        MueveNodo.Enabled = MueveNod.Enabled = false;
-        AgregaRelacion.Enabled = Dirigida.Enabled = NoDirigida.Enabled = false;
-        EliminaNodo.Enabled = EliminaNod.Enabled = false;
-        MueveGrafo.Enabled = MueveGraf.Enabled = false;
-        EliminaArista.Enabled = EliminaArist.Enabled = false;
-        EliminaGrafo.Enabled = EliminaGraf.Enabled = false;
-        Guardar.Enabled = Guard.Enabled = false;
-        NombreAristas.Enabled = PesoAristas.Enabled = false;
-        BorraGrafo.Enabled = BorraGraf.Enabled = false;
-        Intercambio.Enabled = Intercamb.Enabled = false;
-        Complemento.Enabled = false;
-        //Complemento.Enabled = false;
-        //PropiedadesGraf.Enabled = false;
+        DesactivaMenus();
+
         band = false;
-        //Intercambio.Enabled = true;
         accion = 0;
-        //gactivo = false;
+
         pt2 = new Point();
         nombre = 'A';
         time = new Timer();
-        //Intercambio.Enabled = false;
+ 
         time.Tick += time_Tick;
     }       
 
@@ -222,10 +207,13 @@ public partial class Editor : Form{
                 nu = (NodeP)graph.Find(delegate(NodeP a) { if (e.Location.X > a.Position.X - graph.NodeRadio / 2 && e.Location.X < a.Position.X + graph.NodeRadio && e.Location.Y > a.Position.Y - graph.NodeRadio / 2&& e.Location.Y < a.Position.Y + graph.NodeRadio)return true; else return false; });
                 if (nu != null){
                     graph.RemoveNode(nu);
-                    band = true;
+                    if (graph.Count < 2) {
+                        AristaNoDirigida.Enabled = AristaDirigida.Enabled = false;
+                        NoDirigida.Enabled = Dirigida.Enabled = false;
+                    }
                     if (graph.Count == 0){
                         nombre = 'A';
-                        //gactivo = false;
+                        DesactivaMenus();
                     }
                     Form1_Paint(this, null);
                     band = false;
@@ -246,27 +234,6 @@ public partial class Editor : Form{
 
     #endregion
     #region menus
-
-    private void mnuNuevo_Click(object sender, EventArgs e) {
-        band = false;
-        //Intercambio.Enabled = false;
-  
-
-        BackColor = Color.White;
-        graphics.Clear(BackColor);
-        AgregaNod.Enabled = true;
-        MueveNodo.Enabled = MueveNod.Enabled = false;
-        AgregaRelacion.Enabled = Dirigida.Enabled = NoDirigida.Enabled = false;
-        EliminaNodo.Enabled = EliminaNod.Enabled = false;
-        MueveGrafo.Enabled = MueveGraf.Enabled = false;
-        AristaNoDirigida.Enabled = true;
-        AristaDirigida.Enabled = true;
-        EliminaArista.Enabled = EliminaArist.Enabled = false;
-        graph2 = new Grafo();
-        //PropiedadesGraf.Enabled = false;
-        graph = new Grafo();
-        nombre = 'A';
-    }
 
     private void mnuAbrir_Click(object sender, EventArgs e) {
 
@@ -290,9 +257,7 @@ public partial class Editor : Form{
             }
 
             graph2 = new Grafo();
-            AgregaRelacion.Enabled = Dirigida.Enabled = NoDirigida.Enabled = true;
-            AgregaNod.Enabled = true;
-            //Intercambio.Enabled = true;
+            ActivaMenus();
 
             if (graph.EdgesList != null && graph.EdgesList.Count > 0 && graph.EdgesList[0].Type == 1) {
                 AristaDirigida.Enabled = Dirigida.Enabled = true;
@@ -303,22 +268,11 @@ public partial class Editor : Form{
                 AristaDirigida.Enabled = Dirigida.Enabled = false;
             }
 
-            MueveGrafo.Enabled = MueveGraf.Enabled = true;
-            MueveNodo.Enabled = MueveNod.Enabled = true;
-            EliminaNodo.Enabled = EliminaNod.Enabled = true;
-            EliminaArista.Enabled = EliminaArist.Enabled = true;
-
             accion = 0;
-            AgregaNod.Checked = AgregaNodo.Checked = true;
-            MueveNod.Checked = MueveNodo.Checked = false;
-            MueveGrafo.Checked = MueveGraf.Checked = false;
-            EliminaNodo.Checked = EliminaNod.Checked = false;
-            EliminaArista.Checked = EliminaArist.Checked = false;
-            //PropiedadesGraf.Enabled = true;
             graph.Deselect();
             nombre = 'A';
-
-            for (int nn = 0; nn < graph.Count; nn++) {
+            // avanza el nombre hasta el ultimo que habia
+            for (int i = 0; i < graph.Count; i++) {
                 nombre++;
             }
         }
@@ -374,24 +328,9 @@ public partial class Editor : Form{
         }
     }
 
-    private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
-        switch (e.ClickedItem.Name) {
-                
-            case "Salir":
-                System.Windows.Forms.Application.Exit();
-                break;
-        }
-    }
-
     private void mnuAgregaNod_Click(object sender, EventArgs e) {
         pt2 = new Point();
         accion = 1;
-        AgregaNod.Checked = AgregaNodo.Checked = true;
-        MueveNod.Checked = MueveNodo.Checked = false;
-        MueveGrafo.Checked = MueveGraf.Checked = false;
-        EliminaNodo.Checked = EliminaNod.Checked = false;
-        EliminaArista.Checked = EliminaArist.Checked = false;
-
         graph.Deselect();
     }
 
@@ -598,26 +537,17 @@ public partial class Editor : Form{
                         nu.Name = numero.ToString();
                         numero++;
                     }
-                    if(graph.Count == 0){
-                        Dirigida.Enabled = NoDirigida.Enabled = true;
-                    }
+
+
                     if(graph.Count > 1){
                         nu.Color = graph[0].Color;
                     }
                     graph.AddNode(nu);
-                    AgregaRelacion.Enabled= true;
-                       
-                    MueveGrafo.Enabled = MueveGraf.Enabled = true;
-                    MueveNodo.Enabled=MueveNod.Enabled = true;
-                    EliminaNodo.Enabled=EliminaNod.Enabled = true;
-                    EliminaArista.Enabled = EliminaArist.Enabled = true;
-                    EliminaGrafo.Enabled = EliminaGraf.Enabled = true;
-                    Guardar.Enabled = Guard.Enabled = true;
-                    NombreAristas.Enabled = PesoAristas.Enabled = true;
-                    BorraGrafo.Enabled = BorraGraf.Enabled = true;
-                    Intercambio.Enabled = Intercamb.Enabled = true;
-                    Complemento.Enabled = true;
-                    //gactivo = true;
+
+                    ActivaMenus();
+                    if (graph.Count < 2) {
+                  
+                    }
                     nu = null;          
                     break;
                 case 2:
@@ -823,7 +753,8 @@ public partial class Editor : Form{
 
     #endregion
 
-    private void borraTodoToolStripMenuItem_Click(object sender, EventArgs e) {
+    // descativa la mayoría de los botones y reinicializa el grafo
+    private void DesactivaMenus() {
         AgregaNodo.Enabled = AgregaNod.Enabled = true;
         MueveNodo.Enabled = MueveNod.Enabled = false;
         AgregaRelacion.Enabled = Dirigida.Enabled = NoDirigida.Enabled = false;
@@ -836,12 +767,12 @@ public partial class Editor : Form{
         BorraGrafo.Enabled = BorraGraf.Enabled = false;
         Intercambio.Enabled = Intercamb.Enabled = false;
         Complemento.Enabled = false;
-        graph = new Grafo();
-        graphics.Clear(BackColor);
-        graph2 = new Grafo();
-        nombre = 'A';
+        NoDirigida.Enabled = Dirigida.Enabled = false;
     }
 
+   
+
+    // metodo del primer examen parcial
     private void examen_Click(object sender, EventArgs e) {
         EliminaNod.Enabled = EliminaNodo.Enabled = false;
         AgregaNod.Enabled = AgregaNodo.Enabled = false;
@@ -852,28 +783,42 @@ public partial class Editor : Form{
         diag.Location = new Point(this.ClientSize.Width + this.Left, this.Top);
         diag.TopMost = true;
         diag.Show();
-            
-        
+
         Form1_Paint(this, null);
     }
 
+    // Método que activa todos los menús de toolstrip y del menu, cuando hay algo en el editor.
     public void ActivaMenus() {
+        Guard.Enabled = Guardar.Enabled = true;
         EliminaNod.Enabled = EliminaNodo.Enabled = true;
+        MueveNod.Enabled = MueveNodo.Enabled = true;
         AgregaNod.Enabled = AgregaNodo.Enabled = true;
-        AristaNoDirigida.Enabled = AristaDirigida.Enabled = true;
-        Dirigida.Enabled = NoDirigida.Enabled = true;
+        if (graph.Count >= 2) {
+            AristaNoDirigida.Enabled = AristaDirigida.Enabled = true;
+            NoDirigida.Enabled = Dirigida.Enabled = true;
+        }
+  
+        EliminaArista.Enabled = EliminaArist.Enabled = true;
+        MueveGraf.Enabled = MueveGrafo.Enabled = true;
+        EliminaGraf.Enabled = EliminaGrafo.Enabled = true;
+        BorraGraf.Enabled = BorraGrafo.Enabled = true;
+        Intercamb.Enabled = Intercambio.Enabled = true;
+        Complemento.Enabled = true;
     }
 
-
+    // Método que inserta un grafo KN, el usuario ingresa el numero de nodos a dibujar
     private void InsertaKN(object sender, EventArgs e) {
         Plantilla p = new Plantilla();
         double x, y;
         int deg = 0, ang = 0, dist = this.ClientRectangle.Height / 2 - 50;
         nombre = 'A';
         p.ShowDialog();
+        // El dialogo recoge el número de nodos para dibujar el KN
         if (p.DialogResult == DialogResult.OK) {
             ang = 360 / p.N;
             this.mnuBorraGrafo_Click(this, null);
+            /* Este ciclo va aumentando las coordenadas de x y y usando trigonometria para la nueva posicion del siguiente nodo
+            Va agregando los nodos en sentido horario o antihorario */
             for (int i = 0; i < p.N; i++) {
                 x = dist * Math.Cos(Math.PI * deg / 180);
                 y = dist * Math.Sin(Math.PI * deg / 180);
@@ -884,30 +829,55 @@ public partial class Editor : Form{
             }
             graph.Complemento();
         }
+        ActivaMenus();
     }
 
+    // funcion que divide el grafo en n partitas
     private void NPartita(object sender, EventArgs e) {
         List<NodeP> grupo = new List<NodeP>();
         List<List<NodeP>> grupos = new List<List<NodeP>>();
-        Random r = new Random();
-
+        //Random r = new Random();
+        int r = 30, g = 30, b = 30, c = 0;
         graph.Desel();
 
         if(graph.Count > 0) {
             grupo.Add(graph[0]);
+            // añade el primer nodo al grupo por defecto
             graph[0].Vis = true;
+
+            // checa todos los nodos para saber cuáles no se relacionan con el grafo y los agrega al grupo actual
             foreach (NodeP n1 in graph) {
                 foreach (NodeP n2 in graph) {
                     if (n1 != n2 && !n2.Vis && !nodoDentroGrupo(grupo, n2) && !aristaDentroGrupo(grupo, n2)){
-                        Console.WriteLine("Se agrega " + n2.Name + " al grupo " + grupos.Count);
+                        //Console.WriteLine("Se agrega " + n2.Name + " al grupo " + grupos.Count);
                         grupo.Add(n2);
                         n2.Vis = true;
                     }
                 }
                 grupos.Add(grupo); 
 
-                Color col = Color.FromArgb(r.Next(255), r.Next(255), r.Next(255));
+                // Colorea los nodos de colores aleatorios
+                Color col = Color.FromArgb(r, g, b);
+                if (c == 0) {
+                    r = (r < 255) ? (r + 70) : (30);
 
+                    c++;
+                }
+                else {
+                    if (c == 1) {
+                        g = (g < 255) ? (g + 70) : (30);
+
+                        c++;
+                    }
+                    else {
+                        if (c == 2) {
+                            b = (b < 255) ? (b + 70) : (30);
+                            c = 0;
+                        }
+                    }
+                }
+                
+                
                 for (int i = 0; i < grupo.Count; i++) {
                     foreach (NodeP np in graph) {
                         if (grupo[i] == np) {
@@ -917,12 +887,15 @@ public partial class Editor : Form{
                 }
                     
                 grupo.Clear();
+                
             }
+            ActivaMenus();
         }
-
+      
        
     }
 
+    // regresa true si hay un nodo que pertenece a un grupo de nodos, pertenece al metodo n partita
     private bool nodoDentroGrupo(List<NodeP> g1, NodeP nn) {
         foreach (NodeP ng in g1) {
             if (ng.Name == nn.Name) {
@@ -932,6 +905,7 @@ public partial class Editor : Form{
         return false;
     }
 
+    // Regresa true si hay una arista que pertenece a un grupo de nodos, pertenece al metodo n partita
     private bool aristaDentroGrupo(List<NodeP> g1, NodeP nn) {
         foreach (NodeP ng in g1) {
             foreach (Edge ed in graph.EdgesList) {
@@ -941,6 +915,14 @@ public partial class Editor : Form{
             }
         }
         return false;
+    }
+
+    private void mnuBorraGrafo(object sender, EventArgs e) {
+        DesactivaMenus();
+        graph = new Grafo();
+        graphics.Clear(BackColor);
+        graph2 = new Grafo();
+        nombre = 'A';
     }
 }
 }
