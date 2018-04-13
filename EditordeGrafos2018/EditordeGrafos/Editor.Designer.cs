@@ -108,6 +108,8 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.Complemento = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.MenuArista.SuspendLayout();
@@ -698,9 +700,11 @@
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Examen,
-            this.toolStripSeparator29,
-            this.inserkn,
             this.toolStripSeparator30,
+            this.inserkn,
+            this.toolStripSeparator29,
+            this.toolStripButton2,
+            this.toolStripSeparator26,
             this.toolStripButton3});
             this.toolStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.toolStrip2.Location = new System.Drawing.Point(0, 63);
@@ -735,7 +739,7 @@
             this.inserkn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.inserkn.Name = "inserkn";
             this.inserkn.Size = new System.Drawing.Size(36, 36);
-            this.inserkn.Text = "Inserta KN";
+            this.inserkn.Text = "Inserta grafo regular";
             this.inserkn.Click += new System.EventHandler(this.InsertaPlantilla);
             // 
             // toolStripSeparator30
@@ -762,9 +766,10 @@
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Complemento});
             this.toolStrip3.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.toolStrip3.Location = new System.Drawing.Point(747, 63);
+            this.toolStrip3.Location = new System.Drawing.Point(748, 63);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(37, 430);
+            this.toolStrip3.Padding = new System.Windows.Forms.Padding(0);
+            this.toolStrip3.Size = new System.Drawing.Size(36, 430);
             this.toolStrip3.TabIndex = 3;
             this.toolStrip3.Text = "toolStrip3";
             // 
@@ -778,6 +783,21 @@
             this.Complemento.Size = new System.Drawing.Size(34, 36);
             this.Complemento.Text = "Complemento";
             this.Complemento.Click += new System.EventHandler(this.mnuComplemento);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(36, 36);
+            this.toolStripButton2.Text = "Inserta grafo";
+            // 
+            // toolStripSeparator26
+            // 
+            this.toolStripSeparator26.Name = "toolStripSeparator26";
+            this.toolStripSeparator26.Size = new System.Drawing.Size(36, 6);
             // 
             // Editor
             // 
@@ -896,6 +916,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripButton Complemento;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
     }
 }
 

@@ -58,6 +58,12 @@
     <Compile Include="ConfigNodAri.Designer.cs">
       <DependentUpon>ConfigNodAri.cs</DependentUpon>
     </Compile>
+    <Compile Include="DefaultGraph.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DefaultGraph.Designer.cs">
+      <DependentUpon>DefaultGraph.cs</DependentUpon>
+    </Compile>
     <Compile Include="Notas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +87,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DefaultGraph.resx">
+      <DependentUpon>DefaultGraph.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>

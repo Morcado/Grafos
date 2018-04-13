@@ -1044,8 +1044,8 @@ public partial class Editor : Form{
     private void NPartita(object sender, EventArgs e) {
         List<NodeP> grupo = new List<NodeP>();
         List<List<NodeP>> grupos = new List<List<NodeP>>();
-        //Random r = new Random();
-        int r = 30, g = 30, b = 30, c = 0;
+        Random ra = new Random();
+        int r = 30, g = 30, b = 30, c = 0, ant = 0;
         graph.Desel();
 
         if(graph.Count > 0) {
@@ -1065,26 +1065,36 @@ public partial class Editor : Form{
                 grupos.Add(grupo); 
 
                 // Colorea los nodos de colores aleatorios
-                Color col = Color.FromArgb(r, g, b);
-                if (c == 0) {
-                    r = (r < 255) ? (r + 70) : (30);
 
-                    c++;
+                while (ant == c) {
+                    c = ra.Next(3);
+                }
+                if (c == 0) {
+                    r += 90;
+                    if (Math.Abs(r - b) < 20 || Math.Abs(r - g) < 20) {
+                        r += 50;
+                    }
                 }
                 else {
                     if (c == 1) {
-                        g = (g < 255) ? (g + 70) : (30);
-
-                        c++;
+                        g += 90;
+                        if (Math.Abs(g - b) < 20 || Math.Abs(g - r) < 20) {
+                            g += 50;
+                        }
                     }
                     else {
                         if (c == 2) {
-                            b = (b < 255) ? (b + 70) : (30);
-                            c = 0;
+                            b += 90;
+                            if (Math.Abs(b - r) < 20 || Math.Abs(b - g) < 20) {
+                                b += 50;
+                            }
                         }
                     }
                 }
-                
+                ant = c;
+
+                Color col = Color.FromArgb((r >= 255) ? (r -= 255) : (r), (g >= 255) ? (g -= 255) : (g), (b >= 255) ? (b -= 255) : (b));
+
                 for (int i = 0; i < grupo.Count; i++) {
                     foreach (NodeP np in graph) {
                         if (grupo[i] == np) {
@@ -1132,7 +1142,6 @@ public partial class Editor : Form{
         graph2 = new Grafo();
         nombre = 'A';
     }
-
 
 }
 }

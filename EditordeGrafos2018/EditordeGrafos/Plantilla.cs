@@ -26,7 +26,6 @@ namespace EditordeGrafos {
         public Plantilla() {
             InitializeComponent();
             n = 3;
-            KeyPreview = true;
         }
 
         private void Plantilla_Load(object sender, EventArgs e) {
@@ -43,10 +42,9 @@ namespace EditordeGrafos {
             Close();
         }
 
-        private void Plantilla_KeyDown(object sender, KeyEventArgs e) {
-            if (e.KeyData == Keys.Enter) {
-                button1_Click(this, null);
-            }
+        private void button2_Click(object sender, EventArgs e) {
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
 
     }

@@ -261,3 +261,4 @@ C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\Edit
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Editor.resources
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.GraphProperties.resources
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Plantilla.resources
+C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.DefaultGraph.resources
