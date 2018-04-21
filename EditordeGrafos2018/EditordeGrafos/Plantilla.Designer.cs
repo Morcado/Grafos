@@ -119,7 +119,7 @@
             this.Name = "Plantilla";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Inserta grafo";
+            this.Text = "Inserta grafo regular";
             this.Load += new System.EventHandler(this.Plantilla_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);

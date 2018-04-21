@@ -10,15 +10,15 @@ using System.Windows.Forms;
 
 namespace EditordeGrafos{
     public partial class GraphProperties : Form{
-        Grafo grafo;
+        Graph grafo;
         Graphics g;
         int tipo;
         private bool band;
         private int accion;
 
-        public GraphProperties(Grafo gra, int tip){
+        public GraphProperties(Graph gra, int tip){
             tipo=tip;
-            grafo = new Grafo();
+            grafo = new Graph();
             bool enco=false;
 
             InitializeComponent();

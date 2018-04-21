@@ -26,6 +26,7 @@ namespace EditordeGrafos {
         public Plantilla() {
             InitializeComponent();
             n = 3;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void Plantilla_Load(object sender, EventArgs e) {

@@ -100,3 +100,20 @@ Fecha: 16 de marzo 2018
 Fecha: 9 abril 2018
     Se agrega KN
     Se agrega grafo npartita y lo dibuja de colores de acuerdo al n partita que tenga
+--------------------------------------------------------------------------------
+Fehca: 13 abril 2018
+    EXAMEN
+    Se agregan los corolarios uno y dos de los grafps planos
+    Se agrega un metodo que revisa si un grafo es homeomorfico a k5 o a k3,3
+    Arlgoritmo para revisar si existe un ciclo de grado 3 dentro del grafo
+--------------------------------------------------------------------------------
+fecha: 19 de abril 2018
+    Se agregan los grafos especiales
+    Se agrega Wn, Cn
+    Se acomodan las acciones en diferentes toolbars
+    Se Mejora la interfaz
+        -Se agrega el atributo Checked a una herramienta seleccionada
+        -Se agregan validaciones a las aristas dirigidas y no dirigidas
+            -Solo se puede agregar una arista si hay dos nodos o más
+            -No se puede eliminar arista si no hay
+        -Se descativan los botones cuandno no hay nodos y se activan cuando si hay nodos

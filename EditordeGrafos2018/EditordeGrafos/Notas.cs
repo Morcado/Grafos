@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace EditordeGrafos {
     public partial class Notas : Form {
-        private Grafo gra;
+        private Graph gra;
         private List<NodeP> listaCabezas;
         private List<string> nodos;
         private Editor editor;
 
-        public Notas(Grafo grafo, Editor editor) {
+        public Notas(Graph grafo, Editor editor) {
             InitializeComponent();
             this.editor = editor;
             this.gra = grafo;
@@ -116,7 +116,7 @@ namespace EditordeGrafos {
             this.Dispose();
         }
 
-        public void actualiza(Grafo grafo) {
+        public void actualiza(Graph grafo) {
             this.gra = grafo;
             cargaNodos();
         }

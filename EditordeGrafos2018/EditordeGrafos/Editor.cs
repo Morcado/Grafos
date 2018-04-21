@@ -22,7 +22,7 @@ public partial class Editor : Form{
     private BinaryFormatter file;
     private Bitmap bmp1; 
     private Color resp;
-    private Grafo graph2;
+    private Graph graph2;
     private Rectangle nRec;
 
     private Graphics graphics;
@@ -34,7 +34,7 @@ public partial class Editor : Form{
     private Point pt2;
     private Timer time;
     private Notas diag;
-    private Grafo graph;
+    private Graph graph;
     private int accion;
 
     public int Accion {
@@ -51,13 +51,13 @@ public partial class Editor : Form{
         b_tck = false;
         CCE = new List<NodeP>();
         resp = Color.White;
-        graph2 = new Grafo();
+        graph2 = new Graph();
         ed = new Edge();
         fl = new Pen(Brushes.Green);
         bmp1 = new Bitmap(800,600);
         graphics = CreateGraphics();
         file = new BinaryFormatter();
-        graph = new Grafo();
+        graph = new Graph();
 
         DesactivaMenus();
 
@@ -250,7 +250,7 @@ public partial class Editor : Form{
             try {
                 using (Stream stream = File.Open(namefile, FileMode.Open)) {
                     BinaryFormatter bin = new BinaryFormatter();
-                    graph = (Grafo)bin.Deserialize(stream);
+                    graph = (Graph)bin.Deserialize(stream);
                     pinta(graphics);
                 }
             }
@@ -258,7 +258,7 @@ public partial class Editor : Form{
                 MessageBox.Show(exe.ToString());
             }
 
-            graph2 = new Grafo();
+            graph2 = new Graph();
             ActivaMenus();
 
             if (graph.EdgesList != null && graph.EdgesList.Count > 0 && graph.EdgesList[0].Type == 1) {
@@ -309,9 +309,9 @@ public partial class Editor : Form{
         int ew = graph.EdgeWidth;
         bool env = graph.EdgeNamesVisible;
         bool ewv = graph.EdgeWeightVisible;
-        graph = new Grafo();
+        graph = new Graph();
         graphics.Clear(BackColor);
-        graph2 = new Grafo();
+        graph2 = new Graph();
         nombre = 'A';
         graph.NodeRadio = r;
         graph.NodeColor = nc;
@@ -376,18 +376,19 @@ public partial class Editor : Form{
         Form1_Paint(this, null);
     }
 
-    private void mnuIntercamb_Click(object sender, EventArgs e) {
+    private void mnuIntercamb_Click() {
         int cont = 0;
         char name = 'A';
-        bool num;
+        bool num = graph.Letter;
         int aux;
-        if ((int.TryParse(graph[0].Name.ToString(), out aux)) == true) {
-            num = true;
-        }
-        else {
-            num = false;
-        }
-
+        
+        //if ((int.TryParse(graph[0].Name.ToString(), out aux)) == true) {
+        //    num = true;
+        //}
+        //else {
+        //    num = false;
+        //}
+        
         if (num == true) {
             foreach (NodeP cambio in graph) {
                 cambio.Name = name.ToString();
@@ -449,6 +450,8 @@ public partial class Editor : Form{
                 foreach (NodeP colNodo in graph) {
                     colNodo.Color = f2.ColNodo;
                 }
+                graph.Letter = f2.Letra;
+                mnuIntercamb_Click();
                 graph.NodeRadio = f2.Radio;
                 graph.NodeColor = f2.ColNodo;
                 graph.EdgeColor = f2.ColArista;
@@ -531,7 +534,7 @@ public partial class Editor : Form{
                     pt1 = pt2;                        
                     break;
                 case 5:
-                    Grafo aux = new Grafo();
+                    Graph aux = new Graph();
                     aux = graph;
                     break;
                 case 6: // elimina arista
@@ -577,7 +580,7 @@ public partial class Editor : Form{
                     o = d = null;
                     if(b_cam == true){
                         ari = new Edge(); ;
-                        graph = new Grafo(graph2);
+                        graph = new Graph(graph2);
                         graph.EdgesList.Clear();
                         foreach (NodeP rel in graph)
                         {
@@ -853,7 +856,7 @@ public partial class Editor : Form{
     public int componentes(){
         List<List<NodeP>> componentes = new List<List<NodeP>>();
         List<NodeP> nue = new List<NodeP>();
-        Grafo aux = new Grafo(graph);
+        Graph aux = new Graph(graph);
         bool enco = false;
 
         foreach(NodeP nod in graph){
@@ -911,8 +914,8 @@ public partial class Editor : Form{
         MueveGraf.Enabled = MueveGrafo.Enabled = true;
         EliminaGrafo.Enabled = EliminaGraf.Enabled = true;
         BorraGrafo.Enabled = BorraGraf.Enabled = true;
-        Intercamb.Enabled = Intercambio.Enabled = true;
-        Complemento.Enabled = true;
+        Intercamb.Enabled = true;
+        
     }
 
     // descativa la mayoría de los botones y reinicializa el grafo
@@ -927,8 +930,8 @@ public partial class Editor : Form{
         Guardar.Enabled = Guard.Enabled = false;
         NombreAristas.Enabled = PesoAristas.Enabled = false;
         BorraGraf.Enabled = BorraGrafo.Enabled = false;
-        Intercambio.Enabled = Intercamb.Enabled = false;
-        Complemento.Enabled = false;
+        Intercamb.Enabled = false;
+
         AristaNoDirigid.Enabled = AristaDirigid.Enabled = false;
     }
 
@@ -959,6 +962,61 @@ public partial class Editor : Form{
         Form1_Paint(this, null);
     }
 
+    private void grafEspecial_Click(object sender, EventArgs e) {
+        SpecialGraph sg = new SpecialGraph();
+        sg.ShowDialog();
+        if (sg.DialogResult == DialogResult.OK) {
+            switch (sg.Type) {
+                case 1:
+                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/petersen.grafo");
+                    break;
+                case 2:
+                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/dodecahedro.grafo");
+                    break;
+                case 3:
+                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/cimitarra.grafo");
+                    break;
+                case 4:
+                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/k33.grafo");
+                    break;
+            }
+        }
+    }
+
+    private void OpenSpecialGraph(string name) {
+            
+        try {
+            using (Stream stream = File.Open(name, FileMode.Open)) {
+                BinaryFormatter bin = new BinaryFormatter();
+                graph = (Graph)bin.Deserialize(stream);
+                pinta(graphics);
+            }
+        }
+        catch (IOException exe) {
+            MessageBox.Show(exe.ToString());
+        }
+
+        graph2 = new Graph();
+        ActivaMenus();
+
+        if (graph.EdgesList != null && graph.EdgesList.Count > 0 && graph.EdgesList[0].Type == 1) {
+            AristaDirigida.Enabled = AristaDirigid.Enabled = true;
+            AristaNoDirigida.Enabled = AristaNoDirigid.Enabled = false;
+        }
+        else {
+            AristaNoDirigida.Enabled = AristaNoDirigid.Enabled = true;
+            AristaDirigida.Enabled = AristaDirigid.Enabled = false;
+        }
+
+        accion = 0;
+        graph.Deselect();
+        nombre = 'A';
+        // avanza el nombre hasta el ultimo que habia
+        for (int i = 0; i < graph.Count; i++) {
+            nombre++;
+        }
+        
+    }
 
     private void InsertaPlantilla(object sender, EventArgs e) {
         Plantilla p = new Plantilla();   
@@ -1039,16 +1097,19 @@ public partial class Editor : Form{
         graph.Complement();
     }
 
-
     // funcion que divide el grafo en n partitas
     private void NPartita(object sender, EventArgs e) {
+        genPartita();
+    }
+
+    private int genPartita() {
         List<NodeP> grupo = new List<NodeP>();
         List<List<NodeP>> grupos = new List<List<NodeP>>();
         Random ra = new Random();
         int r = 30, g = 30, b = 30, c = 0, ant = 0;
         graph.Desel();
 
-        if(graph.Count > 0) {
+        if (graph.Count > 0) {
             grupo.Add(graph[0]);
             // añade el primer nodo al grupo por defecto
             graph[0].Vis = true;
@@ -1056,13 +1117,13 @@ public partial class Editor : Form{
             // checa todos los nodos para saber cuáles no se relacionan con el grafo y los agrega al grupo actual
             foreach (NodeP n1 in graph) {
                 foreach (NodeP n2 in graph) {
-                    if (n1 != n2 && !n2.Vis && !nodoDentroGrupo(grupo, n2) && !aristaDentroGrupo(grupo, n2)){
+                    if (n1 != n2 && !n2.Vis && !nodoDentroGrupo(grupo, n2) && !aristaDentroGrupo(grupo, n2)) {
                         //Console.WriteLine("Se agrega " + n2.Name + " al grupo " + grupos.Count);
                         grupo.Add(n2);
                         n2.Vis = true;
                     }
                 }
-                grupos.Add(grupo); 
+                grupos.Add(grupo);
 
                 // Colorea los nodos de colores aleatorios
 
@@ -1102,14 +1163,13 @@ public partial class Editor : Form{
                         }
                     }
                 }
-                    
+
                 grupo.Clear();
-                
+
             }
             ActivaMenus();
         }
-      
-       
+        return grupos.Count;
     }
 
     // regresa true si hay un nodo que pertenece a un grupo de nodos, pertenece al metodo n partita
@@ -1137,11 +1197,221 @@ public partial class Editor : Form{
     private void mnuBorraGrafo(object sender, EventArgs e) {
         DesactivaMenus();
         Uncheck();
-        graph = new Grafo();
+        graph = new Graph();
         graphics.Clear(BackColor);
-        graph2 = new Grafo();
+        graph2 = new Graph();
         nombre = 'A';
     }
+
+    private void Kuratowsky(object sender, EventArgs e) {
+
+
+        if (graph.Count >= 3) {
+            int regiones = graph.EdgesList.Count - graph.Count + 2;
+            int c = 3 * graph.Count - 6, a, b;
+            String aaaaaaa = "Corolario 1\n";
+            aaaaaaa += "2E <= 3V - 6\n";
+            aaaaaaa += graph.EdgesList.Count.ToString() + " <= " + c.ToString() + "\n";
+            //aaaaaaa += "2E = ∑deg(r) >= 3r";
+            //a = 2 * graph.EdgesList.Count;
+            //foreach (NodeP np in graph) {
+
+            //}
+            //c = 3 * regiones;
+            if (graph.EdgesList.Count <= c) {
+                aaaaaaa += "El grafo es plano\n";
+            }
+            else {
+                aaaaaaa += "El grafo no es plano\n";
+            }
+
+            aaaaaaa += "\nCorolario 2: \n";
+            aaaaaaa += "E <= 2V - 4\n";
+            c = 2*graph.Count - 4;
+            aaaaaaa += graph.EdgesList.Count.ToString() + " <= " + c.ToString() + "\n";
+
+            bool sihay = false;
+            foreach (NodeP np in graph) {
+                if (verifCircuito3(np)) {
+                    sihay = true;
+                }
+
+            }
+            if (sihay) {
+                aaaaaaa += "Tiene circuito 3\nEl grafo no es plano\n";
+            }
+            else {
+                aaaaaaa += "No tiene circuito 3\nEl grafo es plano\n";
+            }
+
+            aaaaaaa += "\nK5: \n";
+            if (homeomorficok5()) {
+                aaaaaaa += "Es homeomórfico a K5\n";
+            }
+            else {
+                aaaaaaa += "No es homeomórfico a K5\n";
+            }
+            aaaaaaa += "\nK3,3: \n";
+            if (homeomorficok33()) {
+                aaaaaaa += "Es homeomórfico a K3,3\n";
+            }
+            else {
+                aaaaaaa += "No es homeomórfico a K3,3\n";
+            }
+
+
+            MessageBox.Show(aaaaaaa, "Resultado");
+        }
+    }
+
+    private bool verifCircuito3(NodeP n) {    
+        foreach (NodeR r2 in n.relations) {
+            NodeP n2 = r2.Up;
+            if (n2.Name != n.Name) {
+                foreach (NodeR r3 in n2.relations) {
+                    if (r3.Name != n.Name) {
+                        NodeP n3 = r3.Up;
+                        foreach(NodeR r4 in n3.relations)
+                        if (r4.Up == n) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false ;
+    }
+
+    private bool homeomorficok5() {
+
+        if (graph.Count < 5) { //si tiene menos que 5 nodos
+            return false;
+        }
+        else {
+            if (graph.isRegular()) { //si es regular o tiene solo 5 nodos
+                return true;
+            }
+            else {
+                if (graph.Count == 5) {
+                    return false;
+                }
+                else{
+                    //si tiene mas de 5 nodos entonces se procede a ver si se pueden quitar nodos o agregar aristas
+                    List<NodeP> ln = new List<NodeP>();
+                    Graph gra = new Graph(graph);
+
+                    foreach (Edge a in graph.EdgesList) {
+                        gra.EdgesList.Add(new Edge(2, a.Origin, a.Destiny, "e" + gra.EdgesList.Count));
+                    }
+                    for (int i = 0; i < gra.Count; i++) {
+                        switch (gra[i].Degree) {
+                            case 2:
+                                ln.Add(gra[i]);
+                                break;
+                            default:
+                                return false;
+                        }
+                    }
+                    foreach (NodeP nodo in ln) {
+                        creapuente2nodos(gra, nodo);
+                        gra.RemoveNode(nodo);
+                    }
+                }
+            }
+
+        }
+     
+        return true;
+
+        //List<NodeP> ln = new List<NodeP>();
+
+        //if (gra.Count < 5) {
+        //    return false;
+        //}
+        //else {
+
+        //    for (int i = 0; i < gra.Count; i++) {
+        //        switch (gradoNodo(gra.EdgesList, gra[i])) {
+        //            case 4: Console.WriteLine("De 4");
+        //                break;
+        //            case 2: Console.WriteLine("De 2");
+        //                //creapuente2nodos(gra, gra[i]);
+        //                ln.Add(gra[i]);
+        //                //gra.RemueveNodo(gra[i]);
+        //                break;
+        //            default: Console.WriteLine("De " + gradoNodo(gra.EdgesList, gra[i]));
+        //                return false;
+        //        }
+        //    }
+        //    foreach (NodeP nodo in ln) {
+        //        creapuente2nodos(gra, nodo);
+        //        gra.RemoveNode(nodo);
+        //    }
+        //}
+        //return true;
+    }
+
+    private bool homeomorficok33() {
+        //Grafo gra = graf;
+        Graph gra = new Graph(graph);
+        foreach (Edge a in graph.EdgesList) {
+            gra.EdgesList.Add(new Edge(0, a.Origin, a.Destiny, "e" + gra.EdgesList.Count));
+        }
+        List<NodeP> ln = new List<NodeP>();
+        if (gra.Count < 5) {
+            return false;
+        }
+        else {
+            foreach (NodeP n in gra) {
+                n.Visited = false;
+            }
+
+            for (int i = 0; i < gra.Count; i++) {
+                switch (gra[i].Degree) {
+                    case 3:
+                        break;
+                    case 2: 
+                        //creapuente2nodos(gra, gra[i]);
+                        ln.Add(gra[i]);
+                        break;
+                    default: 
+                        return false;
+
+                }
+            }
+            foreach (NodeP nodo in ln) {
+                creapuente2nodos(gra, nodo);
+                gra.RemoveNode(nodo);
+            }
+
+            if (genPartita() != 2) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void creapuente2nodos(Graph gra, NodeP nodo) {
+        List<Edge> aux = new List<Edge>();
+        foreach (Edge a in gra.EdgesList) {
+            if (a.Origin == nodo || a.Destiny == nodo) {
+                aux.Add(a);
+            }
+        }
+        if (aux[0].Origin == nodo && aux[1].Origin == nodo) {
+            gra.AddEdge(new Edge(0, aux[0].Destiny, aux[1].Destiny, "e" + gra.EdgesList.Count));
+        }
+        else if (aux[0].Destiny == nodo && aux[1].Origin == nodo) {
+            gra.AddEdge(new Edge(0, aux[0].Origin, aux[1].Destiny, "e" + gra.EdgesList.Count));
+        }
+        else if (aux[0].Origin == nodo && aux[1].Destiny == nodo) {
+            gra.AddEdge(new Edge(0, aux[0].Destiny, aux[1].Origin, "e" + gra.EdgesList.Count));
+        }
+        else if (aux[0].Destiny == nodo && aux[1].Destiny == nodo) {
+            gra.AddEdge(new Edge(0, aux[0].Origin, aux[1].Origin, "e" + gra.EdgesList.Count));
+        }
+    }
+
 
 }
 }

@@ -21,6 +21,13 @@ namespace EditordeGrafos{
         private int anchoArista;
         private bool nombreArista;
         private bool pesoArista;
+        private bool letra;
+
+        public bool Letra {
+            get { return letra; }
+            set { letra = value; }
+        }
+            
 
         public bool PesoArista {
             get { return pesoArista; }
@@ -67,9 +74,10 @@ namespace EditordeGrafos{
             
         }
 
-        public ConfigNodAri(Grafo graph){
+        public ConfigNodAri(Graph graph){
             InitializeComponent();
             g = CreateGraphics();
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             borde = 12; //separacion del rectangulo del area cliente
             r = r1 = r2 = this.ClientRectangle;
 
@@ -105,6 +113,13 @@ namespace EditordeGrafos{
 
             checkBox1.Checked = graph.EdgeNamesVisible;
             checkBox2.Checked = graph.EdgeWeightVisible;
+
+            if (graph.Letter) {
+                radioButton1.Checked = true;
+            }
+            else {
+                radioButton2.Checked = true;
+            }
 
             Invalidate();
             
@@ -152,6 +167,12 @@ namespace EditordeGrafos{
 
         private void button1_Click(object sender, EventArgs e) { // OK
             this.DialogResult = DialogResult.OK;
+            if (radioButton1.Checked) {
+                letra = true;
+            }
+            else {
+                letra = false;
+            }
             this.Close();
         }
 
@@ -179,6 +200,7 @@ namespace EditordeGrafos{
         }
 
         private void button6_Click(object sender, EventArgs e) { // por defecto
+            radioButton1.Checked = true;
             numericUpDown1.Value = 30;
             radio = decimal.ToInt32(numericUpDown1.Value);
             numericUpDown2.Value = 1;
