@@ -12,7 +12,6 @@ namespace EditordeGrafos{
     public class NodeP{
         private bool visited;
         private bool selected;
-        private bool vis;
         private int degree;
         private int degreeIn;
         private int degreeEx;
@@ -20,11 +19,6 @@ namespace EditordeGrafos{
         private Point position;
         private Color color;
         public List<NodeR> relations;
-
-        public bool Vis {
-            get { return vis; }
-            set { vis = value; }
-        }
 
         public Point Position { 
             get { return position; } 

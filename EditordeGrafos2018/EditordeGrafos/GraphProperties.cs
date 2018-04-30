@@ -54,7 +54,7 @@ namespace EditordeGrafos{
                     }
                     if (enco == false){
                         nue = new List<NodeP>();
-                        grafo.Componentes2(nod, nue);
+                        //grafo.Componentes2(nod, nue);
                         componentes.Add(nue);
                     }
                     enco = false;
@@ -83,7 +83,7 @@ namespace EditordeGrafos{
             dataGridView1.ColumnCount = grafo.Count+1;
             dataGridView1.RowCount = grafo.Count+1;
   
-            grafo.CreateMatrix();
+            //grafo.CreateMatrix();
             for (int i = 0; i <= grafo.Count; i++){
                 for (int j = 0; j <= grafo.Count ; j++){
                     if (i == 0 && j>0){

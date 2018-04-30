@@ -37,7 +37,7 @@ namespace EditordeGrafos {
             for (int i = 0; i < gra.Count; i ++ ){
             //foreach (NodeP np in this.gra) {
                 cabeza = true;
-                gra[i].Vis = false;
+                gra[i].Visited = false;
                 foreach (Edge a in gra.EdgesList) {
 
                     if (a.Destiny == gra[i]) {
@@ -61,9 +61,9 @@ namespace EditordeGrafos {
 
         public void EncuentraSig(NodeP np){
             foreach (Edge ar in gra.EdgesList) {
-                if (ar.Origin == np && !ar.Destiny.Vis) {
+                if (ar.Origin == np && !ar.Destiny.Visited) {
                     listView2.Items.Add(ar.Destiny.Name);
-                    ar.Destiny.Vis = true;
+                    ar.Destiny.Visited = true;
                     
                     EncuentraSig(ar.Destiny);
 
@@ -77,7 +77,7 @@ namespace EditordeGrafos {
 
         public void eliminaNodo(NodeP np){
             foreach (NodeP no in gra) {
-                no.Vis = false;
+                no.Visited = false;
             }
             
             listView2.Items.Clear();
@@ -112,7 +112,7 @@ namespace EditordeGrafos {
 
         private void Notas_FormClosing(object sender, FormClosingEventArgs e) {
             editor.Accion = 0; //regrasa la accion en 0
-            editor.ActivaMenus();
+            editor.EnableMenus();
             this.Dispose();
         }
 

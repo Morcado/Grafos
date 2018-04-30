@@ -103,9 +103,49 @@ namespace EditordeGrafos.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap caminoEuler {
+            get {
+                object obj = ResourceManager.GetObject("caminoEuler", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cimitarra {
             get {
                 object obj = ResourceManager.GetObject("cimitarra", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap circuitoEuler {
+            get {
+                object obj = ResourceManager.GetObject("circuitoEuler", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap coloreado {
+            get {
+                object obj = ResourceManager.GetObject("coloreado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap coloreado1 {
+            get {
+                object obj = ResourceManager.GetObject("coloreado1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -286,6 +326,16 @@ namespace EditordeGrafos.Properties {
         internal static System.Drawing.Bitmap plantilla {
             get {
                 object obj = ResourceManager.GetObject("plantilla", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap prim {
+            get {
+                object obj = ResourceManager.GetObject("prim", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

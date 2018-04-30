@@ -251,14 +251,14 @@ C:\Users\Morcado\Desktop\Grafos 2018\EditordeGrafos2018\EditordeGrafos\obj\Debug
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\bin\Debug\Editor De Grafos.exe.config
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\bin\Debug\Editor De Grafos.exe
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\bin\Debug\Editor De Grafos.pdb
+C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.SpecialGraph.resources
+C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Editor.resources
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.ConfigNodAri.resources
+C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Notas.resources
+C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.GraphProperties.resources
+C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Plantilla.resources
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Properties.Resources.resources
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.csproj.GenerateResource.Cache
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\Editor De Grafos.exe
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\Editor De Grafos.pdb
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.csprojResolveAssemblyReference.cache
-C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Notas.resources
-C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Editor.resources
-C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.GraphProperties.resources
-C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Plantilla.resources
-C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.SpecialGraph.resources

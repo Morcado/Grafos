@@ -11,7 +11,9 @@ using System.Windows.Forms;
 namespace EditordeGrafos{
 [Serializable()]
 
-public class Graph:List<NodeP>{
+public class Graph:List<NodeP> {
+
+    #region Variables
     private bool edgeNamesVisible;
     private bool edgeWeightVisible;
     private int nodeRadio;
@@ -28,9 +30,6 @@ public class Graph:List<NodeP>{
         get { return letter; }
         set { letter = value; }
     }
-
-
-    #region get's & set's
 
     public int EdgeWidth {
         get { return edgeWidth; }
@@ -81,8 +80,8 @@ public class Graph:List<NodeP>{
     }
 
     #endregion
-    #region constructores
 
+    #region constructores
     public Graph(){
         edgesList = new List<Edge>();
         edgeColor = Color.Black;
@@ -167,8 +166,8 @@ public class Graph:List<NodeP>{
     }
     public void RemoveNode(NodeP rem){
         NodeR rel;
-        List<Edge>remover;
-        remover=new List<Edge>();
+        List<Edge>remove;
+        remove = new List<Edge>();
             
         foreach(NodeP a in this){
             rel = a.relations.Find(delegate(NodeR np) { if (np.Up.Name==rem.Name)return true; else return false; });
@@ -181,112 +180,17 @@ public class Graph:List<NodeP>{
                 }
             }
         }
-        remover=edgesList.FindAll(delegate(Edge ar){if(ar.Origin.Name==rem.Name||ar.Destiny.Name==rem.Name)return true;else return false;});
-        if(remover!=null)
-            foreach(Edge re in remover){
+        remove = edgesList.FindAll(delegate(Edge ar){if(ar.Origin.Name==rem.Name||ar.Destiny.Name==rem.Name)return true;else return false;});
+        if(remove!=null)
+            foreach(Edge re in remove){
                 edgesList.Remove(re);
             }
         this.Remove(rem);
     }
 
+
+
     #endregion
-    #region algoritmos
-
-    public void CreateMatrix(){ //
-        matriz = new int[Count][];
-        int i = 0, j;
-            
-        for (int x = 0; x < Count; x++){
-            matriz[x]=new int[Count];
-        }
-            
-        this.Sort(delegate(NodeP a, NodeP b) { 
-            return a.Name.CompareTo(b.Name); 
-        });
-
-        foreach(NodeP nod in this){
-            j=0;
-            foreach(NodeP nod2 in this){
-                if (nod.relations.Find(delegate(NodeR r) {if(nod2.Name == r.Up.Name) return true; else return false; }) != null){
-                    matriz[i][j] = 1;
-                }
-                else{
-                    matriz[i][j] = 0;    
-                }
-                j++;
-            }
-            i++;
-        }
-    }
-       
-    public int Componentes2(NodeP nodito, List<NodeP> compo){
-        if(nodito.relations.Find(delegate(NodeR r) { if (r.Visited!=true )return true; else return false; }) == null){
-            return 1;
-        }
-        else{
-            compo.Add(nodito);
-            foreach (NodeR a in nodito.relations){
-                if (a.Visited == false){
-                    a.Visited = true;
-                    compo.Add(a.Up);
-                    Componentes2(a.Up, compo);
-                }
-            }
-            return 0;
-        }
-    }
-
-    public int Componentes(){
-        bool enco = false;
-        bool enco2=false;
-        List<List<NodeP>> componentes = new List<List<NodeP>>();
-        List<NodeP> nue = new List<NodeP>();
-        Graph aux = new Graph(this);
-
-        if(edgesList.Count != 0){
-            foreach(NodeP nod in this){
-                foreach(List<NodeP> n in componentes){
-                    if(enco == false)
-                        if(n.Find(delegate(NodeP f) { if (f.Name == nod.Name)return true; else return false; }) != null)
-                            enco = true;
-                }
-                if(enco == false){
-                    if(edgesList[0].Type == 1){
-                        foreach(List<NodeP> n in componentes){
-                            foreach(NodeP ee in n){
-                                foreach(NodeR r in ee.relations){
-                                    if(enco2 == false)
-                                        if (n.Find(delegate(NodeP f) { if (f.Name == r.Up.Name)return true; else return false; }) != null)
-                                            enco2 = true;
-                                }
-                            }
-                        }
-                        if(enco2 == false){
-                            nue = new List<NodeP>();
-                            this.Componentes2(nod, nue);
-                            componentes.Add(nue);
-                        }
-                        enco2 = false;
-                    }
-                    else{
-                        nue = new List<NodeP>();
-                        this.Componentes2(nod, nue);
-                        componentes.Add(nue);
-                    }
-                }
-                enco = false;
-            }
-            foreach(NodeP re in this){
-                foreach(NodeR rela in re.relations){
-                    rela.Visited = false;
-                }
-            }
-            return componentes.Count;
-        }
-        else{
-            return this.Count;
-        }
-    }
 
     public void Deselect(){
         foreach (NodeP r in this){
@@ -303,7 +207,7 @@ public class Graph:List<NodeP>{
         return false;
     }
 
-    public Edge GiveEdge(NodeP a, NodeP b){ // regresa la arista entre dos nodos que si se sabe que tiene aristas
+    public Edge GetEdge(NodeP a, NodeP b){ // regresa la arista entre dos nodos que si se sabe que tiene aristas
         for (int i = 0; i < edgesList.Count; i++) {
             if (edgesList[i].Origin == a && edgesList[i].Destiny == b || edgesList[i].Origin == b && edgesList[i].Destiny == a) {
                 return (edgesList[i]);
@@ -312,24 +216,24 @@ public class Graph:List<NodeP>{
         return(null);
     }
 
-    public void Desel() {
+    public void UnselectAllNodes() {
         for (int k = 0; k < Count; k++) {
-            this[k].Vis = false;
+            this[k].Visited = false;
         }
     }
 
     public void Complement() { // saca el complemento del grafo
         Edge rel;
         int i, j;
-        Desel();
+        UnselectAllNodes();
 
             if (Count >= 2) {
                 for (i = 0; i < Count; i++) { // recorre todo el grafo
                     for (j = 0; j < Count; j++) {
-                        if (i != j && !this[j].Vis) { // si no apunta a si mismo y no esta visitado
+                        if (i != j && !this[j].Visited) { // si no apunta a si mismo y no esta visitado
                             if (Connected(this[i], this[j])) { 
                                 // si esta conectados los nodos, remueve la arista
-                                rel = GiveEdge(this[i], this[j]);
+                                rel = GetEdge(this[i], this[j]);
                                 RemoveEdge(rel);
                             }
                             else { 
@@ -350,7 +254,7 @@ public class Graph:List<NodeP>{
                             
                         }
                     }
-                    this[i].Vis = true;
+                    this[i].Visited = true;
                 }
             }
     }
@@ -364,58 +268,182 @@ public class Graph:List<NodeP>{
         return true;
     }   
 
-public List<List<NodeP>> colorear(){
-    bool found = false;
-    int re = 0, g = 0, b = 255;            
-    Color co = Color.FromArgb(re, g, b);
-    List<List<NodeP>> listas=new List<List<NodeP>>();
-    List<NodeP> au = new List<NodeP>();
+    public List<List<NodeP>> colorear(){
+        bool found = false;
+        int re = 0, g = 0, b = 255;            
+        Color co = Color.FromArgb(re, g, b);
+        List<List<NodeP>> listas=new List<List<NodeP>>();
+        List<NodeP> au = new List<NodeP>();
         
-    foreach(NodeP nodin in this){
-        foreach(List<NodeP> c in listas){
-            if(found == false)
-                if (c.Find(delegate(NodeP a) { if (a.relations.Find(delegate(NodeR r) { if (r.Up.Name == nodin.Name)return true; else return false; }) != null || nodin.relations.Find(delegate(NodeR rela){if(rela.Up.Name==a.Name)return true;else return false;})!=null)return true; else return false; }) == null)
-                {
-                    c.Add(nodin);
-                    found = true;
-                }
+        foreach(NodeP nodin in this){
+            foreach(List<NodeP> c in listas){
+                if(found == false)
+                    if (c.Find(delegate(NodeP a) { if (a.relations.Find(delegate(NodeR r) { if (r.Up.Name == nodin.Name)return true; else return false; }) != null || nodin.relations.Find(delegate(NodeR rela){if(rela.Up.Name==a.Name)return true;else return false;})!=null)return true; else return false; }) == null)
+                    {
+                        c.Add(nodin);
+                        found = true;
+                    }
+            }
+            if (found == false){
+                au = new List<NodeP>();
+                au.Add(nodin);
+                listas.Add(au);
+            }
+            found = false;
         }
-        if (found == false){
-            au = new List<NodeP>();
-            au.Add(nodin);
-            listas.Add(au);
-        }
-        found = false;
-    }
-    foreach (List<NodeP> a in listas) {
-        foreach (NodeP n in a) {
-            n.Color = co;
-        }
-        if (re + 100 >= 255){
-            re = 0;
-            if (g + 100 >= 255){
-                g = 0;
-                if (b + 150 >= 255){
-                    b = 0;
+        foreach (List<NodeP> a in listas) {
+            foreach (NodeP n in a) {
+                n.Color = co;
+            }
+            if (re + 100 >= 255){
+                re = 0;
+                if (g + 100 >= 255){
+                    g = 0;
+                    if (b + 150 >= 255){
+                        b = 0;
+                    }
+                    else{
+                        b += 150;
+                    }
                 }
                 else{
-                    b += 150;
+                    g += 100;
                 }
             }
             else{
-                g += 100;
+                re += 100;
+                b = 180;
+            }
+            co = Color.FromArgb(co.R - co.R + re, co.G - co.G + g, co.B - co.B + b);      
+        }
+        return(listas);
+    }
+
+    //metodo que regresa si el grafo esta conectado(un solo componente)
+    public bool IsConnectedU() {
+        foreach (NodeP np in this) {
+            if (np.Degree == 0) {
+                return false;
             }
         }
-        else{
-            re += 100;
-            b = 180;
+        return true;
+    }
+
+    //hace que todas las aristas no estén visitadas
+    public void UnselectAllEdges() {
+        foreach (Edge ed in edgesList) {
+            ed.Visited = false;
         }
-        co = Color.FromArgb(co.R - co.R + re, co.G - co.G + g, co.B - co.B + b);      
     }
-    return(listas);
+
+    //verifica que todas las aristas estén visitadas
+    public bool AllEdgesVisited() {
+        foreach (Edge ed in edgesList) {
+            if (ed.Visited == false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public bool AllNodesVisited() {
+        foreach(NodeP np in this){
+            if (np.Visited == false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //checa si tiene un camino de euler
+    public int HasEulerPath() {
+        int evenNodes = 0;
+        int pending = 0;
+        foreach (NodeP np in this) {
+            //si encuentra un nodo pendiente, entonces se le resta al numero
+            //de nodos pares porque es como si se eliminara el nodo pendiente
+            if (np.Degree == 1) {
+                pending++;
+                evenNodes--;
+            }
+            else {
+                //si no ha encontrado mas de 3 nodos pendientes
+                if (pending < 3) {
+                    //si el nodo es de grado impar
+                    if (np.Degree%3 == 0) {
+                        evenNodes++;
+                    }
+                }
+                //si tiene mas de 3 pendientes entonces no tiene camino
+                else {
+                    return 3;
+                }
+            }
+        }
+
+        //si tiene 0 o 2 nodos pares entonces si tiene camino
+        if (pending < 3 && (evenNodes <= 0 || evenNodes == 2)) {
+            return pending;
+        }
+        return 3;
+    }
+    
+    //Método que regresa si un grafo tiene circuito
+    public bool HasEulerCycle () {
+        foreach (NodeP np in this) {
+            if (np.Degree > 1) {
+                //si todos los nodos tienen grado impar
+                if (np.Degree % 2 != 0) {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //regresa una lista de aristas que representa un camino o un circuito de euler
+    public void FindEulerCycleRoad(Edge e, NodeP orig, NodeP dest,  List<Edge> euler) {
+        Console.Write(e.Name + " ");
+        //marca como visitada
+        e.Visited = true;
+
+        //busca la siguiente arista conectada al nodo actual en la lista de aristas
+        //for(int i = 0; i < edgesList.Count; i++){
+        foreach (Edge currEd in edgesList) {
+            if (!currEd.Visited && currEd.Destiny.Name == dest.Name) {
+                //orig = currEd.Destiny;
+                //dest = currEd.Origin;
+                if (!AllEdgesVisited()) {
+                    FindEulerCycleRoad(currEd, currEd.Destiny, currEd.Origin, euler);
+                }
+                break;
+            }
+            if (!currEd.Visited && currEd.Origin.Name == dest.Name) {
+                //orig = dest;
+                //orig = currEd.Origin;
+                //dest = currEd.Destiny;
+                if (!AllEdgesVisited()) {
+                    FindEulerCycleRoad(currEd, currEd.Origin, currEd.Destiny, euler);
+                }
+
+                break;
+            }
+
+        }
+        //obtiene la arista siguiente
+        //Edge ne = GetEdge(orig, dest);
+        //si todas las aristas no son visitadas entonces repite
+        //if(!AllEdgesVisited()){
+        //    FindEulerCycleRoad(ne, orig, dest, euler);
+        //}
+        //agrega la lista
+        euler.Add(e);
+    }
+
 }
-    }
-    #endregion
 }
 
 

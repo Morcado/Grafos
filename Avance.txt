@@ -21,7 +21,7 @@ Fecha: 2 feb 2018
 Descripción del avance.
 	-se entrega configuracion del nodo				NO
 	-aun no se guardan los cambios, pero lo voy a implementar	
-----------------------------------
+--------------------------------------------------------------------------------
 Revisión:
 	-Este avance es muy pobre, aplicate Patus!!!!
 	-Lea bien los documentos, porque falta organizar las opciones de las barras!!!
@@ -79,7 +79,7 @@ Fecha: 23 de febrero de 2018
     -Se corrige el bug de eliminar arisita
     -Se arreglo el menu
     -Elimina y borra grafo
---------------------------------------
+--------------------------------------------------------------------------------
 Revisión: 26Febrero2018.
 			-NO VOY A REVISAR HASTA QUE TERMINES, PUEDES ENVIAR AVANCES.
 
@@ -117,3 +117,12 @@ fecha: 19 de abril 2018
             -Solo se puede agregar una arista si hay dos nodos o más
             -No se puede eliminar arista si no hay
         -Se descativan los botones cuandno no hay nodos y se activan cuando si hay nodos
+--------------------------------------------------------------------------------
+Fecha: April 27, 2018
+    Se implementa el metodo para verificar si un grafo tiene circuito de Euler
+    Se implementa el metodo para verificar si un grafo tiene camino de Euler
+    Se implementa el metodo regresar una lista de aristas que representa un circuito de euler
+    Se implementa el metodo regresar una lista de aristas que representa un camino de euler
+--------------------------------------------------------------------------------
+Date: April 27, 2018
+    Se implementa la animacion de eler pero aun tiene roblemas de recorrido
