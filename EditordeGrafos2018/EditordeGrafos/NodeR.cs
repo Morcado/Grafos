@@ -17,7 +17,7 @@ namespace EditordeGrafos{
             set { name = value; } 
         }
         public NodeP Up{
-            get {return up;}
+            get { return up; }
         }
         public bool Visited{ 
             get { return visited; } 

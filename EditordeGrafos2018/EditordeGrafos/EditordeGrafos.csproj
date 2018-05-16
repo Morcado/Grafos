@@ -58,6 +58,9 @@
     <Compile Include="ConfigNodAri.Designer.cs">
       <DependentUpon>ConfigNodAri.cs</DependentUpon>
     </Compile>
+    <Compile Include="Algorithms.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SpecialGraph.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,6 +90,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Weights.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Weights.Designer.cs">
+      <DependentUpon>Weights.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="SpecialGraph.resx">
       <DependentUpon>SpecialGraph.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,6 +118,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Weights.resx">
+      <DependentUpon>Weights.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
@@ -222,6 +234,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\caminoEuler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insertakn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insertawn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insertacn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dijkstra.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\aristaColoreada.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

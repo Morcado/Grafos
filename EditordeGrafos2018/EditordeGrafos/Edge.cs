@@ -13,7 +13,6 @@ namespace EditordeGrafos{
         
         private bool painted;
         private bool visited;
-        private int type;
         private int weight;
         private NodeP origin;
         private NodeP destiny;
@@ -29,10 +28,6 @@ namespace EditordeGrafos{
             set { destiny = value; } 
         }
         
-        public int Type{ 
-            get { return type; } 
-        }
-
         public string Name{
             get { return name; }
             set { name=value; }
@@ -57,8 +52,7 @@ namespace EditordeGrafos{
            
         }
 
-        public Edge(int type, NodeP origin, NodeP destiny, string name){
-            this.type = type;
+        public Edge(NodeP origin, NodeP destiny, string name){
             this.origin = origin;
             this.destiny = destiny;
             this.name = name;
@@ -67,7 +61,6 @@ namespace EditordeGrafos{
         }
 
         public Edge(Edge ed){
-            type = ed.type;
             origin = ed.origin;
             destiny = ed.destiny;
             weight = ed.Weight;

@@ -8,78 +8,175 @@ using System.IO;
 
 namespace EditordeGrafos{
 public partial class Editor : Form {
-
-    #region memberVariables
-
     private bool band;
-    private bool b_tck;
     private char nombre;
     private int numero;
-    private int tipoarista;
+    private bool edgeIsDirected;
     private int timerOption;
-    private Edge ed;
     private Edge edge;
-    private BinaryFormatter file;
     private Bitmap bmp1;
-    private Color resp;
-    private Graph graph2;
-    private Rectangle nRec;
     private Graphics graphics;
-    private List<NodeP> CCE;
     private NodeP nu;
-    private NodeP origin, destin;
     private Pen fl;
     private Point pt1;
     private Point pt2;
     private Notas diag;
     private Graph graph;
-    private int option;  
+    private int option;
+    private int tmpCount;
+    private int tmp2Count;
     private Timer timer1;
     private List<Edge> tmpEdges;
-    private int tmpCount;
+    private List<List<Edge>> tmp2Edges;
+    private List<Color> listColors;
+    
+    
 
     public int Accion {
         get { return option; }
         set { option = value; }
     }
 
-    #endregion
     #region Structure
+    // Configuraciones iniciales al editor
     private void Form1_Load(object sender, EventArgs e){
-        timerOption = 0;
+        graphics = CreateGraphics();
+        this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         this.BackColor = Color.White;
-        //b_cam = false;
-        //icam = 0;
-        numero = 0;
-        b_tck = false;
-        CCE = new List<NodeP>();
-        resp = Color.White;
-        graph2 = new Graph();
-        ed = new Edge();
         fl = new Pen(Brushes.Green);
         bmp1 = new Bitmap(800,600);
-        graphics = CreateGraphics();
-        file = new BinaryFormatter();
-        graph = new Graph();
-
-        DisableMenus();
-
+        
+        numero = 0;
+        
         band = false;
         option = 0;
-        pt2 = new Point();
         nombre = 'A';
-        this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+        pt2 = new Point();
+        graph = new Graph();
 
+        MakeColors();
+        DisableMenus();
+
+        timerOption = 0;
         timer1 = new System.Windows.Forms.Timer();
         timer1.Interval = 700;
         timer1.Tick += new EventHandler(GraphTimer);
         tmpCount = 0;
-    }       
+        tmp2Count = 0;
+    }
+
+    public void MakeColors() {
+        listColors = new List<Color>();
+        listColors.Add(Color.FromArgb(135, 255, 95));
+
+        listColors.Add(Color.FromArgb(0, 135, 0));
+        listColors.Add(Color.FromArgb(95, 135, 175));
+        listColors.Add(Color.FromArgb(175, 135, 135));
+        listColors.Add(Color.FromArgb(175, 135, 255));
+        listColors.Add(Color.FromArgb(215, 255, 255));
+        listColors.Add(Color.FromArgb(215, 135, 95));
+        listColors.Add(Color.FromArgb(135, 255, 175));
+        listColors.Add(Color.FromArgb(95, 175, 135));
+        listColors.Add(Color.FromArgb(135, 255, 215));
+        listColors.Add(Color.FromArgb(255, 95, 95));
+        listColors.Add(Color.FromArgb(0, 255, 0));
+        listColors.Add(Color.FromArgb(0, 95, 175));
+        listColors.Add(Color.FromArgb(128, 128, 128));
+        listColors.Add(Color.FromArgb(175, 95, 0));
+        listColors.Add(Color.FromArgb(215, 0, 255));
+        listColors.Add(Color.FromArgb(95, 0, 135));
+        listColors.Add(Color.FromArgb(95, 215, 135));
+        listColors.Add(Color.FromArgb(215, 175, 255));
+        listColors.Add(Color.FromArgb(98, 98, 98));
+        listColors.Add(Color.FromArgb(215, 215, 215));
+        listColors.Add(Color.FromArgb(95, 0, 215));
+        listColors.Add(Color.FromArgb(175, 95, 255));
+        listColors.Add(Color.FromArgb(0, 135, 95));
+        listColors.Add(Color.FromArgb(215, 0, 0));
+        listColors.Add(Color.FromArgb(255, 0, 255));
+        listColors.Add(Color.FromArgb(175, 255, 175));
+        listColors.Add(Color.FromArgb(135, 135, 175));
+        listColors.Add(Color.FromArgb(178, 178, 178));
+        listColors.Add(Color.FromArgb(135, 95, 215));
+        listColors.Add(Color.FromArgb(255, 95, 175));
+        listColors.Add(Color.FromArgb(135, 95, 135));
+        listColors.Add(Color.FromArgb(215, 175, 135));
+        listColors.Add(Color.FromArgb(215, 0, 215));
+        listColors.Add(Color.FromArgb(135, 0, 255));
+        listColors.Add(Color.FromArgb(215, 255, 0));
+        listColors.Add(Color.FromArgb(255, 0, 175));
+        
+        listColors.Add(Color.FromArgb(215, 135, 175));
+        listColors.Add(Color.FromArgb(135, 95, 175));
+        listColors.Add(Color.FromArgb(38, 38, 38));
+        listColors.Add(Color.FromArgb(128, 128, 0));
+        listColors.Add(Color.FromArgb(95, 175, 95));
+        listColors.Add(Color.FromArgb(95, 95, 255));
+        listColors.Add(Color.FromArgb(135, 175, 0));
+        listColors.Add(Color.FromArgb(95, 0, 95));
+        listColors.Add(Color.FromArgb(108, 108, 108));
+        listColors.Add(Color.FromArgb(255, 0, 255));
+        listColors.Add(Color.FromArgb(215, 175, 215));
+        listColors.Add(Color.FromArgb(135, 135, 0));
+        listColors.Add(Color.FromArgb(215, 95, 135));
+        listColors.Add(Color.FromArgb(215, 255, 135));
+        listColors.Add(Color.FromArgb(255, 135, 135));
+        listColors.Add(Color.FromArgb(215, 95, 215));
+        listColors.Add(Color.FromArgb(135, 215, 135));
+        listColors.Add(Color.FromArgb(0, 95, 135));
+        listColors.Add(Color.FromArgb(255, 0, 0));
+        listColors.Add(Color.FromArgb(255, 95, 0));
+        listColors.Add(Color.FromArgb(135, 215, 95));
+        listColors.Add(Color.FromArgb(128, 128, 128));
+        listColors.Add(Color.FromArgb(175, 255, 255));
+        listColors.Add(Color.FromArgb(175, 255, 95));
+        listColors.Add(Color.FromArgb(135, 95, 0));
+        listColors.Add(Color.FromArgb(255, 255, 0));
+        listColors.Add(Color.FromArgb(28, 28, 28));
+        listColors.Add(Color.FromArgb(175, 175, 175));
+        listColors.Add(Color.FromArgb(95, 175, 175));
+        listColors.Add(Color.FromArgb(138, 138, 138));
+        listColors.Add(Color.FromArgb(0, 175, 255));
+        listColors.Add(Color.FromArgb(215, 175, 95));
+        listColors.Add(Color.FromArgb(95, 215, 0));
+        listColors.Add(Color.FromArgb(0, 95, 95));
+        listColors.Add(Color.FromArgb(168, 168, 168));
+        listColors.Add(Color.FromArgb(0, 215, 175));
+        listColors.Add(Color.FromArgb(175, 175, 255));
+        listColors.Add(Color.FromArgb(8, 8, 8));
+        listColors.Add(Color.FromArgb(0, 255, 175));
+        listColors.Add(Color.FromArgb(135, 95, 255));
+        listColors.Add(Color.FromArgb(175, 175, 95));
+        listColors.Add(Color.FromArgb(175, 175, 135));
+        listColors.Add(Color.FromArgb(135, 255, 255));
+        listColors.Add(Color.FromArgb(215, 215, 175));
+        listColors.Add(Color.FromArgb(95, 255, 175));
+        listColors.Add(Color.FromArgb(0, 175, 0));
+        listColors.Add(Color.FromArgb(135, 255, 0));
+        listColors.Add(Color.FromArgb(228, 228, 228));
+        listColors.Add(Color.FromArgb(95, 135, 255));
+        listColors.Add(Color.FromArgb(255, 215, 175));
+        listColors.Add(Color.FromArgb(135, 215, 215));
+        listColors.Add(Color.FromArgb(0, 215, 0));
+        listColors.Add(Color.FromArgb(188, 188, 188));
+        listColors.Add(Color.FromArgb(135, 0, 135));
+        listColors.Add(Color.FromArgb(95, 255, 0));
+        listColors.Add(Color.FromArgb(238, 238, 238));
+        listColors.Add(Color.FromArgb(148, 148, 148));
+        listColors.Add(Color.FromArgb(215, 95, 95));
+        listColors.Add(Color.FromArgb(0, 0, 95));
+
+        listColors.Add(Color.FromArgb(215, 215, 255));
+        listColors.Add(Color.FromArgb(135, 0, 95));
+        listColors.Add(Color.FromArgb(95, 215, 175));
+        listColors.Add(Color.FromArgb(255, 215, 0));
+    }
 
     public Editor(){ 
         InitializeComponent();
     }
 
+    // Maneja la redimencion del area cliente
     private void Resize_form(object sender, EventArgs e) {
         if (ClientSize.Width != 0 && ClientSize.Height != 0) {
             bmp1 = new Bitmap(ClientSize.Width, ClientSize.Height);
@@ -87,18 +184,53 @@ public partial class Editor : Form {
             graphics.DrawImage(bmp1, 0, 0);
         }
     }
+
+    //Timer que permite hacer animaciones
+    void GraphTimer(object sender, EventArgs e) {
+        switch (timerOption) {
+            // Dibujar lista de aristas
+            case 1:
+                if (tmpCount == tmpEdges.Count || tmpCount == listColors.Count) {
+                    timer1.Stop();
+                    tmpEdges.Clear();
+                }
+                else {
+                    graphics.DrawLine(new Pen(new SolidBrush(listColors[0]), (float)6), tmpEdges[tmpCount].Origin.Position, tmpEdges[tmpCount].Destiny.Position);
+                    tmpCount++;
+                }
+                break;
+            // Dibujar lista de lista de aristas;
+            case 2:
+                if (tmpCount == tmp2Edges.Count || tmpCount == listColors.Count) {
+                    timer1.Stop();
+                    tmp2Edges.Clear();
+                }
+                else {
+                    foreach (Edge eee in tmp2Edges[tmpCount]) {
+                        graphics.DrawLine(new Pen(new SolidBrush(listColors[tmpCount]), (float)6), eee.Origin.Position, eee.Destiny.Position);
+                    }
+                    tmpCount++;
+                }
+                break;
+
+        }
+    }
+
     #endregion
     #region Mouse
+
+    // Eventos cuando se hace click izquierdo o derecho con el mouse
     private void Form1_MouseDown(object sender, MouseEventArgs e){
         pt2 = e.Location;
         pt1 = pt2;
+        Rectangle nRec;
         Rectangle mouseRec;
         int nX, nY; // coordenadas de los nodos iniciales o finalees
         int rad = graph.NodeRadio; // obtiene el radio del grafo;
 
         switch(e.Button.ToString()){
             case "Left":
-
+                // Cuando es click izquierdo y esta activo la opcion de "Notas"
                 if(diag != null && option == 99){
                     foreach (NodeP nod in graph) {
                         nX = nod.Position.X;
@@ -113,6 +245,7 @@ public partial class Editor : Form {
                         }
                     }
                 }
+                // Cuando es click en cualquier otra opción
                 else {
                     if (option != 0 && option != 1) {
                         band = true;
@@ -122,6 +255,7 @@ public partial class Editor : Form {
                 }
 
                 break;
+            // Click derecho para asignar peso a la arista
             case "Right":
                 int totalEdges = graph.EdgesList.Count;
                     for(int i = 0; i < totalEdges; i++){
@@ -138,12 +272,17 @@ public partial class Editor : Form {
         }
     }
 
+    // Eventos cuando se mueve el mouse
     private void Form1_MouseMove(object sender, MouseEventArgs e){
         Rectangle mouseRec;
+        Rectangle nRec;
         int nX, nY; // coordenadas de los nodos iniciales o finalees
         int rad = graph.NodeRadio; // obtiene el radio del grafo;
 
+
+        // Mover el grafo
         if(option == 5){
+            
             if (e.Button == MouseButtons.Left) {
                 foreach(NodeP nod in graph){         
                     nX = nod.Position.X;
@@ -154,27 +293,30 @@ public partial class Editor : Form {
  
                     if ((nRec.IntersectsWith(mouseRec))) {
                         pt2 = e.Location;
-                        band = false;
                         Form1_Paint(this, null);
                     }
                 }
             }
         }
-        else{            
+        else{
             if (e.Button == MouseButtons.Left) {
                 pt2 = e.Location;
                 band = false;
                 Form1_Paint(this, null);
+
             }
         }
     }
 
+    // Eventos cuando se levanta el mouse
     private void Form1_MouseUp(object sender, MouseEventArgs e){
+        Edge ed = new Edge();
         NodeP des;
         Graphics au;
         au = Graphics.FromImage(bmp1);
         au.Clear(BackColor);
         switch(option){
+            // Agregar nodo
             case 1:
                 pt1 = pt2;
                 pt2 = e.Location;
@@ -182,24 +324,20 @@ public partial class Editor : Form {
                 Form1_Paint(this, null);
                 band = false;    
                 break;
+            // Mover nodo
             case 2:
                 nu = null; 
                 break;
+            // Arista dirigida y no dirigida
             case 3:
                 des = (NodeP)graph.Find(delegate(NodeP a) { if (e.Location.X > a.Position.X - (graph.NodeRadio / 2) && e.Location.X < a.Position.X + (graph.NodeRadio) && e.Location.Y > a.Position.Y - (graph.NodeRadio / 2) && e.Location.Y < a.Position.Y + (graph.NodeRadio ))return true; else return false; });
                 if(des != null && nu != null){
-                    if (nu.InsertRelation(des, graph.EdgesList.Count)) {
-                        ed = new Edge(tipoarista, nu, des, "e" + graph.EdgesList.Count.ToString());
-                        graph.AddEdge(ed);
-                        nu.Degree++;
-                        des.Degree++;
-                        nu.DegreeEx++;
-                        des.DegreeIn++;
-                    }
-                    if(tipoarista == 2 && ed.Destiny.Name!=ed.Origin.Name){
-                        des.InsertRelation(nu, graph.EdgesList.Count - 1);
-                        des.DegreeEx++;
-                        nu.DegreeIn++; 
+                    nu.InsertRelation(des, graph.EdgesList.Count, edgeIsDirected);
+                    ed = new Edge(nu, des, "e" + graph.EdgesList.Count.ToString());
+                    graph.AddEdge(ed);
+
+                    if(!edgeIsDirected && ed.Destiny.Name != ed.Origin.Name){
+                        des.InsertRelation(nu, graph.EdgesList.Count - 1, edgeIsDirected);
                     }
                     pinta(au);
                     band = false;
@@ -215,6 +353,7 @@ public partial class Editor : Form {
                 EnableMenus();
                 graphics.DrawImage(bmp1, 0, 0);
                 break;
+            // Eliminar nodo
             case 4:
                 nu = (NodeP)graph.Find(delegate(NodeP a) { if (e.Location.X > a.Position.X - graph.NodeRadio / 2 && e.Location.X < a.Position.X + graph.NodeRadio && e.Location.Y > a.Position.Y - graph.NodeRadio / 2&& e.Location.Y < a.Position.Y + graph.NodeRadio)return true; else return false; });
                 if (nu != null){
@@ -239,21 +378,21 @@ public partial class Editor : Form {
                     band = false;
                 }
                 break;
+            // Mover grafo
             case 5:
                 pt2 = pt1;
                 break;
-            case 8:
-                SeleccionaNodos();
-                break;
+
         }
     }
 
     #endregion
     #region TopToolbar
 
-    private void m_OpenGraph(object sender, EventArgs e) {
+    // Abrir un grafo
+    private void mOpenGraph(object sender, EventArgs e) {
         OpenFileDialog OpenFile = new OpenFileDialog();
-        OpenFile.InitialDirectory = Application.StartupPath + "\\Ejemplos";
+        OpenFile.InitialDirectory = Application.StartupPath + "\\ProyectosGrafo";
         OpenFile.DefaultExt = ".grafo";
         string namefile;
         OpenFile.Filter = "Grafo Files (*.grafo)|*.grafo|All files (*.*)|*.*";
@@ -271,10 +410,10 @@ public partial class Editor : Form {
                 MessageBox.Show(exe.ToString());
             }
 
-            graph2 = new Graph();
             EnableMenus();
 
-            if (graph.EdgesList != null && graph.EdgesList.Count > 0 && graph.EdgesList[0].Type == 1) {
+            // Verifica dirigido o no dirigido
+            if (graph.EdgesList != null && graph.EdgesList.Count > 0 && edgeIsDirected) {
                 m_directedEdge.Enabled = tT_directedEdge.Enabled = true;
                 m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = false;
             }
@@ -284,14 +423,13 @@ public partial class Editor : Form {
             }
 
             option = 0;
-            graph.Deselect();
-            nombre = 'A';
-            // avanza el nombre hasta el ultimo que habia
+            graph.UnselectAllNodes();   
             nombre = graph[graph.Count - 1].Name[0];
         }
     }
 
-    private void m_SaveGraph(object sender, EventArgs e) {
+    // Guarda un grafo
+    private void mSaveGraph(object sender, EventArgs e) {
         SaveFileDialog sav = new SaveFileDialog();
         sav.Filter = "Grafo Files (*.grafo)|*.grafo|All files (*.*)|*.*";
         sav.InitialDirectory = Application.StartupPath + "\\ProyectosGrafo";
@@ -312,19 +450,18 @@ public partial class Editor : Form {
     }
 
     // Elimina grafo y mantiene la configuracion
-    private void m_EraseGraph(object sender, EventArgs e) {
+    private void mEraseGraph(object sender, EventArgs e) {
         DisableMenus();
         UncheckMenus();
         graph.Clear();
         graph = new Graph();
         graphics.Clear(BackColor);
-        graph2 = new Graph();
         nombre = 'A';
 
     }
 
     // Borra grafo y restablece la configuración
-    private void m_DeleteGraph(object sender, EventArgs e) {
+    private void mDeleteGraph(object sender, EventArgs e) {
         int r = graph.NodeRadio;
         Color nc = graph.NodeColor;
         Color ec = graph.EdgeColor;
@@ -335,7 +472,6 @@ public partial class Editor : Form {
         bool ewv = graph.EdgeWeightVisible;
         graph = new Graph();
         graphics.Clear(BackColor);
-        graph2 = new Graph();
         nombre = 'A';
         graph.NodeRadio = r;
         graph.NodeColor = nc;
@@ -347,57 +483,81 @@ public partial class Editor : Form {
         graph.EdgeWeightVisible = ewv;
     }
 
-    private void mnuSalir_Click(object sender, EventArgs e) {
+    // Evento salir
+    private void mExit(object sender, EventArgs e) {
         if (MessageBox.Show("¿Salir?", "Salir", MessageBoxButtons.OKCancel) == DialogResult.OK) {
             System.Windows.Forms.Application.Exit();
         }
     }
 
-    private void m_AddNode(object sender, EventArgs e) {
+    // Evento agrega nodo
+    private void mAddNode(object sender, EventArgs e) {
         UncheckMenus();
         pt2 = new Point();
         tT_addNode.Checked = true;
         option = 1;
     }
-
-    private void m_MoveNode(object sender, EventArgs e) {
+    // Evento mueve nodo
+    private void mMoveNode(object sender, EventArgs e) {
         UncheckMenus();
         band = true;
         option = 2;
         tT_moveNode.Checked = true;
     }
-
-    private void m_MoveGraph(object sender, EventArgs e) {
+    // Evento mueve grafo
+    private void mMoveGraph(object sender, EventArgs e) {
+        
         UncheckMenus();
         option = 5;
         tT_moveGraph.Checked = true;
     }
 
-    private void m_DeleteNode(object sender, EventArgs e) {
+    // Evento elimina nodo
+    private void mDeleteNode(object sender, EventArgs e) {
         UncheckMenus();
         tT_deleteNode.Checked = true;
         option = 4;
     }
-
-    private void m_DeleteEdge(object sender, EventArgs e) {
+    // Evento elimina arista
+    private void mDeleteEdge(object sender, EventArgs e) {
         UncheckMenus();
         option = 6;
         tT_removeEdge.Checked = true;
     }
 
-    private void mnuPropGrafo_Click(object sender, EventArgs e) {
-        using (var f = new GraphProperties(graph, tT_directedEdge.Enabled ? 1 : 2)) {
-            var result = f.ShowDialog();
-            graph.Deselect();
-        }
-        Form1_Paint(this, null);
+    // Evento arista dirigida
+    private void mDirectedEdge(object sender, EventArgs e) {
+        option = 3;
+        band = true;
+
+        UncheckMenus();
+        tT_directedEdge.Checked = true;
+
+        fl.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+        fl.StartCap = LineCap.RoundAnchor;
+        fl.Width = 4;
+        edgeIsDirected = true;
     }
 
-    private void m_Exchange() {
+    // Evento arista no digirida
+    private void mUndirectedEdge(object sender, EventArgs e) {
+        option = 3;
+        band = true;
+        UncheckMenus();
+        tT_undirectedEdge.Checked = true;
+
+        fl.EndCap = System.Drawing.Drawing2D.LineCap.NoAnchor;
+        fl.StartCap = LineCap.NoAnchor;
+        fl.Width = 4;
+        edgeIsDirected = false;
+    }
+
+    // Intercambia las letras por numeros en las aristas
+    private void mExchange() {
         int cont = 0;
         char name = 'A';
         bool num = graph.Letter;
-        
+
         if (num == true) {
             foreach (NodeP cambio in graph) {
                 cambio.Name = name.ToString();
@@ -418,36 +578,8 @@ public partial class Editor : Form {
         Form1_Paint(this, null);
     }
 
-    private void m_DirectedEdge(object sender, EventArgs e) {
-        option = 3;
-        band = true;
-
-        UncheckMenus();
-        tT_directedEdge.Checked = true;
-
-        fl.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-        fl.StartCap = LineCap.RoundAnchor;
-        fl.Width = 4;
-        tipoarista = 1;
-
-        graph.Deselect();
-    }
-
-    private void m_UndirectedEdge(object sender, EventArgs e) {
-        option = 3;
-        band = true;
-        UncheckMenus();
-        tT_undirectedEdge.Checked = true;
-
-        fl.EndCap = System.Drawing.Drawing2D.LineCap.NoAnchor;
-        fl.StartCap = LineCap.NoAnchor;
-        fl.Width = 4;
-        tipoarista = 2;
-        graph.Deselect();
-
-    }
-
-    private void m_Configuration(object sender, EventArgs e) {
+    // Abre la configuración del nodo y arista
+    private void mConfiguration(object sender, EventArgs e) {
         using (var f2 = new ConfigNodAri(graph)) {
             var result = f2.ShowDialog();
             if (result == DialogResult.OK) {
@@ -455,7 +587,7 @@ public partial class Editor : Form {
                     colNodo.Color = f2.ColNodo;
                 }
                 graph.Letter = f2.Letra;
-                m_Exchange();
+                mExchange();
                 graph.NodeRadio = f2.Radio;
                 graph.NodeColor = f2.ColNodo;
                 graph.EdgeColor = f2.ColArista;
@@ -468,8 +600,8 @@ public partial class Editor : Form {
         }
         Form1_Paint(this, null);
     }
-
-    private void m_View(object sender, ToolStripItemClickedEventArgs e) {
+    // Evento view
+    private void mView(object sender, ToolStripItemClickedEventArgs e) {
         switch (e.ClickedItem.Name) {
             case "NombreAristas":
                 graph.EdgeNamesVisible = !graph.EdgeNamesVisible;
@@ -485,157 +617,107 @@ public partial class Editor : Form {
     #region Paint
 
     private void Form1_Paint(object sender, PaintEventArgs e){
-        Graphics au;
-        au = Graphics.FromImage(bmp1);
+        Graphics au = Graphics.FromImage(bmp1);
         au.Clear(BackColor);
-        if(band){
-            switch(option){                   
-                case 1:
-                    bool num;
+        if (option == 5) {
+            Cursor.Current = Cursors.Hand;
+        }
+        switch(option){
+            // Agrega nodo
+            case 1:
+                if (band) {
+                    bool num = false;
                     int iaux;
-                    if(graph.Count > 0){
-                        if((int.TryParse(graph[0].Name.ToString(), out iaux)) == true){
+                    if (graph.Count > 0) {
+                        if ((int.TryParse(graph[0].Name.ToString(), out iaux)) == true) {
                             num = true;
                         }
-                        else{
-                            num = false;
-                        }
                     }
-                    else{
-                        num = false;
-                    }
-                    if(num == false){
-                        nu = new NodeP(pt2, nombre);
+                    nu = new NodeP(pt2, nombre);
+                    if (num == false) {
                         nombre++;
                     }
-                    else{
-                        nu = new NodeP(pt2,nombre );
+                    else {
                         nu.Name = numero.ToString();
                         numero++;
                     }
 
-                    if(graph.Count > 1){
+                    if (graph.Count > 1) {
                         nu.Color = graph[0].Color;
                     }
                     EnableMenus();
                     graph.AddNode(nu);
-
-                    nu = null;          
-                    break;
-                case 2:
-                    nu = (NodeP)graph.Find(delegate(NodeP a) { if (pt2.X > a.Position.X - (graph.NodeRadio / 2) && pt2.X < a.Position.X + (graph.NodeRadio) && pt2.Y > a.Position.Y - (graph.NodeRadio / 2) && pt2.Y < a.Position.Y + (graph.NodeRadio ))return true; else return false; });
-                    break;
-                case 3:
+                }
+                break;
+            // Mueve nodo
+            case 2:
+                if (band) {
                     nu = (NodeP)graph.Find(delegate(NodeP a) { if (pt2.X > a.Position.X - (graph.NodeRadio / 2) && pt2.X < a.Position.X + (graph.NodeRadio) && pt2.Y > a.Position.Y - (graph.NodeRadio / 2) && pt2.Y < a.Position.Y + (graph.NodeRadio))return true; else return false; });
-                    pt1 = pt2;                        
-                    break;
-                case 5:
-                    Graph aux = new Graph();
-                    aux = graph;
-                    break;
-                case 6: // elimina arista
-                   
-                    Edge arista;
+                }
+                else {
+
+                    if (nu != null) {
+                        nu.Position = pt2;
+                        au.Clear(BackColor);
+                    }
+                    pt2 = pt1;
+                }
+                break;
+            // Arista dirigida y no dirigida
+            case 3:
+                if (band) {
+                    nu = (NodeP)graph.Find(delegate(NodeP a) { if (pt2.X > a.Position.X - (graph.NodeRadio / 2) && pt2.X < a.Position.X + (graph.NodeRadio) && pt2.Y > a.Position.Y - (graph.NodeRadio / 2) && pt2.Y < a.Position.Y + (graph.NodeRadio))return true; else return false; });
+                    pt1 = pt2;
+                }
+                else {
+                    au.Clear(BackColor);
+                    if (nu != null) {
+                        au.DrawLine(fl, pt1, pt2);
+                    }
+                }
+                break;
+            // Mover grafo
+            case 5:
+                Point po = new Point(pt2.X - pt1.X, pt2.Y - pt1.Y);
+                foreach (NodeP n in graph) {
+                    Point nue = new Point(n.Position.X + po.X, n.Position.Y + po.Y);
+                    n.Position = nue;
+                }
+                pt1 = pt2;
+                au.Clear(BackColor);
+                break;
+            // Elimina arista
+            case 6:
+                if (band) {
                     Rectangle mouseRec, niRec, nfRec;
-                    int niX, niY, nfX, nfY; // coordenadas de los nodos iniciales o finalees
-                    int rad = graph.NodeRadio; // obtiene el radio del grafo,
-                    int total = graph.EdgesList.Count;
+                    Point ini, fin;
 
-                    for(int i = 0; i < total; i++){
-                        arista = graph.EdgesList[i];
-                        if (arista.toca(pt2)){
+                    foreach (Edge ed in graph.EdgesList) { 
+                    //for (int i = 0; i < graph.EdgesList.Count; i++) {
+                        if (ed.toca(pt2)) {
 
-                            niX = arista.Origin.Position.X;
-                            niY = arista.Origin.Position.Y;
-                            nfX = arista.Destiny.Position.X;
-                            nfY = arista.Destiny.Position.Y;
-
+                            ini = ed.Origin.Position;
+                            fin = ed.Destiny.Position;
                             mouseRec = new Rectangle(pt2.X, pt2.Y, 3, 3);
-                            niRec = new Rectangle(niX - rad/2, niY - rad/2, rad, rad);
-                            nfRec = new Rectangle(nfX - rad/2, nfY - rad/2, rad, rad);
+                            niRec = new Rectangle(ini.X - graph.NodeRadio / 2, ini.Y - graph.NodeRadio / 2, graph.NodeRadio, graph.NodeRadio);
+                            nfRec = new Rectangle(ini.X - graph.NodeRadio / 2, ini.Y - graph.NodeRadio / 2, graph.NodeRadio, graph.NodeRadio);
 
-                            if (!(niRec.IntersectsWith(mouseRec))) {
-                                if (!(nfRec.IntersectsWith(mouseRec))) {
-                                    graph.RemoveEdge(arista);
-                                    break;
-                                }
+                            if (!(nfRec.IntersectsWith(mouseRec))) {
+                                graph.RemoveEdge(ed);
+                                break;
                             }
+                            
                         }
                     }
                     if (graph.EdgesList.Count == 0) {
                         tT_removeEdge.Enabled = m_deleteEdge.Enabled = false;
                     }
-                    break;
-                //case 14:
-                //    Edge ari;
-                //    NodeP o, d;
-
-                //    o = d = null;
-                //    if(b_cam == true){
-                //        ari = new Edge(); ;
-                //        graph = new Graph(graph2);
-                //        graph.EdgesList.Clear();
-                //        foreach (NodeP rel in graph)
-                //        {
-                //            rel.relations.Clear();
-                //        }
-                //        b_cam = false;
-                //        au.Clear(BackColor);
-                //    }
-                //    if(b_tck == true){
-                //        accion = 0;
-                //        b_tck = false;
-                //        if(icam > 0){
-                //            graph.Find(delegate(NodeP dx) { if (dx.Name == CCE[icam].Name)return true; else return false; }).InsertRelation(graph.Find(delegate(NodeP ox) { if (ox.Name == CCE[icam - 1].Name)return true; else return false; }), graph.EdgesList.Count);
-                //            d=graph.Find(delegate(NodeP dx) { if (dx.Name == CCE[icam].Name)return true; else return false; });
-                //            o=graph.Find(delegate(NodeP ox) { if (ox.Name == CCE[icam - 1].Name)return true; else return false; });
-                //            d.Color = Color.Blue;
-                //            o.Color = Color.Blue;
-                //            Pen penn = new Pen(Brushes.Red);
-                //            penn.Width = 4;
-                //            graphics.DrawEllipse(penn,new Rectangle(d.Position.X - 16, d.Position.Y - 16,30, 30));
-                //            ari = new Edge(1, d, o, "e" + (CCE.Count - icam).ToString());                                          
-                //            graph.AddEdge(ari);
-                //        }
-                //        pinta(graphics);                                  
-                //    }
-                //    break;                    
-            }
-            pinta(au);
-            graphics.DrawImage(bmp1, 0, 0);
+                }
+                break;                   
         }
-        else{
-            switch(option){
-                case 1:
-                break;
-                case 2:
-                    if(nu != null){
-                        nu.Position = pt2;
-                        au.Clear(BackColor);
-                    }
-                    pt2 = pt1;
-                    break;
-                case 3:
-                    au.Clear(BackColor);
-                    if(nu!=null){
-                        au.DrawLine(fl, pt1,pt2);                       
-                    }
-                   
-                    break;
-                case 5:
-                    Point po = new Point(pt2.X - pt1.X, pt2.Y - pt1.Y);
-                    foreach(NodeP n in graph){
-                        Point nue = new Point(n.Position.X + po.X, n.Position.Y + po.Y);
-                        n.Position = nue;
-                    }                        
-                    pt1 = pt2;
-                    au.Clear(BackColor);
-                    
-                    break;                    
-            }
-            pinta(au);
-            graphics.DrawImage(bmp1, 0, 0);
-        }
+        pinta(au);
+        graphics.DrawImage(bmp1, 0, 0);
+        
     }
 
     private void pinta(Graphics g) {
@@ -654,13 +736,12 @@ public partial class Editor : Form {
         double d;
         double r;
         double an;
-        //int multi;
         double dy, dx;
         dy = dx = 0;
         List<Edge> repetidas = new List<Edge>();
         if (graph.EdgesList != null && graph.EdgesList.Count > 0) {
             foreach (Edge a in graph.EdgesList) {
-                if (a.Type != 1) {
+                if (!edgeIsDirected) {
                     if (a.Origin.Name == a.Destiny.Name) {
                         g.DrawBezier(penNdi, new Point(a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) - 10, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) - 5), new Point(a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) - 40, a.Origin.Position.Y - ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) - 60), new Point(a.Origin.Position.X + 40, a.Destiny.Position.Y - 60), new Point(a.Destiny.Position.X + 10, a.Destiny.Position.Y - 5));
                     }
@@ -789,7 +870,7 @@ public partial class Editor : Form {
     }
 
     #endregion
-    #region Misc
+    #region Interface
 
     private void MenuArista_Closing(object sender, ToolStripDropDownClosingEventArgs e) {
         if (toolStripTextBox1.Text.Length > 0) {
@@ -799,147 +880,74 @@ public partial class Editor : Form {
         }
     }
 
-    public void SeleccionaNodos(){
-        if(origin == null || destin == null){
-            if(origin == null){
-                origin = (NodeP)graph.Find(delegate(NodeP a) { if (pt2.X > a.Position.X - 15 && pt2.X < a.Position.X + 30 && pt2.Y > a.Position.Y - 15 && pt2.Y < a.Position.Y + 30)return true; else return false; });
-                if(origin != null){
-                    origin.Selected = true;
-                }
-            }
-            else{
-                if(destin == null){
-                    destin = (NodeP)graph.Find(delegate(NodeP a) { if (pt2.X > a.Position.X - 15 && pt2.X < a.Position.X + 30 && pt2.Y > a.Position.Y - 15 && pt2.Y < a.Position.Y + 30)return true; else return false; });
-                    if(destin != null)
-                        destin.Selected = true;
-                }
-            }
-        }
-        else{
-            nu = (NodeP)graph.Find(delegate(NodeP a) { if (pt2.X > a.Position.X - 15 && pt2.X < a.Position.X + 30 && pt2.Y > a.Position.Y - 15 && pt2.Y < a.Position.Y + 30)return true; else return false; });
-            if(nu != null){
-                nu.Selected = false;
-                if(nu == origin){
-                    origin = null;
-                }
-                if(nu == destin){
-                    destin = null;
-                }
-                nu = null;
-            }
-        }
-        pinta(graphics);
-    }
-
-    //void time_Tick(object sender, EventArgs e){
-    //    b_tck = true;
-    //    accion = 14;
-    //    if (icam < 0){
-    //        icam = CCE.Count - 1;
-    //        b_cam = true;
-    //    }
-    //    else{
-    //        icam--;
-    //    }
-
-    //    this.Form1_Paint(this, null);
-    //}
-
-    //public int componentes(){
-    //    List<List<NodeP>> componentes = new List<List<NodeP>>();
-    //    List<NodeP> nue = new List<NodeP>();
-    //    Graph aux = new Graph(graph);
-    //    bool enco = false;
-
-    //    foreach(NodeP nod in graph){
-    //        foreach(List<NodeP> n in componentes){
-    //            if(enco == false){
-    //                if(n.Find(delegate(NodeP f) { if (f.Name == nod.Name)return true; else return false; }) != null){
-    //                    enco = true;
-    //                }
-    //            }
-    //        }
-    //        if(enco == false){
-    //            nue = new List<NodeP>();
-    //            graph.Componentes2(nod, nue);
-    //            componentes.Add(nue);
-    //        }
-    //        enco = false;
-    //    }
-    //    foreach(NodeP re in graph){
-    //        foreach(NodeR rela in re.relations){
-    //            rela.Visited = false;
-    //        }
-    //    }
-    //    return componentes.Count;
-    //}
-
-    #endregion
-    #region Interface
-
     // Método que activa todos los menús de toolstrip y del menu, cuando hay algo en el editor.
     public void EnableMenus() {
-        tT_saveGraph.Enabled = m_saveGraph.Enabled = true;
+        tT_saveGraph.Enabled  = m_saveGraph.Enabled = true;
         tT_deleteNode.Enabled = m_deleteNode.Enabled = true;
         tT_moveNode.Enabled = m_moveNode.Enabled = true;
         tT_addNode.Enabled = m_addNode.Enabled = true;
-        // si hay mas de un nodo
+        // Si hay mas de un nodo
         if (graph.Count >= 1) {
-            lT_complement.Enabled = true;
-            lT_nPartite.Enabled = true;
-            // si no hay aristas
+            lT_complement.Enabled = m_complement.Enabled = true;
+            lT_nPartite.Enabled = m_npartite.Enabled = true;
+            // Si no hay aristas
             if (graph.EdgesList.Count == 0) {
-                m_undirectedEdge.Enabled = m_directedEdge.Enabled = true;
-                tT_undirectedEdge.Enabled = tT_directedEdge.Enabled = true;
+                m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = true;
+                m_directedEdge.Enabled = tT_directedEdge.Enabled = true;
             }
             else {
-                // si hay aristas dirigidas
-                if (graph.EdgesList[0].Type == 1) {
+                // Si hay aristas dirigidas
+                if (edgeIsDirected) {
+                    
                     m_directedEdge.Enabled = tT_directedEdge.Enabled = true;
                     m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = false;
+                   
                 }
-                    // si hay aristas no dirigidas
+                    // Si hay aristas no dirigidas
                 else {
+                    lT_coloredEdges.Enabled = m_coloredEdges.Enabled = true;
                     m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = true;
                     m_directedEdge.Enabled = tT_directedEdge.Enabled = false;
+                    lT_prim.Enabled = m_prim.Enabled = true;
                 }
             }
         }
 
-        // si hay mas de una arista
+        // Si hay mas de una arista
         if (graph.EdgesList.Count > 0) {
             m_deleteEdge.Enabled = tT_removeEdge.Enabled = true;
-            lT_eulerCircuit.Enabled = true;
-            lT_eulerRoad.Enabled = true;
+            lT_euler.Enabled = m_euler.Enabled = true;
 
         }
 
-        tT_moveGraph.Enabled = m_moveGraph.Enabled = true;
+        m_moveGraph.Enabled = tT_moveGraph.Enabled = true;
         m_deleteGraph.Enabled = tT_deleteGraph.Enabled = true;
         m_eraseGraph.Enabled = tT_eraseGraph.Enabled = true;
-        Intercamb.Enabled = true;
+        m_exchange.Enabled = true;
+
         
     }
 
-    // descativa la mayoría de los botones y reinicializa el grafo
+    // Descativa la mayoría de los botones y reinicializa el grafo
     private void DisableMenus() {
         m_addNode.Enabled = tT_addNode.Enabled = true;
         m_moveNode.Enabled = tT_moveNode.Enabled = false;
-        m_addEdge.Enabled = tT_directedEdge.Enabled = tT_undirectedEdge.Enabled = false;
+        m_directedEdge.Enabled = tT_directedEdge.Enabled = false;
+        m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = false;
         m_deleteNode.Enabled = tT_deleteNode.Enabled = false;
         m_moveGraph.Enabled = tT_moveGraph.Enabled = false;
         m_deleteEdge.Enabled = tT_removeEdge.Enabled = false;
-        tT_deleteGraph.Enabled = m_deleteGraph.Enabled = false;
+        m_deleteGraph.Enabled = tT_deleteGraph.Enabled = false;
         m_saveGraph.Enabled = tT_saveGraph.Enabled = false;
-        NombreAristas.Enabled = PesoAristas.Enabled = false;
-        tT_eraseGraph.Enabled = m_eraseGraph.Enabled = false;
-        Intercamb.Enabled = false;
-        lT_complement.Enabled = false;
-        lT_eulerCircuit.Enabled = false;
-        lT_eulerRoad.Enabled = false;
-        lT_nPartite.Enabled = false;
-        lT_Color.Enabled = false;
-        tT_undirectedEdge.Enabled = tT_directedEdge.Enabled = false;
+        m_nombreAristas.Enabled = m_pesoAristas.Enabled = false;
+        m_eraseGraph.Enabled = tT_eraseGraph.Enabled = false;
+        m_exchange.Enabled = false;
+        m_addEdge.Enabled = false;
+        lT_complement.Enabled = m_complement.Enabled = false;
+        lT_euler.Enabled = m_euler.Enabled = false;
+        lT_nPartite.Enabled = m_npartite.Enabled = false;
+        lT_prim.Enabled = m_prim.Enabled = false;
+        lT_coloredEdges.Enabled = m_coloredEdges.Enabled = false;
     }
 
     public void UncheckMenus() {
@@ -955,9 +963,13 @@ public partial class Editor : Form {
     }
 
     #endregion
-    #region RightToolbar
 
-    private void grafEspecial_Click(object sender, EventArgs e) {
+    private void EdgeWeigth(object sender, EventArgs e) {
+        Weights w = new Weights();
+        w.ShowDialog();
+    }
+
+    private void mSpecialGraph(object sender, EventArgs e) {
 
         SpecialGraph sg = new SpecialGraph();
         sg.ShowDialog();
@@ -980,7 +992,7 @@ public partial class Editor : Form {
     }
 
     private void OpenSpecialGraph(string name) {
-            
+
         try {
             using (Stream stream = File.Open(name, FileMode.Open)) {
                 BinaryFormatter bin = new BinaryFormatter();
@@ -992,10 +1004,9 @@ public partial class Editor : Form {
             MessageBox.Show(exe.ToString());
         }
 
-        graph2 = new Graph();
         EnableMenus();
 
-        if (graph.EdgesList != null && graph.EdgesList.Count > 0 && graph.EdgesList[0].Type == 1) {
+        if (graph.EdgesList != null && graph.EdgesList.Count > 0 && edgeIsDirected) {
             m_directedEdge.Enabled = tT_directedEdge.Enabled = true;
             m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = false;
         }
@@ -1005,549 +1016,131 @@ public partial class Editor : Form {
         }
 
         option = 0;
-        graph.Deselect();
-        nombre= 'A';
+        graph.UnselectAllNodes();
+        nombre = 'A';
         // avanza el nombre hasta el ultimo que habia
         for (int i = 0; i < graph.Count; i++) {
             nombre++;
         }
-        
+
     }
 
-    private void InsertaPlantilla(object sender, EventArgs e) {
-        Plantilla p = new Plantilla();   
+    private void mInsertaKn(object sender, EventArgs e) {
+        Plantilla p = new Plantilla("Insertar grafo Kn");
         p.ShowDialog();
         if (p.DialogResult == DialogResult.OK) {
-            switch(p.Tipo){
-                case "Kn":
-                    InsertaKn(p.N);
-                    break;
-                case "Cn":
-                    InsertaCn(p.N);
-                    break;
-                case "Wn":
-                    InsertaWn(p.N);
-                    break;
-            }
-        }
-        EnableMenus();
-    }
-
-    private void InsertaWn(int n) {
-        InsertaCn(n);
-        graph.AddNode(new NodeP(new Point(this.ClientRectangle.Width / 2, this.ClientRectangle.Height / 2 + 30), nombre++));
-        for (int i = 0; i < graph.Count - 1; i++) {
-            graph[graph.Count - 1].relations.Add(new NodeR(graph[i], graph[i].Name));
-            graph.EdgesList.Add(new Edge(0, graph[graph.Count - 1], graph[i], "e" + i.ToString()));
-        }
-    }
-
-    private void InsertaCn(int n) {
-        double x, y;
-        float deg = 0, ang = 0, dist = this.ClientRectangle.Height / 2 - 50;
-        nombre = 'A';
-
-        // El dialogo recoge el número de nodos para dibujar el KN
-
-        ang = (float)(360.0 / n);
-        this.m_EraseGraph(this, null);
-        /* Este ciclo va aumentando las coordenadas de x y y usando trigonometria para la nueva posicion del siguiente nodo
-        Va agregando los nodos en sentido horario o antihorario */
-        for (int i = 0; i < n; i++) {
-            x = dist * Math.Cos(Math.PI * deg / 180);
-            y = dist * Math.Sin(Math.PI * deg / 180);
-            int xx = Convert.ToInt32(x);
-            int yy = Convert.ToInt32(y);
-            graph.AddNode(new NodeP(new Point(xx + this.ClientRectangle.Width / 2, yy + this.ClientRectangle.Height / 2 + 30), nombre++));
-            deg += ang;
-        }
-        for (int i = 0; i < graph.Count - 1; i++) {
-            graph[i].relations.Add(new NodeR(graph[i + 1], graph[i + 1].Name));
-            graph.EdgesList.Add(new Edge(0, graph[i], graph[i + 1], "e" + i.ToString()));
-        }
-        graph[graph.Count -1].relations.Add(new NodeR(graph[0], graph[0].Name));
-        graph.EdgesList.Add(new Edge(0, graph[graph.Count -1], graph[0], "e" + (graph.Count-1).ToString()));
-    }
-
-    // Método que inserta un grafo KN, el usuario ingresa el numero de nodos a dibujar
-    private void InsertaKn(int n) {
-
-        double x, y;
-        int deg = 0, ang = 0, dist = this.ClientRectangle.Height / 2 - 50;
-        nombre = 'A';
-
-        // El dialogo recoge el número de nodos para dibujar el KN
-
-        ang = 360 / n;
-        this.m_EraseGraph(this, null);
-        /* Este ciclo va aumentando las coordenadas de x y y usando trigonometria para la nueva posicion del siguiente nodo
-        Va agregando los nodos en sentido horario o antihorario */
-        for (int i = 0; i < n; i++) {
-            x = dist * Math.Cos(Math.PI * deg / 180);
-            y = dist * Math.Sin(Math.PI * deg / 180);
-            int xx = Convert.ToInt32(x);
-            int yy = Convert.ToInt32(y);
-            graph.AddNode(new NodeP(new Point(xx + this.ClientRectangle.Width / 2, yy + this.ClientRectangle.Height / 2 + 30), nombre++));
-            deg += ang;
-        }
-        graph.Complement();
-    }
-
-    #endregion
-    #region LeftToolbar
-
-    private void examen_Click(object sender, EventArgs e) {
-        tT_deleteNode.Enabled = m_deleteNode.Enabled = false;
-        tT_addNode.Enabled = m_addNode.Enabled = false;
-        m_directedEdge.Enabled = m_undirectedEdge.Enabled = false;
-        tT_directedEdge.Enabled = tT_undirectedEdge.Enabled = false;
-        option = 99;
-        diag = new Notas(graph, this);
-        diag.Location = new Point(this.ClientSize.Width + this.Left, this.Top);
-        diag.TopMost = true;
-        diag.Show();
-
-        Form1_Paint(this, null);
-    }
-
-    private void mnuComplemento(object sender, EventArgs e) {
-        graph.Complement();
-        Invalidate();
-    }
-
-    // funcion que divide el grafo en n partitas
-    private void NPartita(object sender, EventArgs e) {
-        int a = genPartita();
-        MessageBox.Show("El grafo es " + a.ToString() + "-partita");
-    }
-
-    private int genPartita() {
-        List<NodeP> grupo = new List<NodeP>();
-        List<List<NodeP>> grupos = new List<List<NodeP>>();
-        Random ra = new Random();
-        int r = 30, g = 30, b = 30, c = 0, ant = 0;
-        graph.UnselectAllNodes();
-
-        if (graph.Count > 0) {
-            grupo.Add(graph[0]);
-            // añade el primer nodo al grupo por defecto
-            graph[0].Visited = true;
-
-            // checa todos los nodos para saber cuáles no se relacionan con el grafo y los agrega al grupo actual
-            foreach (NodeP n1 in graph) {
-                foreach (NodeP n2 in graph) {
-                    if (n1 != n2 && !n2.Visited && !nodoDentroGrupo(grupo, n2) && !aristaDentroGrupo(grupo, n2)) {
-                        //Console.WriteLine("Se agrega " + n2.Name + " al grupo " + grupos.Count);
-                        grupo.Add(n2);
-                        n2.Visited = true;
-                    }
-                }
-                grupos.Add(grupo);
-
-                // Colorea los nodos de colores aleatorios
-
-                while (ant == c) {
-                    c = ra.Next(3);
-                }
-                if (c == 0) {
-                    r += 90;
-                    if (Math.Abs(r - b) < 20 || Math.Abs(r - g) < 20) {
-                        r += 50;
-                    }
-                }
-                else {
-                    if (c == 1) {
-                        g += 90;
-                        if (Math.Abs(g - b) < 20 || Math.Abs(g - r) < 20) {
-                            g += 50;
-                        }
-                    }
-                    else {
-                        if (c == 2) {
-                            b += 90;
-                            if (Math.Abs(b - r) < 20 || Math.Abs(b - g) < 20) {
-                                b += 50;
-                            }
-                        }
-                    }
-                }
-                ant = c;
-
-                Color col = Color.FromArgb((r >= 255) ? (r -= 255) : (r), (g >= 255) ? (g -= 255) : (g), (b >= 255) ? (b -= 255) : (b));
-
-                for (int i = 0; i < grupo.Count; i++) {
-                    foreach (NodeP np in graph) {
-                        if (grupo[i] == np) {
-                            np.Color = col;
-                        }
-                    }
-                }
-
-                grupo.Clear();
-
-            }
+            InsertaKn(p.N);
             EnableMenus();
         }
-        return grupos.Count;
     }
 
-    // regresa true si hay un nodo que pertenece a un grupo de nodos, pertenece al metodo n partita
-    private bool nodoDentroGrupo(List<NodeP> g1, NodeP nn) {
-        foreach (NodeP ng in g1) {
-            if (ng.Name == nn.Name) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Regresa true si hay una arista que pertenece a un grupo de nodos, pertenece al metodo n partita
-    private bool aristaDentroGrupo(List<NodeP> g1, NodeP nn) {
-        foreach (NodeP ng in g1) {
-            foreach (Edge ed in graph.EdgesList) {
-                if ((ed.Origin.Name == nn.Name && ed.Destiny.Name == ng.Name) || (ed.Origin.Name == ng.Name && ed.Destiny.Name == nn.Name)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private void Kuratowsky(object sender, EventArgs e) {
-        if (graph.Count >= 3) {
-            int regiones = graph.EdgesList.Count - graph.Count + 2;
-            int c = 3 * graph.Count - 6, a, b = 0;
-            String aaaaaaa = "Corolario 1\n";
-            aaaaaaa += "2E <= 3V - 6\n";
-            aaaaaaa += graph.EdgesList.Count.ToString() + " <= " + c.ToString() + "\n";
-            //aaaaaaa += "2E = ∑deg(r) >= 3r\n";
-            //a = 2 * graph.EdgesList.Count;
-            //foreach (NodeP np in graph) {
-            //    b += 
-            //}
-            //c = 3 * regiones;
-            //aaaaaaa += a.ToString() + " = " + b.ToString() + " <= " + c.ToString();
-            if (graph.EdgesList.Count <= c) {
-                aaaaaaa += "El grafo es plano\n";
-            }
-            else {
-                aaaaaaa += "El grafo no es plano\n";
-            }
-
-            aaaaaaa += "\nCorolario 2: \n";
-            aaaaaaa += "E <= 2V - 4\n";
-            c = 2*graph.Count - 4;
-            aaaaaaa += graph.EdgesList.Count.ToString() + " <= " + c.ToString() + "\n";
-
-            bool sihay = false;
-            foreach (NodeP np in graph) {
-                if (verifCircuito3(np)) {
-                    sihay = true;
-                }
-
-            }
-            if (sihay) {
-                aaaaaaa += "Tiene circuito 3\nEl grafo no es plano\n";
-            }
-            else {
-                aaaaaaa += "No tiene circuito 3\nEl grafo es plano\n";
-            }
-
-            aaaaaaa += "\nK5: \n";
-            if (homeomorficok5()) {
-                aaaaaaa += "Es homeomórfico a K5\n";
-            }
-            else {
-                aaaaaaa += "No es homeomórfico a K5\n";
-            }
-            aaaaaaa += "\nK3,3: \n";
-            if (homeomorficok33()) {
-                aaaaaaa += "Es homeomórfico a K3,3\n";
-            }
-            else {
-                aaaaaaa += "No es homeomórfico a K3,3\n";
-            }
-
-
-            MessageBox.Show(aaaaaaa, "Resultado");
+    private void mInsertaWn(object sender, EventArgs e) {
+        Plantilla p = new Plantilla("Insertar grafo Wn");
+        p.ShowDialog();
+        if (p.DialogResult == DialogResult.OK) {
+            InsertaWn(p.N);
+            EnableMenus();
         }
     }
 
-    private bool verifCircuito3(NodeP n) {    
-        foreach (NodeR r2 in n.relations) {
-            NodeP n2 = r2.Up;
-            if (n2.Name != n.Name) {
-                foreach (NodeR r3 in n2.relations) {
-                    if (r3.Name != n.Name) {
-                        NodeP n3 = r3.Up;
-                        foreach(NodeR r4 in n3.relations)
-                        if (r4.Up == n) {
-                            return true;
-                        }
-                    }
-                }
-            }
+    private void mInsertaCn(object sender, EventArgs e) {
+        Plantilla p = new Plantilla("Insertar grafo Cn");
+        p.ShowDialog();
+        if (p.DialogResult == DialogResult.OK) {
+            InsertaCn(p.N);
+            EnableMenus();
         }
-        return false ;
     }
 
-    private bool homeomorficok5() {
+    private void mNPartita(object sender, EventArgs e) {
+        List<List<NodeP>> grupos = genPartita();
+        MessageBox.Show("El grafo es " + grupos.Count.ToString() + "-partita");
+        string conjuntos = "";
+        for (int i = 0; i < grupos.Count; i++) {
+            conjuntos += "Grupo " + (i + 1).ToString() + ":\n";
+            for (int j = 0; j < grupos[i].Count; j++) {
+                conjuntos += grupos[i][j].Name.ToString() + ", ";
+            }
+            conjuntos = conjuntos.Remove(conjuntos.Length - 2);
+            conjuntos += "\n";
+        }
+        MessageBox.Show(conjuntos);
+    }
 
-        if (graph.Count < 5) { //si tiene menos que 5 nodos
-            return false;
+    private void mKuratowsky(object sender, EventArgs e){
+        Kuratowsky();
+    }
+
+    private void mComplement(object sender, EventArgs e) {
+        if (!edgeIsDirected) {
+            Complement();
         }
         else {
-            if (graph.isRegular()) { //si es regular o tiene solo 5 nodos
-                return true;
-            }
-            else {
-                if (graph.Count == 5) {
-                    return false;
-                }
-                else{
-                    //si tiene mas de 5 nodos entonces se procede a ver si se pueden quitar nodos o agregar aristas
-                    List<NodeP> ln = new List<NodeP>();
-                    Graph gra = new Graph(graph);
-
-                    foreach (Edge a in graph.EdgesList) {
-                        gra.EdgesList.Add(new Edge(2, a.Origin, a.Destiny, "e" + gra.EdgesList.Count));
-                    }
-                    for (int i = 0; i < gra.Count; i++) {
-                        switch (gra[i].Degree) {
-                            case 2:
-                                ln.Add(gra[i]);
-                                break;
-                            default:
-                                return false;
-                        }
-                    }
-                    foreach (NodeP nodo in ln) {
-                        creapuente2nodos(gra, nodo);
-                        gra.RemoveNode(nodo);
-                    }
-                }
-            }
-
-        }
-     
-        return true;
-
-        //List<NodeP> ln = new List<NodeP>();
-
-        //if (gra.Count < 5) {
-        //    return false;
-        //}
-        //else {
-
-        //    for (int i = 0; i < gra.Count; i++) {
-        //        switch (gradoNodo(gra.EdgesList, gra[i])) {
-        //            case 4: Console.WriteLine("De 4");
-        //                break;
-        //            case 2: Console.WriteLine("De 2");
-        //                //creapuente2nodos(gra, gra[i]);
-        //                ln.Add(gra[i]);
-        //                //gra.RemueveNodo(gra[i]);
-        //                break;
-        //            default: Console.WriteLine("De " + gradoNodo(gra.EdgesList, gra[i]));
-        //                return false;
-        //        }
-        //    }
-        //    foreach (NodeP nodo in ln) {
-        //        creapuente2nodos(gra, nodo);
-        //        gra.RemoveNode(nodo);
-        //    }
-        //}
-        //return true;
-    }
-
-    private bool homeomorficok33() {
-        //Grafo gra = graf;
-        Graph gra = new Graph(graph);
-        foreach (Edge a in graph.EdgesList) {
-            gra.EdgesList.Add(new Edge(0, a.Origin, a.Destiny, "e" + gra.EdgesList.Count));
-        }
-        List<NodeP> ln = new List<NodeP>();
-        if (gra.Count < 5) {
-            return false;
-        }
-        else {
-            foreach (NodeP n in gra) {
-                n.Visited = false;
-            }
-
-            for (int i = 0; i < gra.Count; i++) {
-                switch (gra[i].Degree) {
-                    case 3:
-                        break;
-                    case 2: 
-                        //creapuente2nodos(gra, gra[i]);
-                        ln.Add(gra[i]);
-                        break;
-                    default: 
-                        return false;
-
-                }
-            }
-            foreach (NodeP nodo in ln) {
-                creapuente2nodos(gra, nodo);
-                gra.RemoveNode(nodo);
-            }
-
-            if (genPartita() != 2) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void creapuente2nodos(Graph gra, NodeP nodo) {
-        List<Edge> aux = new List<Edge>();
-        foreach (Edge a in gra.EdgesList) {
-            if (a.Origin == nodo || a.Destiny == nodo) {
-                aux.Add(a);
-            }
-        }
-        if (aux[0].Origin == nodo && aux[1].Origin == nodo) {
-            gra.AddEdge(new Edge(0, aux[0].Destiny, aux[1].Destiny, "e" + gra.EdgesList.Count));
-        }
-        else if (aux[0].Destiny == nodo && aux[1].Origin == nodo) {
-            gra.AddEdge(new Edge(0, aux[0].Origin, aux[1].Destiny, "e" + gra.EdgesList.Count));
-        }
-        else if (aux[0].Origin == nodo && aux[1].Destiny == nodo) {
-            gra.AddEdge(new Edge(0, aux[0].Destiny, aux[1].Origin, "e" + gra.EdgesList.Count));
-        }
-        else if (aux[0].Destiny == nodo && aux[1].Destiny == nodo) {
-            gra.AddEdge(new Edge(0, aux[0].Origin, aux[1].Origin, "e" + gra.EdgesList.Count));
-        }
-    }
-
-
-
-    //imprime todas las aristas visitadas
-    private void PrintVisitedEdges() {
-        foreach (Edge ed in graph.EdgesList) {
-            if (ed.Visited == true) {
-                Console.WriteLine(1);
-            }
-            else {
-                Console.WriteLine(0);
-            }
-        }
-    }
-
-    #endregion
-
-    void GraphTimer(object sender, EventArgs e) {
-        switch (timerOption) {
-            case 1:
-                if (tmpCount == tmpEdges.Count) {
-                    timer1.Stop();
-                    tmpEdges.Clear();
-                }
-                else {
-                    graphics.DrawLine(new Pen(new SolidBrush(Color.Green), (float)2), tmpEdges[tmpCount].Origin.Position, tmpEdges[tmpCount].Destiny.Position);
-                    tmpCount++;
-                }
-                break;
-        }
-    }
-
-    //obitene un circuito de euler
-    private void EulerCycle(object sender, EventArgs e) {
-        List<Edge> euler = new List<Edge>();
-        if (graph.HasEulerCycle()) {
-            MessageBox.Show("El grafo tiene circuito euler");
-            graph.UnselectAllEdges();
-            graph.FindEulerCycleRoad(graph.EdgesList[0], graph.EdgesList[0].Origin, graph.EdgesList[0].Destiny, euler);
-            tmpEdges = euler;//DrawLines(euler);
-            timerOption = 1;
-            timer1.Start();
-        }
-        else {
-            MessageBox.Show("El grafo no tiene circuito euler");
-        }
-    }
-
-    //obtiene camino de euler
-    private void EulerPath(object sender, EventArgs e) {
-        List<Edge> euler = new List<Edge>();
-        int pendingNodes = graph.HasEulerPath();
-        Edge start = graph.EdgesList[0];
-
-        if (pendingNodes == 0) {
-            MessageBox.Show("El grafo tiene camino euler");
-            graph.UnselectAllEdges();
-            graph.FindEulerCycleRoad(start, start.Origin, start.Destiny, euler);
-            
-        }
-        else {
-            if(pendingNodes < 3){
-                foreach (NodeP np in graph) {
-                    if (np.Degree == 1) {
-                        foreach(Edge ed in graph.EdgesList){
-                            if(ed.Origin.Name == np.Name || ed.Destiny.Name == np.Name){
-                                start = ed;
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-                MessageBox.Show("El grafo tiene camino euler");
-                graph.UnselectAllEdges();
-                graph.FindEulerCycleRoad(start, start.Origin, start.Destiny, euler);
-            }
-            else {
-                MessageBox.Show("El grafo no tiene camino euler");
-            }
-        }
-    }
-
-    private void Prim(object sender, EventArgs e) {
-        if (true) {
-            List<Edge> minTree = new List<Edge>();
+            UndirComplement();
             graph.UnselectAllNodes();
-            graph.UnselectAllEdges();
-            // toma como minima la primera arista, aunque no necesariamente lo es
-            int minValue = 9999999;
-            Edge minEdge = graph.EdgesList[0];
+        }
+    }
 
-            //encuentra la primera arista de costo minimo para empezar de aqui
-            foreach (Edge ed in graph.EdgesList) {
-                if (ed.Weight < minValue) {
-                    minValue = ed.Weight;
-                    minEdge = ed;
-                }
-            }
-            minTree.Add(minEdge);
-            minEdge.Visited = true;
-            minEdge.Origin.Visited = minEdge.Destiny.Visited = true;
-            // mientras todos los nodos no estén visitados
-            while (!graph.AllNodesVisited()) {
-                //recorre todas las aristas
-                minValue = 999999;
-                foreach (Edge ed in graph.EdgesList) {
-                    //si estan conectadas a el grupo de nodos de costo minimo
-                    if (((ed.Destiny.Visited == true && ed.Origin.Visited == false) || (ed.Destiny.Visited == false && ed.Origin.Visited == true)) && !ed.Visited) {
-                        if (ed.Weight < minValue) {
-                            minValue = ed.Weight;
-                            minEdge = ed;
-                        }
-                    }
-                }
-
-                minEdge.Origin.Visited = minEdge.Destiny.Visited = true;
-                minEdge.Visited = true;
-                minTree.Add(minEdge);
+    private void mEuler(object sender, EventArgs e) {
+        tmpEdges = EulerCycle();
+        if (tmpEdges != null) {
+            string camino = tmpEdges[0].Origin.Name;
+            foreach (Edge ed in tmpEdges) {
+                camino += " → ";
+                camino += ed.Destiny.Name;
                 
             }
-            tmpEdges = minTree;
+            
             timerOption = 1;
             tmpCount = 0;
             timer1.Start();
+            MessageBox.Show(camino);
         }
-        graph.UnselectAllNodes();
-        graph.UnselectAllEdges();
+    }
+
+    private void mPrim(object sender, EventArgs e) {
+        tmpEdges = Prim();
+        if (tmpEdges != null) {
+            string prm = "Arbol de costo minimo\n";
+            foreach (Edge ed in tmpEdges) {
+                prm += ed.Name + ", ";
+            }
+            prm = prm.Remove(prm.Length - 2);
+            
+            timerOption = 1;
+            tmpCount = 0;
+            timer1.Start();
+            MessageBox.Show(prm);
+        }
+    }
+
+    private void mDijkstra(object sender, EventArgs e) {
+
+    }
+
+    private void mColoredEdges(object sender, EventArgs e) {
+        tmp2Edges = ColoredEdges();
+        timer1.Start();
+        if (tmp2Edges != null) {
+            string colored = "";
+                //tmp2Edges[0].Origin.Name;
+            for (int i = 0; i < tmp2Edges.Count; i++){
+                colored += "Grupo " + (i+1).ToString() + ":\n"; 
+                for (int j = 0; j < tmp2Edges[i].Count; j++) {
+                    colored += tmp2Edges[i][j].Name + ", ";
+                }
+                colored = colored.Remove(colored.Length - 2);
+                colored += "\n";
+
+			}
+
+            
+            timerOption = 2;
+            tmpCount = 0;
+            tmp2Count = 0;
+            timer1.Start();
+            MessageBox.Show(colored);
+        }
     }
 
 }

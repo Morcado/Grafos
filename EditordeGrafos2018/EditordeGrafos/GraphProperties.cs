@@ -16,9 +16,9 @@ namespace EditordeGrafos{
         private bool band;
         private int accion;
 
-        public GraphProperties(Graph gra, int tip){
+        public GraphProperties(Graph grafo, int tip){
             tipo=tip;
-            grafo = new Graph();
+
             bool enco=false;
 
             InitializeComponent();
@@ -27,14 +27,13 @@ namespace EditordeGrafos{
             band = false;
             accion =0;
             label2.Visible = Componentes.Visible = false;
-            grafo = gra;
             AutoScroll = true;
             Vertices.Text = grafo.Count().ToString();
             Aristas.Text = grafo.EdgesList.Count().ToString();
             if (grafo.EdgesList.Count > 0) {
-                if (grafo.EdgesList.ToArray()[0].Type == 2) {
-                    Grado.Text = ((grafo.EdgesList.Count()) * 2).ToString();
-                }
+                //if (grafo.EdgesList.ToArray()[0].Type == 2) {
+                //    Grado.Text = ((grafo.EdgesList.Count()) * 2).ToString();
+                //}
             }
             else {
                 Grado.Text = ((grafo.EdgesList.Count())).ToString();
@@ -95,7 +94,7 @@ namespace EditordeGrafos{
                         }
                         else{
                             if(i!=0 && j!=0){
-                                dataGridView1.Rows[i].Cells[j].Value = grafo.Matriz[i-1][j-1].ToString();
+                                //dataGridView1.Rows[i].Cells[j].Value = grafo.Matriz[i-1][j-1].ToString();
                             }
                         }
                     }
@@ -137,7 +136,7 @@ namespace EditordeGrafos{
                         }
                         else {
                             if (i != 0 && j != 0) {
-                                dataGridView1.Rows[i].Cells[j].Value = grafo.Matriz[i - 1][j - 1].ToString();
+                                //dataGridView1.Rows[i].Cells[j].Value = grafo.Matriz[i - 1][j - 1].ToString();
                             }
                         }
                     }

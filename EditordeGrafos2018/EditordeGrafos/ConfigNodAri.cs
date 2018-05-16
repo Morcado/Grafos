@@ -120,7 +120,28 @@ namespace EditordeGrafos{
             else {
                 radioButton2.Checked = true;
             }
-
+            button3.BackColor = graph.NodeColor;
+            if ((graph.NodeColor.R + graph.NodeColor.B + graph.NodeColor.G) / 3 < 100) {
+                button3.ForeColor = Color.White;
+            }
+            else {
+                button3.ForeColor = Color.Black;
+            }
+            button4.BackColor = graph.NodeBorderColor;
+            if ((graph.NodeBorderColor.R + graph.NodeBorderColor.B + graph.NodeBorderColor.G) / 3 < 100) {
+                button4.ForeColor = Color.White;
+            }
+            else {
+                button4.ForeColor = Color.Black;
+            }
+            button5.BackColor = graph.EdgeColor;
+            if ((graph.EdgeColor.R + graph.EdgeColor.B + graph.EdgeColor.G) / 3 < 100) {
+                button5.ForeColor = Color.White;
+            }
+            else {
+                button5.ForeColor = Color.Black;
+            }
+            button5.ForeColor = Color.White;
             Invalidate();
             
         }
@@ -132,7 +153,7 @@ namespace EditordeGrafos{
             g.FillEllipse(new SolidBrush(colNodo), (r1.X + r1.Width / 2) - radio / 2, (r1.Y + r1.Height / 2) - radio / 2, radio, radio);
             g.DrawEllipse(new Pen(colBordeNodo, anchoBordeNodo), (r1.X + r1.Width / 2) - radio / 2, (r1.Y + r1.Height / 2) - radio / 2, radio, radio);
             g.DrawLine(new Pen(colArista, anchoArista), r2.Left + 10, r2.Top + r2.Height / 2, r2.Right - 10, r2.Bottom - r2.Height / 2);
-            g.DrawString("A", new Font("Bold", radio/4), Brushes.Black, (r1.X + r1.Width / 2) - radio/4, (r1.Y + r1.Height / 2) - radio/4);
+            g.DrawString("A", new Font("Bold", radio/4), Brushes.Black, (r1.X + r1.Width / 2) - radio/6, (r1.Y + r1.Height / 2) - radio/5);
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e){ //tamaño del nodo
@@ -150,9 +171,17 @@ namespace EditordeGrafos{
                 var result = c.ShowDialog();
                 if (result == DialogResult.OK) {
                     colNodo = c.Color;
+                    button3.BackColor = c.Color;
+                    if ((c.Color.R + c.Color.B + c.Color.G)/3 < 100) {
+                        button3.ForeColor = Color.White;
+                    }
+                    else {
+                        button3.ForeColor = Color.Black;
+                    }
                 }
             }
             Invalidate();
+            
         }
 
         private void button4_Click(object sender, EventArgs e) { // color borde nodo
@@ -160,6 +189,13 @@ namespace EditordeGrafos{
                 var result = c.ShowDialog();
                 if (result == DialogResult.OK) {
                     colBordeNodo = c.Color;
+                    button4.BackColor = c.Color;
+                    if ((c.Color.R + c.Color.B + c.Color.G) / 3 < 100) {
+                        button4.ForeColor = Color.White;
+                    }
+                    else {
+                        button4.ForeColor = Color.Black;
+                    }
                 }
             }
             Invalidate();
@@ -181,6 +217,13 @@ namespace EditordeGrafos{
                 var result = c.ShowDialog();
                 if (result == DialogResult.OK) {
                     colArista = c.Color;
+                    button5.BackColor = c.Color;
+                    if ((c.Color.R + c.Color.B + c.Color.G) / 3 < 100) {
+                        button5.ForeColor = Color.White;
+                    }
+                    else {
+                        button5.ForeColor = Color.Black;
+                    }
                 }
             }
             Invalidate();
@@ -210,6 +253,12 @@ namespace EditordeGrafos{
             colArista = Color.Black;
             numericUpDown3.Value = 1;
             anchoArista = decimal.ToInt32(numericUpDown3.Value);
+            button3.BackColor = Color.White;
+            button3.ForeColor = Color.Black;
+            button4.BackColor = Color.Black;
+            button4.ForeColor = Color.White;
+            button5.BackColor = Color.Black;
+            button5.ForeColor = Color.White;
             Invalidate();
         }
     }

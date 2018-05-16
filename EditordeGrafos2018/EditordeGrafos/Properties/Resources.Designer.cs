@@ -83,6 +83,16 @@ namespace EditordeGrafos.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap aristaColoreada {
+            get {
+                object obj = ResourceManager.GetObject("aristaColoreada", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap borragrafo {
             get {
                 object obj = ResourceManager.GetObject("borragrafo", resourceCulture);
@@ -173,6 +183,16 @@ namespace EditordeGrafos.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap dijkstra {
+            get {
+                object obj = ResourceManager.GetObject("dijkstra", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap dirigido {
             get {
                 object obj = ResourceManager.GetObject("dirigido", resourceCulture);
@@ -236,6 +256,36 @@ namespace EditordeGrafos.Properties {
         internal static System.Drawing.Bitmap guardar {
             get {
                 object obj = ResourceManager.GetObject("guardar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap insertacn {
+            get {
+                object obj = ResourceManager.GetObject("insertacn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap insertakn {
+            get {
+                object obj = ResourceManager.GetObject("insertakn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap insertawn {
+            get {
+                object obj = ResourceManager.GetObject("insertawn", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -262,3 +262,4 @@ C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\Edit
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\Editor De Grafos.exe
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\Editor De Grafos.pdb
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.csprojResolveAssemblyReference.cache
+C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Weights.resources

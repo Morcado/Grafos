@@ -85,13 +85,25 @@ namespace EditordeGrafos{
         #endregion
         #region operaciones
 
-        public bool InsertRelation(NodeP newRel, int num){
-            NodeR n;
-            n = new NodeR(newRel, "e" + num.ToString());
-           
-            relations.Add(n);
-            return true;
+        public void InsertRelation(NodeP newRel, int num, bool isDirected){
+            Degree++;
+            if(isDirected){
+                DegreeEx++;
+                newRel.DegreeIn++;
+            }
+
+            relations.Add(new NodeR(newRel, "e" + num.ToString()));
         }
+
+        public void RemoveRelation(NodeR delRel, bool isDirected) {
+            Degree--;
+            if (isDirected) {
+                delRel.Up.DegreeIn--;
+                this.degreeEx--;
+            }
+            relations.Remove(delRel);
+        }
+
         #endregion
     }
 }

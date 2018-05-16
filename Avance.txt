@@ -126,3 +126,11 @@ Fecha: April 27, 2018
 --------------------------------------------------------------------------------
 Date: April 27, 2018
     Se implementa la animacion de eler pero aun tiene roblemas de recorrido
+--------------------------------------------------------------------------------
+Date: April 29, 2018
+    Se implementa algoritmo de prim con animacion
+--------------------------------------------------------------------------------
+date: May 14, 2018
+    Se corrige el circuito y camino de euler para que este en un solo boton
+    Se myuestra el recorrido de euler
+    Se muestra los grupos de N Partita
