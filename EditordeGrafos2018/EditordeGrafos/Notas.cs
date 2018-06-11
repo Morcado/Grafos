@@ -95,7 +95,7 @@ namespace EditordeGrafos {
             
             //comboBox1.ValueMember = comboBox1.SelectedText;
             foreach (NodeP np in gra) {
-                if (comboBox1.SelectedItem == np.Name) {
+                if (comboBox1.SelectedItem.ToString() == np.Name) {
                     
                     comboBox1.Items.Remove(np.Name);
                     listView1.Items.Add(np.Name);

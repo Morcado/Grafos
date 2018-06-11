@@ -29,6 +29,11 @@ public class Graph:List<NodeP> {
         set { letter = value; }
     }
 
+    public bool EdgeIsDirected {
+        get { return edgeIsDirected; }
+        set { edgeIsDirected = value; }
+    }
+
     public int EdgeWidth {
         get { return edgeWidth; }
         set { edgeWidth = value; }
@@ -91,9 +96,10 @@ public class Graph:List<NodeP> {
         edgesList = new List<Edge>();
         edgeColor = gr.EdgeColor;
         nodeColor = gr.nodeColor;
-        NodeP aux1,aux2;
         nodeRadio = gr.NodeRadio;
         Edge k = new Edge();
+        NodeP aux1,aux2;
+
         nodeBorderWidth = 1;
         edgeWidth = 1;
         nodeBorderColor = Color.Black;
@@ -105,11 +111,13 @@ public class Graph:List<NodeP> {
             this.Add(new NodeP(n));
         }
 
+
+
         foreach(NodeP n in gr){
             aux1 = Find(delegate(NodeP bu) { if (bu.Name == n.Name)return true; else return false; });
             foreach (NodeR rel in n.relations){
                 aux2 = Find(delegate(NodeP je) { if (je.Name == rel.Up.Name)return true; else return false; });
-                aux1.InsertRelation(aux2, EdgesList.Count, edgeIsDirected);
+                aux1.InsertRelation(aux2, edgesList.Count, false);
             }
         }
 
@@ -120,6 +128,8 @@ public class Graph:List<NodeP> {
             k.Weight = ar.Weight;
             AddEdge(k);
         }
+
+
     }
 
     public void AddNode(NodeP n){ 
@@ -189,8 +199,9 @@ public class Graph:List<NodeP> {
 
     // Regresa la arista entre dos nodos que si se sabe que tiene aristas
     public Edge GetEdge(NodeP a, NodeP b){ 
-        for (int i = 0; i < edgesList.Count; i++) {
-            if (edgesList[i].Origin == a && edgesList[i].Destiny == b || edgesList[i].Origin == b && edgesList[i].Destiny == a) {
+        for (int i = 0; i < this.edgesList.Count; i++) {
+            if (this.edgesList[i].Origin.Name == a.Name && this.edgesList[i].Destiny.Name == b.Name || 
+                    this.edgesList[i].Origin.Name == b.Name && this.edgesList[i].Destiny.Name == a.Name) {
                 return (edgesList[i]);
             }
         }

@@ -51,5 +51,9 @@ namespace EditordeGrafos {
             Close();
         }
 
+        private void SpecialGraph_Load(object sender, EventArgs e) {
+
+        }
+
     }
 }

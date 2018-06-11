@@ -8,6 +8,7 @@ using System.IO;
 
 namespace EditordeGrafos{
 public partial class Editor : Form {
+    private bool num;
     private bool band;
     private char nombre;
     private int numero;
@@ -23,14 +24,15 @@ public partial class Editor : Form {
     private Notas diag;
     private Graph graph;
     private int option;
+    private bool switcher;
+
     private int tmpCount;
     private int tmp2Count;
     private Timer timer1;
+    private List<NodeP> tmpNodes;
     private List<Edge> tmpEdges;
     private List<List<Edge>> tmp2Edges;
     private List<Color> listColors;
-    
-    
 
     public int Accion {
         get { return option; }
@@ -40,12 +42,13 @@ public partial class Editor : Form {
     #region Structure
     // Configuraciones iniciales al editor
     private void Form1_Load(object sender, EventArgs e){
+        switcher = false;
         graphics = CreateGraphics();
         this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         this.BackColor = Color.White;
         fl = new Pen(Brushes.Green);
         bmp1 = new Bitmap(800,600);
-        
+        num = false;
         numero = 0;
         
         band = false;
@@ -68,7 +71,6 @@ public partial class Editor : Form {
     public void MakeColors() {
         listColors = new List<Color>();
         listColors.Add(Color.FromArgb(135, 255, 95));
-
         listColors.Add(Color.FromArgb(0, 135, 0));
         listColors.Add(Color.FromArgb(95, 135, 175));
         listColors.Add(Color.FromArgb(175, 135, 135));
@@ -105,7 +107,6 @@ public partial class Editor : Form {
         listColors.Add(Color.FromArgb(135, 0, 255));
         listColors.Add(Color.FromArgb(215, 255, 0));
         listColors.Add(Color.FromArgb(255, 0, 175));
-        
         listColors.Add(Color.FromArgb(215, 135, 175));
         listColors.Add(Color.FromArgb(135, 95, 175));
         listColors.Add(Color.FromArgb(38, 38, 38));
@@ -165,7 +166,6 @@ public partial class Editor : Form {
         listColors.Add(Color.FromArgb(148, 148, 148));
         listColors.Add(Color.FromArgb(215, 95, 95));
         listColors.Add(Color.FromArgb(0, 0, 95));
-
         listColors.Add(Color.FromArgb(215, 215, 255));
         listColors.Add(Color.FromArgb(135, 0, 95));
         listColors.Add(Color.FromArgb(95, 215, 175));
@@ -181,21 +181,112 @@ public partial class Editor : Form {
         if (ClientSize.Width != 0 && ClientSize.Height != 0) {
             bmp1 = new Bitmap(ClientSize.Width, ClientSize.Height);
             graphics = CreateGraphics();
-            graphics.DrawImage(bmp1, 0, 0);
+            graphics.DrawImage(bmp1, 50, 50);
+        }
+    }
+
+    public void drawEdgeAnim(Edge edd, Color theColor) {
+        float x2 = edd.Destiny.Position.X;
+        float x1 = edd.Origin.Position.X;
+        float y2 = edd.Destiny.Position.Y;
+        float y1 = edd.Origin.Position.Y;
+
+        double dy = y2 - y1;
+        double dx = x2 - x1;
+        double m = dy / dx;
+
+        float au;
+        double b = y1 - m * x1;
+
+        if (dx == 0) {
+            if (y1 > y2) {
+                au = -(float)0.05;
+
+                y1 = y1 - graph.NodeRadio / (float)2;
+                y2 = y2 + graph.NodeRadio / (float)2;
+
+                while (y1 > y2) {
+                    y1 += au;
+                    if (theColor == Color.Empty) {
+                        graphics.FillRectangle(new SolidBrush(listColors[tmpCount]), x1, y1, 3, 3);
+                    }
+                    else {
+                        graphics.FillRectangle(new SolidBrush(theColor), x1, y1, 3, 3);
+                    }
+                }
+
+            }
+            else {
+                au = (float)0.05;
+
+                y1 = y1 + graph.NodeRadio / (float)2;
+                y2 = y2 - graph.NodeRadio / (float)2;
+                while (y1 < y2) {
+                    y1 += au;
+                    if (theColor == Color.Empty) {
+                        graphics.FillRectangle(new SolidBrush(listColors[tmpCount]), x1, y1, 3, 3);
+                    }
+                    else {
+                        graphics.FillRectangle(new SolidBrush(theColor), x1, y1, 3, 3);
+                    }
+                }
+            }
+        }
+        else {
+            double angle = Math.Atan(m);
+            double rx = ((double)graph.NodeRadio / 2.0) * Math.Cos(angle);
+            double ry = ((double)graph.NodeRadio / 2.0) * Math.Sin(angle);
+
+            if (x2 > x1) {
+                au = (float)0.05;
+                x1 = x1 + (float)Math.Round(rx); y1 = y1 + (float)Math.Round(ry);
+                x2 = x2 - (float)Math.Round(rx);
+                while (x2 > x1) {
+                    x1 += au;
+                    y1 = (int)Math.Round(m * x1 + b);
+                    if (theColor == Color.Empty) {
+                        graphics.FillRectangle(new SolidBrush(listColors[tmpCount]), x1, y1, 3, 3);
+                    }
+                    else {
+                        graphics.FillRectangle(new SolidBrush(theColor), x1, y1, 3, 3);
+                    }
+                }
+            }
+            else {
+                au = -(float)0.05;
+                x1 = x1 - (float)Math.Round(rx); y1 = y1 - (float)Math.Round(ry);
+                x2 = x2 + (float)Math.Round(rx);
+                while (x2 < x1) {
+                    x1 += au;
+                    y1 = (int)Math.Round(m * x1 + b);
+                    if (theColor == Color.Empty) {
+                        graphics.FillRectangle(new SolidBrush(listColors[tmpCount]), x1, y1, 3, 3);
+                    }
+                    else {
+                        graphics.FillRectangle(new SolidBrush(theColor), x1, y1, 3, 3);
+                    }
+                }
+            }
         }
     }
 
     //Timer que permite hacer animaciones
     void GraphTimer(object sender, EventArgs e) {
         switch (timerOption) {
-            // Dibujar lista de aristas
+            // Dibujar lista de aristas y nodos
             case 1:
-                if (tmpCount == tmpEdges.Count || tmpCount == listColors.Count) {
-                    timer1.Stop();
-                    tmpEdges.Clear();
+                if (tmpCount == tmpEdges.Count || tmpCount == 99) {
+                    timer1.Stop(); 
                 }
                 else {
-                    graphics.DrawLine(new Pen(new SolidBrush(listColors[0]), (float)6), tmpEdges[tmpCount].Origin.Position, tmpEdges[tmpCount].Destiny.Position);
+                    if (tmpNodes != null && switcher == false){
+                        graphics.DrawEllipse(new Pen(new SolidBrush(Color.Green), 3), tmpNodes[tmpCount].Position.X - graph.NodeRadio/2, tmpNodes[tmpCount].Position.Y - graph.NodeRadio/2, graph.NodeRadio, graph.NodeRadio);
+                        switcher = !switcher;
+                        break;
+                    }
+                    switcher = !switcher;
+                    drawEdgeAnim(tmpEdges[tmpCount], Color.Red);
+                    
                     tmpCount++;
                 }
                 break;
@@ -203,17 +294,28 @@ public partial class Editor : Form {
             case 2:
                 if (tmpCount == tmp2Edges.Count || tmpCount == listColors.Count) {
                     timer1.Stop();
-                    tmp2Edges.Clear();
                 }
                 else {
                     foreach (Edge eee in tmp2Edges[tmpCount]) {
-                        graphics.DrawLine(new Pen(new SolidBrush(listColors[tmpCount]), (float)6), eee.Origin.Position, eee.Destiny.Position);
+                        drawEdgeAnim(eee, Color.Empty);
                     }
                     tmpCount++;
                 }
                 break;
+                // dibujar solo nodos y solo aristas 
+            case 3:
+                if (tmpCount == tmpNodes.Count || tmpCount == 99) {
+                    timer1.Stop();
+                }
+                else {
+                    graphics.DrawEllipse(new Pen(new SolidBrush(Color.Green), 3), tmpNodes[tmpCount].Position.X - graph.NodeRadio/2, tmpNodes[tmpCount].Position.Y - graph.NodeRadio/2, graph.NodeRadio, graph.NodeRadio);
+                    tmpCount++;
+                }
+                    
+                break;
 
         }
+        
     }
 
     #endregion
@@ -315,9 +417,18 @@ public partial class Editor : Form {
         Graphics au;
         au = Graphics.FromImage(bmp1);
         au.Clear(BackColor);
+        if (graph.EdgesList.Count == 0) {
+            lT_prim.Enabled = m_prim.Enabled = false;
+            lT_euler.Enabled = m_euler.Enabled = false;
+            lT_coloredEdges.Enabled = m_coloredEdges.Enabled = false;
+            tT_directedEdge.Enabled = m_directedEdge.Enabled = true;
+            tT_undirectedEdge.Enabled = m_undirectedEdge.Enabled = true;
+        }
+
         switch(option){
             // Agregar nodo
             case 1:
+
                 pt1 = pt2;
                 pt2 = e.Location;
                 band = true;
@@ -349,8 +460,14 @@ public partial class Editor : Form {
                 pt1 = pt2;
                 if (graph.EdgesList.Count > 0) {
                     tT_removeEdge.Enabled = m_deleteEdge.Enabled = true;
+                    if (edgeIsDirected) {
+                        tT_undirectedEdge.Enabled = m_undirectedEdge.Enabled = false;
+                    }
+                    else {
+                        tT_directedEdge.Enabled = m_directedEdge.Enabled = false;
+                    }
                 }
-                EnableMenus();
+
                 graphics.DrawImage(bmp1, 0, 0);
                 break;
             // Eliminar nodo
@@ -403,6 +520,7 @@ public partial class Editor : Form {
                 using (Stream stream = File.Open(namefile, FileMode.Open)) {
                     BinaryFormatter bin = new BinaryFormatter();
                     graph = (Graph)bin.Deserialize(stream);
+                    edgeIsDirected = graph.EdgeIsDirected;
                     pinta(graphics);
                 }
             }
@@ -537,6 +655,7 @@ public partial class Editor : Form {
         fl.StartCap = LineCap.RoundAnchor;
         fl.Width = 4;
         edgeIsDirected = true;
+        graph.EdgeIsDirected = true;
     }
 
     // Evento arista no digirida
@@ -550,6 +669,7 @@ public partial class Editor : Form {
         fl.StartCap = LineCap.NoAnchor;
         fl.Width = 4;
         edgeIsDirected = false;
+        graph.EdgeIsDirected = false;
     }
 
     // Intercambia las letras por numeros en las aristas
@@ -613,6 +733,64 @@ public partial class Editor : Form {
         pinta(graphics);
     }
 
+    private void mSpecialGraph(object sender, EventArgs e) {
+        SpecialGraph sg = new SpecialGraph();
+        sg.ShowDialog();
+        if (sg.DialogResult == DialogResult.OK) {
+            switch (sg.Type) {
+                case 1:
+                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/petersen.grafo");
+                    break;
+                case 2:
+                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/dodecahedro.grafo");
+                    break;
+                case 3:
+                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/cimitarra.grafo");
+                    break;
+                case 4:
+                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/k33.grafo");
+                    break;
+            }
+        }
+    }
+
+    private void OpenSpecialGraph(string name) {
+
+        try {
+            using (Stream stream = File.Open(name, FileMode.Open)) {
+                BinaryFormatter bin = new BinaryFormatter();
+                graph = (Graph)bin.Deserialize(stream);
+                pinta(graphics);
+            }
+        }
+        catch (IOException exe) {
+            MessageBox.Show(exe.ToString());
+        }
+
+        EnableMenus();
+
+        if (graph.EdgesList != null && graph.EdgesList.Count > 0 && edgeIsDirected) {
+            m_directedEdge.Enabled = tT_directedEdge.Enabled = true;
+            m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = false;
+        }
+        else {
+            m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = true;
+            m_directedEdge.Enabled = tT_directedEdge.Enabled = false;
+        }
+
+        option = 0;
+        graph.UnselectAllNodes();
+        nombre = 'A';
+        // avanza el nombre hasta el ultimo que habia
+        for (int i = 0; i < graph.Count; i++) {
+            nombre++;
+            if (nombre > 91) {
+                nombre = '1';
+            }
+        }
+
+    }
+
     #endregion
     #region Paint
 
@@ -626,7 +804,7 @@ public partial class Editor : Form {
             // Agrega nodo
             case 1:
                 if (band) {
-                    bool num = false;
+                    
                     int iaux;
                     if (graph.Count > 0) {
                         if ((int.TryParse(graph[0].Name.ToString(), out iaux)) == true) {
@@ -636,6 +814,9 @@ public partial class Editor : Form {
                     nu = new NodeP(pt2, nombre);
                     if (num == false) {
                         nombre++;
+                        if (nombre > 90) {
+                            num = true;
+                        }
                     }
                     else {
                         nu.Name = numero.ToString();
@@ -643,10 +824,22 @@ public partial class Editor : Form {
                     }
 
                     if (graph.Count > 1) {
+                        
                         nu.Color = graph[0].Color;
                     }
-                    EnableMenus();
+
+                    
                     graph.AddNode(nu);
+                }
+                if (graph.Count >= 1) {
+                    tT_moveGraph.Enabled = m_moveGraph.Enabled = true;
+                    tT_deleteGraph.Enabled = m_deleteGraph.Enabled = true;
+                    tT_eraseGraph.Enabled = m_eraseGraph.Enabled = true;
+                    tT_saveGraph.Enabled = m_saveGraph.Enabled = true;
+                    tT_moveNode.Enabled = m_moveNode.Enabled = true;
+                    lT_complement.Enabled = m_complement.Enabled = true;
+                    tT_deleteNode.Enabled = m_deleteNode.Enabled = true;
+                    lT_nPartite.Enabled = m_npartite.Enabled = true;
                 }
                 break;
             // Mueve nodo
@@ -674,6 +867,17 @@ public partial class Editor : Form {
                     if (nu != null) {
                         au.DrawLine(fl, pt1, pt2);
                     }
+                }
+                if (graph.EdgesList.Count > 0) {
+                    if (!edgeIsDirected) {
+                        lT_kuratowsky.Enabled = m_kuratowsky.Enabled = true;
+                        lT_prim.Enabled = m_prim.Enabled = true;
+                        lT_hamilton.Enabled = m_hamilton.Enabled = true;
+                    }
+                    lT_topological.Enabled = m_topological.Enabled = true;
+                    lT_euler.Enabled = m_euler.Enabled = true;
+                    lT_coloredEdges.Enabled = m_coloredEdges.Enabled = true;
+                    
                 }
                 break;
             // Mover grafo
@@ -739,14 +943,18 @@ public partial class Editor : Form {
         double dy, dx;
         dy = dx = 0;
         List<Edge> repetidas = new List<Edge>();
+        // Dibuja la linea entre dos nodos
         if (graph.EdgesList != null && graph.EdgesList.Count > 0) {
             foreach (Edge a in graph.EdgesList) {
                 if (!edgeIsDirected) {
                     if (a.Origin.Name == a.Destiny.Name) {
+                        // Oreja
                         g.DrawBezier(penNdi, new Point(a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) - 10, a.Origin.Position.Y + ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) - 5), new Point(a.Origin.Position.X + ((a.Destiny.Position.X - a.Origin.Position.X) / 2) - 40, a.Origin.Position.Y - ((a.Destiny.Position.Y - a.Origin.Position.Y) / 2) - 60), new Point(a.Origin.Position.X + 40, a.Destiny.Position.Y - 60), new Point(a.Destiny.Position.X + 10, a.Destiny.Position.Y - 5));
                     }
                     else {
-                        g.DrawLine(penNdi, a.Origin.Position.X, a.Origin.Position.Y, a.Destiny.Position.X, a.Destiny.Position.Y);
+                        // Arista no dirigida
+                        
+                        g.DrawLine(penNdi, a.Origin.Position.X, a.Origin.Position.Y , a.Destiny.Position.X, a.Destiny.Position.Y);
                     }
 
                     repetidas = graph.EdgesList.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name || (a.Origin.Name == repe.Destiny.Name && a.Destiny.Name == repe.Origin.Name))return true; else return false; });
@@ -771,6 +979,7 @@ public partial class Editor : Form {
                             double teta2 = Math.Atan2(a.Origin.Position.Y - a.Destiny.Position.Y, a.Origin.Position.X - a.Destiny.Position.X);
                             float x2 = a.Destiny.Position.X + (float)((Math.Cos(teta2)) * (s.Height / 2));
                             float y2 = a.Destiny.Position.Y + (float)((Math.Sin(teta2)) * (s.Height / 2));
+                            //Arista dirigida draw
                             g.DrawLine(pendi, x1, y1, x2, y2);
 
                             if (graph.EdgesList.FindAll(delegate(Edge repe) { if (repe.Origin.Name == a.Origin.Name && repe.Destiny.Name == a.Destiny.Name)return true; else return false; }).Count > 1) {
@@ -861,7 +1070,7 @@ public partial class Editor : Form {
                 Rectangle re = new Rectangle(n.Position.X - (s.Height / 2), n.Position.Y - (s.Height / 2), s.Width, s.Height);
                 g.FillEllipse(nod, re);
                 g.DrawEllipse(pen, re);
-                g.DrawString(n.Name.ToString(), new Font("Bold", graph.NodeRadio / 4), new SolidBrush(graph.NodeBorderColor), (n.Position.X - graph.NodeRadio / 4 + graph.NodeRadio / 12), (n.Position.Y - graph.NodeRadio / 4 + graph.NodeRadio / 12));
+                g.DrawString(n.Name, new Font("Bold", graph.NodeRadio / 4), new SolidBrush(graph.NodeBorderColor), (n.Position.X - graph.NodeRadio / 4 + graph.NodeRadio / 12), (n.Position.Y - graph.NodeRadio / 4 + graph.NodeRadio / 12));
             }
         }
         pendi.Dispose();
@@ -871,6 +1080,11 @@ public partial class Editor : Form {
 
     #endregion
     #region Interface
+
+    private void EdgeWeigth(object sender, EventArgs e) {
+        Weights w = new Weights();
+        w.ShowDialog();
+    }
 
     private void MenuArista_Closing(object sender, ToolStripDropDownClosingEventArgs e) {
         if (toolStripTextBox1.Text.Length > 0) {
@@ -898,13 +1112,17 @@ public partial class Editor : Form {
             else {
                 // Si hay aristas dirigidas
                 if (edgeIsDirected) {
-                    
+                    m_directedEdge.Enabled = m_pesoAristas.Enabled = true;
+                    m_topological.Enabled = lT_topological.Enabled = true;
                     m_directedEdge.Enabled = tT_directedEdge.Enabled = true;
                     m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = false;
                    
                 }
                     // Si hay aristas no dirigidas
                 else {
+                    m_directedEdge.Enabled = m_pesoAristas.Enabled = true;
+                    lT_hamilton.Enabled = m_hamilton.Enabled = true;
+                    m_kuratowsky.Enabled = lT_kuratowsky.Enabled = true;
                     lT_coloredEdges.Enabled = m_coloredEdges.Enabled = true;
                     m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = true;
                     m_directedEdge.Enabled = tT_directedEdge.Enabled = false;
@@ -930,6 +1148,9 @@ public partial class Editor : Form {
 
     // Descativa la mayoría de los botones y reinicializa el grafo
     private void DisableMenus() {
+        m_kuratowsky.Enabled = lT_kuratowsky.Enabled = false ;
+        m_topological.Enabled = lT_topological.Enabled = false;
+        lT_hamilton.Enabled = m_hamilton.Enabled = false;
         m_addNode.Enabled = tT_addNode.Enabled = true;
         m_moveNode.Enabled = tT_moveNode.Enabled = false;
         m_directedEdge.Enabled = tT_directedEdge.Enabled = false;
@@ -964,65 +1185,17 @@ public partial class Editor : Form {
 
     #endregion
 
-    private void EdgeWeigth(object sender, EventArgs e) {
-        Weights w = new Weights();
-        w.ShowDialog();
-    }
-
-    private void mSpecialGraph(object sender, EventArgs e) {
-
-        SpecialGraph sg = new SpecialGraph();
-        sg.ShowDialog();
-        if (sg.DialogResult == DialogResult.OK) {
-            switch (sg.Type) {
-                case 1:
-                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/petersen.grafo");
-                    break;
-                case 2:
-                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/dodecahedro.grafo");
-                    break;
-                case 3:
-                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/cimitarra.grafo");
-                    break;
-                case 4:
-                    OpenSpecialGraph(Application.StartupPath + "/ProyectosGrafo/especiales/k33.grafo");
-                    break;
-            }
-        }
-    }
-
-    private void OpenSpecialGraph(string name) {
-
-        try {
-            using (Stream stream = File.Open(name, FileMode.Open)) {
-                BinaryFormatter bin = new BinaryFormatter();
-                graph = (Graph)bin.Deserialize(stream);
-                pinta(graphics);
-            }
-        }
-        catch (IOException exe) {
-            MessageBox.Show(exe.ToString());
-        }
-
-        EnableMenus();
-
-        if (graph.EdgesList != null && graph.EdgesList.Count > 0 && edgeIsDirected) {
-            m_directedEdge.Enabled = tT_directedEdge.Enabled = true;
-            m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = false;
-        }
-        else {
-            m_undirectedEdge.Enabled = tT_undirectedEdge.Enabled = true;
-            m_directedEdge.Enabled = tT_directedEdge.Enabled = false;
-        }
-
-        option = 0;
-        graph.UnselectAllNodes();
-        nombre = 'A';
-        // avanza el nombre hasta el ultimo que habia
-        for (int i = 0; i < graph.Count; i++) {
-            nombre++;
-        }
-
+    private void examen_Click(object sender, EventArgs e) {
+        tT_deleteNode.Enabled = m_deleteNode.Enabled = false;
+        tT_addNode.Enabled = m_addNode.Enabled = false;
+        m_directedEdge.Enabled = m_undirectedEdge.Enabled = false;
+        tT_directedEdge.Enabled = tT_undirectedEdge.Enabled = false;
+        option = 99;
+        diag = new Notas(graph, this);
+        diag.Location = new Point(this.ClientSize.Width + this.Left, this.Top);
+        diag.TopMost = true;
+        diag.Show();
+        Form1_Paint(this, null);
     }
 
     private void mInsertaKn(object sender, EventArgs e) {
@@ -1053,22 +1226,178 @@ public partial class Editor : Form {
     }
 
     private void mNPartita(object sender, EventArgs e) {
-        List<List<NodeP>> grupos = genPartita();
-        MessageBox.Show("El grafo es " + grupos.Count.ToString() + "-partita");
+       
+        List<List<NodeP>> grupos = genPartita(graph);
+        List<string> message = new List<string>();
+        message.Add("El grafo es " + grupos.Count.ToString() + "-partita");
         string conjuntos = "";
         for (int i = 0; i < grupos.Count; i++) {
-            conjuntos += "Grupo " + (i + 1).ToString() + ":\n";
+            message.Add("Grupo " + (i + 1).ToString());
             for (int j = 0; j < grupos[i].Count; j++) {
                 conjuntos += grupos[i][j].Name.ToString() + ", ";
             }
             conjuntos = conjuntos.Remove(conjuntos.Length - 2);
-            conjuntos += "\n";
+            message.Add(conjuntos);
+            conjuntos = "";
         }
-        MessageBox.Show(conjuntos);
+        new ScrollableMessageBox("N Partita", message.ToArray()).ShowDialog();
+
     }
 
     private void mKuratowsky(object sender, EventArgs e){
-        Kuratowsky();
+        List<string> message = new List<string>();
+        List<NodeP> noditos = new List<NodeP>();
+        List<Edge> aristitas = new List<Edge>();
+        string mess = "";
+        if (graph.Count >= 3) {
+            int regiones = graph.EdgesList.Count - graph.Count + 2;
+            int c = 3 * graph.Count - 6;
+            message.Add("Corolario 1");
+            message.Add("----------------------------------------------------------");
+            message.Add("E <= 3V - 6");
+            message.Add((graph.EdgesList.Count).ToString() + " <= " + "3(" + graph.Count + ") - 6");
+            message.Add((graph.EdgesList.Count).ToString() + " <= " + (graph.Count*3).ToString() +" - 6");
+            message.Add((graph.EdgesList.Count).ToString() + " <= " + c.ToString());
+            //message.Add("----------------------------------------------------------");
+            if (graph.EdgesList.Count <= c) {
+                message.Add("El grafo es plano");
+            }
+            else {
+                message.Add("El grafo no es plano");
+            }
+            message.Add(" ");
+            message.Add("Corolario 2: ");
+            message.Add("----------------------------------------------------------");
+            message.Add("E <= 2V - 4");
+            message.Add(graph.EdgesList.Count.ToString() + " <= " + "2(" + graph.Count.ToString() + ") - 4");
+            message.Add(graph.EdgesList.Count.ToString() + " <= " + (graph.Count*2).ToString() +" - 4");
+            c = 2 * graph.Count - 4;
+            message.Add(graph.EdgesList.Count.ToString() + " <= " + c.ToString());
+
+
+            bool sihay = false;
+            foreach (NodeP np in graph) {
+                if (verifCircuito3(np)) {
+                    sihay = true;
+                }
+
+            }
+            if (sihay) {
+                message.Add("Tiene circuito de grado 3");
+                
+            }
+            else {
+                message.Add("No tiene circuito de grado 3");
+                
+            }
+
+            if (graph.EdgesList.Count <= c) {
+
+                message.Add("El grafo es plano");
+            }
+            else { 
+                message.Add("El grafo no es plano");
+            }
+            new ScrollableMessageBox("Kuratowsky", message.ToArray()).ShowDialog();
+
+            // verificar cuantos nodos tiene
+            int numNodosMayCua = 0;
+            int numNodosMayTre = 0;
+            foreach (NodeP np in graph) {
+                if (np.Degree >= 4) {
+                    numNodosMayCua++;
+                }
+                if (np.Degree >= 3) 
+                    numNodosMayTre++;
+            }
+            double thickness = graph.EdgesList.Count / (3.0 * graph.Count - 6);
+            if ((numNodosMayCua >= 5 || numNodosMayTre >= 6)) {
+                mess = Kuratowsky(noditos, aristitas);
+                if (noditos.Count > 0) {
+                    graph.UnselectAllNodes();
+                    foreach (NodeP np in graph) {
+                        if (!np.Visited) {
+                            np.Color = Color.Orange;
+                        }
+                    }
+                    foreach (NodeP np in graph) {
+                        if (np.Degree == 2 && !np.Visited && graph.GetEdge(np.relations[0].Up,np.relations[1].Up) == null) {
+                            np.Visited = true;
+                            np.Color = Color.LightGreen;
+                            foreach (NodeP nn in graph) {
+                                if (!nn.Visited && nn.Degree == 2){
+		 
+                                    NodeP a = nn.relations[0].Up;
+                                    NodeP b = nn.relations[1].Up;
+                                    if((np.relations[0].Up == a && np.relations[1].Up == b) || (np.relations[0].Up == b && np.relations[1].Up == a)){
+                                        nn.Visited = true;
+                                    }
+	                            }
+                            }
+                        }
+                    }
+
+                    graph.UnselectAllNodes();
+                    foreach (NodeP np in graph) {
+                        foreach (NodeP n in noditos) {
+                            if (np.Name == n.Name) {
+                                np.Color = Color.SkyBlue;
+                                np.Visited = true;
+                            }
+                        }
+                        foreach (Edge ed in aristitas) {
+                            if (np.Name == ed.Destiny.Name && ed.Destiny.Visited) {
+                                graph.GetEdge(np, ed.Origin).Origin.Color = Color.LightGreen;
+                            }
+                            else {
+                                if (np.Name == ed.Origin.Name && ed.Origin.Visited) {
+                                    graph.GetEdge(np, ed.Destiny).Destiny.Color = Color.LightGreen;
+                                }
+                            }
+                            
+                        }
+                    }
+                    
+                }
+
+                this.Form1_Paint(this, null);
+                tmpEdges = new List<Edge>();
+                if (noditos.Count == 5) {
+                    for (int i = 0; i < noditos.Count; i++){
+                        for (int j = 0; j < noditos.Count; j++) {
+                            if (i != j && i < j) {
+                                tmpEdges.Add(new Edge(noditos[i], noditos[j], "k5"));
+                            }
+                        }
+                    }
+                    foreach (Edge ed in tmpEdges) {
+                        drawEdgeAnim(ed, Color.SkyBlue);
+                    }
+                    foreach (Edge ed in aristitas) {
+                        drawEdgeAnim(ed, Color.Orange);
+                    }
+                }
+                else {
+                    if (noditos.Count == 6) {
+                        for (int i = 0; i < 3; i++) {
+                            for (int j = 3; j < 6; j++) {
+                                tmpEdges.Add(new Edge(noditos[i], noditos[j], "k5"));
+                            }
+                        }
+                        foreach (Edge ed in tmpEdges) {
+                            drawEdgeAnim(ed, Color.SkyBlue);
+                        }
+                    }
+                }
+                
+            MessageBox.Show(mess);
+            }
+            else {
+                MessageBox.Show("El grafo es plano");
+            }
+
+
+        }
     }
 
     private void mComplement(object sender, EventArgs e) {
@@ -1082,66 +1411,182 @@ public partial class Editor : Form {
     }
 
     private void mEuler(object sender, EventArgs e) {
-        tmpEdges = EulerCycle();
-        if (tmpEdges != null) {
-            string camino = tmpEdges[0].Origin.Name;
-            foreach (Edge ed in tmpEdges) {
-                camino += " → ";
-                camino += ed.Destiny.Name;
-                
+        //tmpEdges = EulerCycle();
+        tmpNodes = new List<NodeP>();
+        tmpEdges = new List<Edge>();
+        List<string> message = new List<string>();
+        tmpNodes.Clear();
+        graph.UnselectAllEdges();
+        graph.UnselectAllNodes();
+        if (EulerCircuit(graph[0], graph[0])) {
+            string camino = "";
+            foreach (NodeP n in tmpNodes) {
+                camino += n.Name + " → ";
             }
-            
+            camino = camino.Remove(camino.Length - 2);
+            message.Add(camino);
             timerOption = 1;
             tmpCount = 0;
+            for (int i = 0; i < tmpNodes.Count - 1; i++) {
+                tmpEdges.Add(new Edge(tmpNodes[i], tmpNodes[i + 1], "."));
+            }
             timer1.Start();
-            MessageBox.Show(camino);
+            new ScrollableMessageBox("Circuito de Euler", message.ToArray()).ShowDialog();
+
+        }
+        else {
+            bool road = false;
+            foreach (NodeP n in graph) {
+                tmpNodes.Clear();
+                graph.UnselectAllEdges();
+                graph.UnselectAllNodes();
+                if (EulerRoad(n, n)) {
+                    road = true;
+                    break;
+                }
+            }
+            if (road) {
+                string camino = "";
+                foreach (NodeP n in tmpNodes) {
+                    camino += n.Name + " → ";
+                }
+                camino = camino.Remove(camino.Length - 2);
+                message.Add(camino);
+                timerOption = 1;
+                tmpCount = 0;
+                for (int i = 0; i < tmpNodes.Count - 1; i++) {
+                    tmpEdges.Add(new Edge(tmpNodes[i], tmpNodes[i + 1], "."));
+                }
+                timer1.Start();
+                new ScrollableMessageBox("Circuito de Euler", message.ToArray()).ShowDialog();
+            }
+            else {
+                MessageBox.Show("El grafo no tiene ni circuito ni camino", "Resultado:");
+            }
         }
     }
 
     private void mPrim(object sender, EventArgs e) {
         tmpEdges = Prim();
+        List<string> message = new List<string>();
         if (tmpEdges != null) {
-            string prm = "Arbol de costo minimo\n";
+            string prm = "";
+            message.Add("Arbol de costo minimo");
             foreach (Edge ed in tmpEdges) {
                 prm += ed.Name + ", ";
             }
             prm = prm.Remove(prm.Length - 2);
-            
+            message.Add(prm);
             timerOption = 1;
             tmpCount = 0;
             timer1.Start();
-            MessageBox.Show(prm);
+            new ScrollableMessageBox("Prim", message.ToArray()).ShowDialog();
+            
         }
     }
 
     private void mDijkstra(object sender, EventArgs e) {
-
+        
     }
 
     private void mColoredEdges(object sender, EventArgs e) {
         tmp2Edges = ColoredEdges();
+        List<string> message = new List<string>();
         timer1.Start();
         if (tmp2Edges != null) {
             string colored = "";
-                //tmp2Edges[0].Origin.Name;
+            message.Add("Numero cromático: " + tmp2Edges.Count.ToString());
             for (int i = 0; i < tmp2Edges.Count; i++){
-                colored += "Grupo " + (i+1).ToString() + ":\n"; 
+                message.Add("Grupo " + (i+1).ToString());
                 for (int j = 0; j < tmp2Edges[i].Count; j++) {
+                    //colored += "(" + tmp2Edges[i][j].Origin.Name + "→" + tmp2Edges[i][j].Destiny.Name + ")";
                     colored += tmp2Edges[i][j].Name + ", ";
                 }
                 colored = colored.Remove(colored.Length - 2);
-                colored += "\n";
-
+                message.Add(colored);
+                colored = "";
 			}
-
             
             timerOption = 2;
             tmpCount = 0;
             tmp2Count = 0;
             timer1.Start();
-            MessageBox.Show(colored);
+            new ScrollableMessageBox("Aristas coloreadas", message.ToArray()).ShowDialog();
         }
     }
 
+    private void mTopological(object sender, EventArgs e) {
+        List<string> message = new List<string>();
+        tmpNodes = new List<NodeP>();
+        graph.UnselectAllNodes();
+        //tmpNodes = Topological(graph[0]);
+        recorretopo();
+        tmpNodes.Reverse();
+        message.Add("Visitar los nodos en el orden:");
+        string mess = "";
+        for (int i = tmpNodes.Count - 1; i >= 0; i--) {
+            mess += tmpNodes[i].Name + " → ";
+        }
+        mess = mess.Remove(mess.Length - 3);
+        message.Add(mess);
+
+
+        tmpNodes.Reverse();
+        timerOption = 3;
+        tmpCount = 0;
+        timer1.Start();
+        new ScrollableMessageBox("Clasificación topológica", message.ToArray()).ShowDialog();
+    }
+
+    private void mHamilton(object sender, EventArgs e) {
+        List<string> message = new List<string>();
+        int op;
+        tmpNodes = new List<NodeP>();
+        tmpEdges = new List<Edge>();
+
+        tmpNodes.Clear();
+        graph.UnselectAllNodes();
+        graph.UnselectAllEdges();
+        op = retHamil();
+
+        
+
+        if (op == 2) {
+            message.Add("Tiene camino Hamilton");
+            tmpNodes.Reverse();
+        }
+        else {
+            if (op == 1) {
+                message.Add("Tiene circuito hamilton");
+                while (graph[0].Name != tmpNodes[0].Name) {
+                    NodeP aux = tmpNodes[0];
+                    tmpNodes.RemoveAt(0);
+                    tmpNodes.Add(aux);
+                }
+                tmpNodes.Add(tmpNodes[0]);
+
+            }
+            else {
+                message.Add("No tiene circuito ni camino :Vv");
+            }
+        }
+
+        String printer = "  ";
+        foreach (NodeP n in tmpNodes) {
+            printer += n.Name + " → ";
+        }
+        printer = printer.Remove(printer.Length - 2);
+
+        message.Add(printer);
+        for (int i = 0; i < tmpNodes.Count - 1; i++) {
+            tmpEdges.Add(new Edge(tmpNodes[i], tmpNodes[i + 1], "."));
+        }
+
+        timerOption = 1;
+        tmpCount = 0;
+        tmp2Count = 0;
+        timer1.Start();
+        new ScrollableMessageBox("Hamilton", message.ToArray()).ShowDialog();
+    }
 }
 }

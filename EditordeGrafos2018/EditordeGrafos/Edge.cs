@@ -121,27 +121,27 @@ namespace EditordeGrafos{
 
         public bool toca(Point pos){
             Rectangle mouse = new Rectangle(pos.X, pos.Y, 3, 3);
-            Rectangle pix = new Rectangle(Origin.Position.X, Origin.Position.Y, 3, 3);
+            Rectangle pix = new Rectangle(Origin.Position.X, Origin.Position.Y, 1, 1);
 
             PointF p1 = Punto(-50,1);
             PointF p2 = Punto(-140,1);
             
-            int x0 = Origin.Position.X;
-            int y0 = Origin.Position.Y;
-            int x1 = Destiny.Position.X;
-            int y1 = Destiny.Position.Y;
+            int x1 = Origin.Position.X;
+            int y1 = Origin.Position.Y;
+            int x2 = Destiny.Position.X;
+            int y2 = Destiny.Position.Y;
 
-            int dx = Destiny.Position.X - Origin.Position.X; //nodo origen y destino
-            int dy = Destiny.Position.Y - Origin.Position.Y; //nodo origen y destino
+            int dx = x2 - x1; //nodo origen y destino
+            int dy = y2 - y1; //nodo origen y destino
 
-
+            double angleInDegrees = Math.Atan2(dy, dx) * 180 / Math.PI;
 
             if (Math.Abs(dx) > Math.Abs(dy)){ // si esta 90 grados hasta 46 
                 float m = (float)dy / (float)dx;
                 if (m == 0) {
                     
                 }
-                float b = y0 - m * x0;
+                float b = y1 - m * x1;
                 if (dx < 0){
                     dx = -1;
                 }
@@ -149,12 +149,12 @@ namespace EditordeGrafos{
                     dx = 1;
                 }
 
-                while (x0 != x1){ //calcula las pendientes de toda la linea
-                    x0 += dx;
-                    y0 = (int)Math.Round(m * x0 + b);
+                while (x1 != x2){ //calcula las pendientes de toda la linea
+                    x1 += dx;
+                    y1 = (int)Math.Round(m * x1 + b);
 
-                    pix.X = x0;
-                    pix.Y = y0;
+                    pix.X = x1;
+                    pix.Y = y1;
 
                     if(mouse.IntersectsWith(pix)){
                         return true;
@@ -164,7 +164,7 @@ namespace EditordeGrafos{
             else{
                 if (dy != 0){ // si esta de 45 a 0 grados
                     float m = (float)dx / (float)dy;      
-                    float b = x0 - m * y0;
+                    float b = x1 - m * y1;
                     if(dy < 0){
                         dy = -1;
                     }
@@ -172,11 +172,11 @@ namespace EditordeGrafos{
                         dy = 1;
                     }
 
-                    while (y0 != y1){
-                        y0 += dy;
-                        x0 = (int)Math.Round(m * y0 + b);
-                        pix.X = x0;
-                        pix.Y = y0;
+                    while (y1 != y2){
+                        y1 += dy;
+                        x1 = (int)Math.Round(m * y1 + b);
+                        pix.X = x1;
+                        pix.Y = y1;
 
                         if(mouse.IntersectsWith(pix)){
                             return true;
@@ -185,7 +185,7 @@ namespace EditordeGrafos{
                 }
             }
 
-            if(Destiny == Origin){ // si es completamente en 45 grados
+            if(Destiny == Origin){ // si oreja
                 List<double> ptList = new List<double>();
                 Bezier bc = new Bezier();
 
@@ -210,33 +210,7 @@ namespace EditordeGrafos{
                     }
                 }
             }
-            else{
-                p1 = Punto(1, 2);
-                p2 = Punto(1, 3);
-                List<double> ptList = new List<double>();
-                Bezier bc = new Bezier();
-
-                ptList.Add(Origin.Position.X);
-                ptList.Add(Origin.Position.Y);
-                ptList.Add(p1.X);
-                ptList.Add(p1.Y);
-                ptList.Add(p2.X);
-                ptList.Add(p2.Y);
-                ptList.Add(destiny.Position.X);
-                ptList.Add(destiny.Position.Y);
-               
-                const int Puntos = 200;
-                double[] ptind = new double[ptList.Count];
-                double[] p = new double[Puntos];
-                ptList.CopyTo(ptind, 0);
-                bc.Bezier2D(ptind, (Puntos) / 2, p);
-
-                for(int i = 1; i != Puntos - 1; i += 2){
-                    if(mouse.IntersectsWith(new Rectangle((int)p[i + 1], (int)p[i], 10, 10))){
-                        return true;
-                    }
-                }
-            }
+            
             return false;
         }
 

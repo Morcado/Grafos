@@ -69,6 +69,8 @@
             this.m_kuratowsky = new System.Windows.Forms.ToolStripMenuItem();
             this.m_prim = new System.Windows.Forms.ToolStripMenuItem();
             this.m_coloredEdges = new System.Windows.Forms.ToolStripMenuItem();
+            this.m_topological = new System.Windows.Forms.ToolStripMenuItem();
+            this.m_hamilton = new System.Windows.Forms.ToolStripMenuItem();
             this.insertarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_insertKn = new System.Windows.Forms.ToolStripMenuItem();
             this.m_insertWn = new System.Windows.Forms.ToolStripMenuItem();
@@ -107,7 +109,6 @@
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.tT_settings = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
-            this.m_weights = new System.Windows.Forms.ToolStripButton();
             this.MenuArista = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.Peso = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
@@ -129,10 +130,12 @@
             this.lT_coloredEdges = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator30 = new System.Windows.Forms.ToolStripSeparator();
             this.lT_prim = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
+            this.lT_topological = new System.Windows.Forms.ToolStripButton();
+            this.lT_kuratowsky = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator33 = new System.Windows.Forms.ToolStripSeparator();
             this.lT_test2 = new System.Windows.Forms.ToolStripButton();
-            this.lT_kuratowsky = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
+            this.lT_hamilton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.MenuArista.SuspendLayout();
@@ -400,7 +403,9 @@
             this.m_npartite,
             this.m_kuratowsky,
             this.m_prim,
-            this.m_coloredEdges});
+            this.m_coloredEdges,
+            this.m_topological,
+            this.m_hamilton});
             this.algoritmosToolStripMenuItem.Name = "algoritmosToolStripMenuItem";
             this.algoritmosToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
             this.algoritmosToolStripMenuItem.Text = "Algoritmos";
@@ -408,43 +413,57 @@
             // m_complement
             // 
             this.m_complement.Name = "m_complement";
-            this.m_complement.Size = new System.Drawing.Size(169, 22);
+            this.m_complement.Size = new System.Drawing.Size(200, 22);
             this.m_complement.Text = "Complemento";
             this.m_complement.Click += new System.EventHandler(this.mComplement);
             // 
             // m_euler
             // 
             this.m_euler.Name = "m_euler";
-            this.m_euler.Size = new System.Drawing.Size(169, 22);
+            this.m_euler.Size = new System.Drawing.Size(200, 22);
             this.m_euler.Text = "Euler";
             this.m_euler.Click += new System.EventHandler(this.mEuler);
             // 
             // m_npartite
             // 
             this.m_npartite.Name = "m_npartite";
-            this.m_npartite.Size = new System.Drawing.Size(169, 22);
+            this.m_npartite.Size = new System.Drawing.Size(200, 22);
             this.m_npartite.Text = "N-Partita";
             this.m_npartite.Click += new System.EventHandler(this.mNPartita);
             // 
             // m_kuratowsky
             // 
             this.m_kuratowsky.Name = "m_kuratowsky";
-            this.m_kuratowsky.Size = new System.Drawing.Size(169, 22);
+            this.m_kuratowsky.Size = new System.Drawing.Size(200, 22);
             this.m_kuratowsky.Text = "Kuratowsky";
             this.m_kuratowsky.Click += new System.EventHandler(this.mKuratowsky);
             // 
             // m_prim
             // 
             this.m_prim.Name = "m_prim";
-            this.m_prim.Size = new System.Drawing.Size(169, 22);
+            this.m_prim.Size = new System.Drawing.Size(200, 22);
             this.m_prim.Text = "Prim";
             // 
             // m_coloredEdges
             // 
             this.m_coloredEdges.Name = "m_coloredEdges";
-            this.m_coloredEdges.Size = new System.Drawing.Size(169, 22);
+            this.m_coloredEdges.Size = new System.Drawing.Size(200, 22);
             this.m_coloredEdges.Text = "Aristas coloreadas";
             this.m_coloredEdges.Click += new System.EventHandler(this.mColoredEdges);
+            // 
+            // m_topological
+            // 
+            this.m_topological.Name = "m_topological";
+            this.m_topological.Size = new System.Drawing.Size(200, 22);
+            this.m_topological.Text = "Clasificación topológica";
+            this.m_topological.Click += new System.EventHandler(this.mTopological);
+            // 
+            // m_hamilton
+            // 
+            this.m_hamilton.Name = "m_hamilton";
+            this.m_hamilton.Size = new System.Drawing.Size(200, 22);
+            this.m_hamilton.Text = "Hamilton";
+            this.m_hamilton.Click += new System.EventHandler(this.mHamilton);
             // 
             // insertarToolStripMenuItem
             // 
@@ -548,8 +567,7 @@
             this.toolStripSeparator24,
             this.toolStripSeparator25,
             this.tT_settings,
-            this.toolStripSeparator28,
-            this.m_weights});
+            this.toolStripSeparator28});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
@@ -772,16 +790,6 @@
             this.toolStripSeparator28.Name = "toolStripSeparator28";
             this.toolStripSeparator28.Size = new System.Drawing.Size(6, 39);
             // 
-            // m_weights
-            // 
-            this.m_weights.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.m_weights.Image = ((System.Drawing.Image)(resources.GetObject("m_weights.Image")));
-            this.m_weights.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.m_weights.Name = "m_weights";
-            this.m_weights.Size = new System.Drawing.Size(23, 36);
-            this.m_weights.Text = "Modificar pesos de aristas";
-            this.m_weights.Click += new System.EventHandler(this.EdgeWeigth);
-            // 
             // MenuArista
             // 
             this.MenuArista.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -901,9 +909,11 @@
             this.toolStripSeparator30,
             this.lT_prim,
             this.toolStripSeparator31,
+            this.lT_topological,
             this.lT_kuratowsky,
             this.toolStripSeparator33,
-            this.lT_test2});
+            this.lT_test2,
+            this.lT_hamilton});
             this.toolStrip3.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.toolStrip3.Location = new System.Drawing.Point(0, 63);
             this.toolStrip3.Name = "toolStrip3";
@@ -936,7 +946,7 @@
             this.lT_euler.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.lT_euler.Name = "lT_euler";
             this.lT_euler.Size = new System.Drawing.Size(35, 36);
-            this.lT_euler.Text = "Circuito Euler";
+            this.lT_euler.Text = "Euler";
             this.lT_euler.Click += new System.EventHandler(this.mEuler);
             // 
             // toolStripSeparator34
@@ -987,6 +997,33 @@
             this.lT_prim.Text = "Prim";
             this.lT_prim.Click += new System.EventHandler(this.mPrim);
             // 
+            // toolStripSeparator31
+            // 
+            this.toolStripSeparator31.Name = "toolStripSeparator31";
+            this.toolStripSeparator31.Size = new System.Drawing.Size(35, 6);
+            // 
+            // lT_topological
+            // 
+            this.lT_topological.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.lT_topological.Image = global::EditordeGrafos.Properties.Resources.topologico;
+            this.lT_topological.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.lT_topological.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.lT_topological.Name = "lT_topological";
+            this.lT_topological.Size = new System.Drawing.Size(35, 36);
+            this.lT_topological.Text = "Clasificación Topológica";
+            this.lT_topological.Click += new System.EventHandler(this.mTopological);
+            // 
+            // lT_kuratowsky
+            // 
+            this.lT_kuratowsky.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.lT_kuratowsky.Image = global::EditordeGrafos.Properties.Resources.kura;
+            this.lT_kuratowsky.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.lT_kuratowsky.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.lT_kuratowsky.Name = "lT_kuratowsky";
+            this.lT_kuratowsky.Size = new System.Drawing.Size(35, 36);
+            this.lT_kuratowsky.Text = "Kuratowsky";
+            this.lT_kuratowsky.Click += new System.EventHandler(this.mKuratowsky);
+            // 
             // toolStripSeparator33
             // 
             this.toolStripSeparator33.Name = "toolStripSeparator33";
@@ -1003,21 +1040,16 @@
             this.lT_test2.Text = "Examen 2";
             this.lT_test2.Click += new System.EventHandler(this.examen_Click);
             // 
-            // lT_kuratowsky
+            // lT_hamilton
             // 
-            this.lT_kuratowsky.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.lT_kuratowsky.Image = global::EditordeGrafos.Properties.Resources.kura;
-            this.lT_kuratowsky.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.lT_kuratowsky.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.lT_kuratowsky.Name = "lT_kuratowsky";
-            this.lT_kuratowsky.Size = new System.Drawing.Size(35, 36);
-            this.lT_kuratowsky.Text = "Kuratowsky";
-            this.lT_kuratowsky.Click += new System.EventHandler(this.mKuratowsky);
-            // 
-            // toolStripSeparator31
-            // 
-            this.toolStripSeparator31.Name = "toolStripSeparator31";
-            this.toolStripSeparator31.Size = new System.Drawing.Size(35, 6);
+            this.lT_hamilton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.lT_hamilton.Image = global::EditordeGrafos.Properties.Resources.halmiton;
+            this.lT_hamilton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.lT_hamilton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.lT_hamilton.Name = "lT_hamilton";
+            this.lT_hamilton.Size = new System.Drawing.Size(35, 36);
+            this.lT_hamilton.Text = "Hamilton";
+            this.lT_hamilton.Click += new System.EventHandler(this.mHamilton);
             // 
             // Editor
             // 
@@ -1141,7 +1173,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator33;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator34;
         private System.Windows.Forms.ToolStripButton lT_prim;
-        private System.Windows.Forms.ToolStripButton m_weights;
         private System.Windows.Forms.ToolStripButton rT_insertWn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator35;
         private System.Windows.Forms.ToolStripButton rT_insertCn;
@@ -1161,6 +1192,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
         private System.Windows.Forms.ToolStripMenuItem m_coloredEdges;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;
+        private System.Windows.Forms.ToolStripButton lT_topological;
+        private System.Windows.Forms.ToolStripButton lT_hamilton;
+        private System.Windows.Forms.ToolStripMenuItem m_topological;
+        private System.Windows.Forms.ToolStripMenuItem m_hamilton;
     }
 }
 

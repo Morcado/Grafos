@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Draw.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Draw.Designer.cs">
+      <DependentUpon>Draw.cs</DependentUpon>
+    </Compile>
     <Compile Include="Edge.cs" />
     <Compile Include="Bezier.cs" />
     <Compile Include="Editor.cs">
@@ -60,6 +66,12 @@
     </Compile>
     <Compile Include="Algorithms.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScrollableMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScrollableMessageBox.Designer.cs">
+      <DependentUpon>ScrollableMessageBox.cs</DependentUpon>
     </Compile>
     <Compile Include="SpecialGraph.cs">
       <SubType>Form</SubType>
@@ -96,6 +108,12 @@
     <Compile Include="Weights.Designer.cs">
       <DependentUpon>Weights.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Draw.resx">
+      <DependentUpon>Draw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScrollableMessageBox.resx">
+      <DependentUpon>ScrollableMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SpecialGraph.resx">
       <DependentUpon>SpecialGraph.cs</DependentUpon>
     </EmbeddedResource>
@@ -249,6 +267,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\aristaColoreada.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\topologico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\halmiton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

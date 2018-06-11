@@ -134,3 +134,82 @@ date: May 14, 2018
     Se corrige el circuito y camino de euler para que este en un solo boton
     Se myuestra el recorrido de euler
     Se muestra los grupos de N Partita
+date: /May 15, 2018
+    Se agrega las aristas coloreadas
+/--------------------------------------------------------------------------------
+date: 22 abril 2018
+    Se hacen messagebox con scroll 
+--------------------------------------------------------------------------------
+date: May 14, 2018
+    Se corrige el circuito y camino de euler para que este en un solo boton
+    Se myuestra el recorrido de euler
+    Se muestra los grupos de N Partita
+date: /May 15, 2018
+    Se agrega las aristas coloreadas		OK
+/--------------------------------------------------------------------------------
+date: 22 abril 2018
+    Se hacen messagebox con scroll 	OK
+--------------------------------------------------------------------------------
+date: May 24, 2018
+    Se arregla el pintado de aristas. Se pinta a partir de los bordes del nodo	OK
+    ---------------------------------------------------------------------------------
+    clasificacion topologica. Tiene que visitear en orden, no me gusto pero funciona			
+    hamilton				OK
+--------------------------------------------------------------------------------
+date: May 29, 2018
+    Animacion a topologica						OK 
+    Se arregla topologica, muestra el ultimo nodo			Ok detalle
+    Se arregla Euler							OK
+    Se arregla animacion a hamilton, cuando es circuito se cierra	OK
+    Se agregan carpetas con grafos de muestra para hamilton y para topologica	OK
+--------------------------------------------------------------------------------------
+date: 30 mayo 2018
+    Kuratowsky prueba	Falta K33
+--------------------------------------------------------------------------------
+date: 31 mayo 2018
+    Se arregla elimina arista		OK  Observación: Cuando el grafo no tiene aristas liberan el tipo
+							dir y No dir. No se requiere eliminar el grafo.
+    Se agregan carpetas de ejemplo		OK
+------------------------------
+Conclusión:
+	-Hamilton. Error en el camino.
+	-C.Top.- Error Algoritmo.
+	-K: K33.
+|
+---------------------------------------------------------------------------------
+date: June 1 2018
+    Se corrige topologico		Simulación?
+    Se arregla hamilton			Algoritmo  chueco	
+    Se corrigen problemas con kuratowsky en k5 y se empieza k33
+---------------------------------------------------------------------------------
+date: June 4 2018
+    Se corrige hamilton	NO
+    animacion de las aristas	OK
+
+Arreglar esto para yaaaa!!!
+-------------------------
+date: June 5 2018
+    Hamilton en orden						OK
+    Kuratowsky k33 se agregan mas casos y los dos colores	Ya casi, quedamos con el algoritmo
+								como debe de ser.	
+---------------------------------------------------------------------------------
+date: June 6, 2018
+    Kuratowski
+    Se muestran los nodos que se eliminan y el grafo homeomorfico
+--------------------------------------------------------------------------------
+date: June 7, 2018
+    Kuratows
+        Se agrega el caso donde hay un nodo al que se le tiene que eliminar una arista, por ahora solo funciona con una arista
+        Se muestran los nodos y aristas que se tienen que eliminar. 
+        Se muestra el k5 o el k33 en color AZUL
+------------------------------------
+-Tratar de hacer los invariantes No locales.
+-Emparejar los nodos bases con el k33 o k5 para el homeomórfico.
+-Urgeeeeeeeeeeeeeeeeeee!!!!!!!!!!!!
+--------------------------------------------------------------------------------
+date: June 7, 2018
+    Se empareja con el K5 para el homeomorfico
+    Ahora se puede saber para mas casos, si un nodo tiene varias aristas estas se quitan para hacerlo homeomomorfico
+--------------------------------------------------------------------------------
+date: June 11, 2018
+    Se arreglo cloloreado de kuratowsky

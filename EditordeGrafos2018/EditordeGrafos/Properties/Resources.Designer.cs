@@ -263,6 +263,16 @@ namespace EditordeGrafos.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap halmiton {
+            get {
+                object obj = ResourceManager.GetObject("halmiton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap insertacn {
             get {
                 object obj = ResourceManager.GetObject("insertacn", resourceCulture);
@@ -406,6 +416,16 @@ namespace EditordeGrafos.Properties {
         internal static System.Drawing.Bitmap propiedades {
             get {
                 object obj = ResourceManager.GetObject("propiedades", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap topologico {
+            get {
+                object obj = ResourceManager.GetObject("topologico", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

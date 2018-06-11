@@ -261,5 +261,7 @@ C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\Edit
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.csproj.GenerateResource.Cache
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\Editor De Grafos.exe
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\Editor De Grafos.pdb
-C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.csprojResolveAssemblyReference.cache
 C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Weights.resources
+C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.ScrollableMessageBox.resources
+C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.Draw.resources
+C:\Users\Morcado\Desktop\Grafos\EditordeGrafos2018\EditordeGrafos\obj\Debug\EditordeGrafos.csprojResolveAssemblyReference.cache

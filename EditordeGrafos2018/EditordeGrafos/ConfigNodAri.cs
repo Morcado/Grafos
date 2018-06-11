@@ -27,7 +27,6 @@ namespace EditordeGrafos{
             get { return letra; }
             set { letra = value; }
         }
-            
 
         public bool PesoArista {
             get { return pesoArista; }
@@ -114,12 +113,6 @@ namespace EditordeGrafos{
             checkBox1.Checked = graph.EdgeNamesVisible;
             checkBox2.Checked = graph.EdgeWeightVisible;
 
-            if (graph.Letter) {
-                radioButton1.Checked = true;
-            }
-            else {
-                radioButton2.Checked = true;
-            }
             button3.BackColor = graph.NodeColor;
             if ((graph.NodeColor.R + graph.NodeColor.B + graph.NodeColor.G) / 3 < 100) {
                 button3.ForeColor = Color.White;
@@ -203,12 +196,7 @@ namespace EditordeGrafos{
 
         private void button1_Click(object sender, EventArgs e) { // OK
             this.DialogResult = DialogResult.OK;
-            if (radioButton1.Checked) {
-                letra = true;
-            }
-            else {
-                letra = false;
-            }
+            
             this.Close();
         }
 
@@ -243,7 +231,6 @@ namespace EditordeGrafos{
         }
 
         private void button6_Click(object sender, EventArgs e) { // por defecto
-            radioButton1.Checked = true;
             numericUpDown1.Value = 30;
             radio = decimal.ToInt32(numericUpDown1.Value);
             numericUpDown2.Value = 1;
