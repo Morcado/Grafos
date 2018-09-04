@@ -213,3 +213,11 @@ date: June 7, 2018
 --------------------------------------------------------------------------------
 date: June 11, 2018
     Se arreglo cloloreado de kuratowsky
+---------------------------------------------
+12 Junio 2018
+Rev.
+	Ajustar las operaciones en el dibujo y dialogBox y  los eliminados color Red.
+	No redundar en el homeomórfico.
+	En el dialogBox del resultado indicar Grafo Homeomórfico y describir las 
+		operaciones-conclusiones.
+

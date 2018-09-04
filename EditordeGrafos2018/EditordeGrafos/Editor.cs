@@ -543,6 +543,7 @@ public partial class Editor : Form {
             option = 0;
             graph.UnselectAllNodes();   
             nombre = graph[graph.Count - 1].Name[0];
+            nombre++;
         }
     }
 
@@ -1248,7 +1249,9 @@ public partial class Editor : Form {
         List<string> message = new List<string>();
         List<NodeP> noditos = new List<NodeP>();
         List<Edge> aristitas = new List<Edge>();
-        string mess = "";
+        List<string> message2 = new List<string>();
+        string nodosVerdes = "";
+        string nodosRojos = "";
         if (graph.Count >= 3) {
             int regiones = graph.EdgesList.Count - graph.Count + 2;
             int c = 3 * graph.Count - 6;
@@ -1312,12 +1315,12 @@ public partial class Editor : Form {
             }
             double thickness = graph.EdgesList.Count / (3.0 * graph.Count - 6);
             if ((numNodosMayCua >= 5 || numNodosMayTre >= 6)) {
-                mess = Kuratowsky(noditos, aristitas);
+                message2 = Kuratowsky(noditos, aristitas);
                 if (noditos.Count > 0) {
                     graph.UnselectAllNodes();
                     foreach (NodeP np in graph) {
                         if (!np.Visited) {
-                            np.Color = Color.Orange;
+                            np.Color = Color.Red;
                         }
                     }
                     foreach (NodeP np in graph) {
@@ -1363,26 +1366,78 @@ public partial class Editor : Form {
                 this.Form1_Paint(this, null);
                 tmpEdges = new List<Edge>();
                 if (noditos.Count == 5) {
-                    for (int i = 0; i < noditos.Count; i++){
+
+                    for (int i = 0; i < noditos.Count; i++) {
                         for (int j = 0; j < noditos.Count; j++) {
-                            if (i != j && i < j) {
+                            if (i != j && i < j && ConnectedNodes(noditos[i], noditos[j])) {
                                 tmpEdges.Add(new Edge(noditos[i], noditos[j], "k5"));
                             }
                         }
+                    }
+                   
+                    foreach (NodeP np in graph) {
+                        if (np.Color == Color.LightGreen) {
+                            nodosVerdes += np.Name + ", ";
+                            tmpEdges.Add(new Edge(np, np.relations[0].Up, "k5"));
+                            tmpEdges.Add(new Edge(np, np.relations[1].Up, "k5"));
+                        }
+
+                        if (np.Color == Color.Red) {
+                            nodosRojos += np.Name + ", ";
+                            aristitas.Add(new Edge(np, np.relations[0].Up, "k5"));
+                            aristitas.Add(new Edge(np, np.relations[1].Up, "k5"));
+                        }
+                    }
+                    if (nodosVerdes != "") {
+                        nodosVerdes = nodosVerdes.Remove(nodosVerdes.Length - 2);
+                        message2.Add("Nodos agregados en color verde: ");
+                        message2.Add(nodosVerdes);
+                        message2.Add("");
+                    }
+                    if (nodosRojos != "") {
+                        nodosRojos = nodosRojos.Remove(nodosRojos.Length - 2); 
+                        message2.Add("Nodos eliminados en color rojo: ");
+                        message2.Add(nodosRojos);
                     }
                     foreach (Edge ed in tmpEdges) {
                         drawEdgeAnim(ed, Color.SkyBlue);
                     }
                     foreach (Edge ed in aristitas) {
-                        drawEdgeAnim(ed, Color.Orange);
+                        drawEdgeAnim(ed, Color.Red);
                     }
                 }
                 else {
                     if (noditos.Count == 6) {
                         for (int i = 0; i < 3; i++) {
                             for (int j = 3; j < 6; j++) {
-                                tmpEdges.Add(new Edge(noditos[i], noditos[j], "k5"));
+                                if (ConnectedNodes(noditos[i], noditos[j])) {
+                                    tmpEdges.Add(new Edge(noditos[i], noditos[j], "k33"));
+                                }
                             }
+                        }
+                        foreach (NodeP np in graph) {
+                            if (np.Color == Color.LightGreen) {
+                                nodosVerdes += np.Name + ", ";
+                                tmpEdges.Add(new Edge(np, np.relations[0].Up, "k33"));
+                                tmpEdges.Add(new Edge(np, np.relations[1].Up, "k33"));
+                            }
+
+                            if (np.Color == Color.Red) {
+                                nodosRojos += np.Name + ", ";
+                                aristitas.Add(new Edge(np, np.relations[0].Up, "k33"));
+                                aristitas.Add(new Edge(np, np.relations[1].Up, "k33"));
+                            }
+                        }
+                        if (nodosVerdes != "") {
+                            nodosVerdes = nodosVerdes.Remove(nodosVerdes.Length - 2);
+                            message2.Add("Nodos agregados en color verde: ");
+                            message2.Add(nodosVerdes);
+                            message2.Add("");
+                        }
+                        if (nodosRojos != "") {
+                            nodosRojos = nodosRojos.Remove(nodosRojos.Length - 2);
+                            message2.Add("Nodos eliminados en color rojo: ");
+                            message2.Add(nodosRojos);
                         }
                         foreach (Edge ed in tmpEdges) {
                             drawEdgeAnim(ed, Color.SkyBlue);
@@ -1390,7 +1445,7 @@ public partial class Editor : Form {
                     }
                 }
                 
-            MessageBox.Show(mess);
+            new ScrollableMessageBox("Resultado", message2.ToArray()).ShowDialog();
             }
             else {
                 MessageBox.Show("El grafo es plano");
@@ -1398,6 +1453,14 @@ public partial class Editor : Form {
 
 
         }
+    }
+
+    private bool ConnectedNodes(NodeP a, NodeP b) {
+        Edge ed = graph.GetEdge(a, b);
+        if (ed == null) {
+            return false;
+        }
+        return true;
     }
 
     private void mComplement(object sender, EventArgs e) {

@@ -305,10 +305,9 @@ public partial class Editor {
     #endregion 
     #region Kuratowski
 
-    public string Kuratowsky(List<NodeP> noditos, List<Edge> aristitas) {
+    public List<string> Kuratowsky(List<NodeP> noditos, List<Edge> aristitas) {
+        List<string> mess = new List<string>();
         string message = "";
-        List<Edge> edgs = new List<Edge>();
-        Edge badEdg;
         Graph g2 = new Graph(graph);
         foreach (NodeP np in graph) {
             np.Color = Color.White;
@@ -327,7 +326,15 @@ public partial class Editor {
             tryEveryNodeK5(g2, noditos);
 
             if (noditos.Count > 0) {
-                message = "Grafo no plano homeomorfico a k5\n\nk5 mostrado en color azul\nLos nodos eliminados mostrados en naranja\nLos nodos agregados mostrados en verde :v";
+                mess.Add("Grafo no plano homeomorfico a k5");
+                mess.Add("");
+                mess.Add("k5 mostrado en color azul: ");
+                foreach (NodeP np in noditos) {
+                    message += np.Name + ", ";
+                }
+                message = message.Remove(message.Length -2);
+                mess.Add(message);
+                mess.Add("");
             }
             else {
                 //marcar el k5 como visitado
@@ -352,10 +359,19 @@ public partial class Editor {
          
                 tryEveryNodeK5(g2, noditos);
                 if (noditos.Count > 0) {
-                    message = "Grafo no plano homeomorfico a k5\n\nk5 mostrado en color azul\nLos nodos eliminados mostrados en naranja\nLos nodos agregados mostrados en verde\nAristas que se deberian eliminar mostradas en naranja";
+                    mess.Add("Grafo no plano homeomorfico a k5");
+                    mess.Add("");
+                    mess.Add("k5 mostrado en color azul: ");
+                    foreach (NodeP np in noditos) {
+                        message += np.Name + ", ";
+                    }
+                    message = message.Remove(message.Length - 2);
+                    mess.Add(message);
+                    mess.Add("");
+                    //message = "\n\n\nLos nodos eliminados mostrados en naranja\nLos nodos agregados mostrados en verde\nAristas que se deberian eliminar mostradas en naranja";
                 }
                 else {
-                    message = "El grafo es plano, se fue por k5";    
+                    mess.Add("El grafo es plano, se fue por k5"); 
                 }
             }
         }
@@ -363,18 +379,27 @@ public partial class Editor {
             if (checkHomeomorphicK33(g2)) {
                 tryEveryNodeK33(g2, noditos);
                 if (noditos.Count > 0) {
-                    message = "Grafo no plano homeomorfico a k33\n\nk33 mostrado en color azul\nLos nodos eliminados mostrados en naranja\nLos nodos agregados mostrados en verde";
+                    mess.Add("Grafo no plano homeomorfico a k33");
+                    mess.Add("");
+                    mess.Add("k33 mostrado en color azul: ");
+                    foreach (NodeP np in noditos) {
+                        message += np.Name + ", ";
+                    }
+                    message = message.Remove(message.Length - 2);
+                    mess.Add(message);
+                    mess.Add("");
+                    //message = "\n\n\nLos nodos eliminados mostrados en naranja\nLos nodos agregados mostrados en verde";
                 }
                 else {
-                    message = "El grafo es plano, se fue por k33";
+                    mess.Add("El grafo es plano, se fue por k33");
                 }
                 
             }
             else {
-                message = "El grafo es plano, se fue por k33";
+                mess.Add("El grafo es plano, se fue por k33");
             }
         }
-        return message;
+        return mess;
     }
 
     private void tryNodesDegree5(Graph g2, NodeP np,  List<Edge> arist) {
