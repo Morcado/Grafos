@@ -1,0 +1,17 @@
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\bin\Release\Editor De Grafos.exe.config
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\bin\Release\Editor De Grafos.exe
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\bin\Release\Editor De Grafos.pdb
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.Draw.resources
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.ScrollableMessageBox.resources
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.SpecialGraph.resources
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.Editor.resources
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.ConfigNodAri.resources
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.Notas.resources
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.GraphProperties.resources
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.Plantilla.resources
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.Properties.Resources.resources
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.Weights.resources
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.csproj.GenerateResource.cache
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\EditordeGrafos.csproj.CoreCompileInputs.cache
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\Editor De Grafos.exe
+C:\Users\Morcado\Documents\GitHub\graph-simulator\EditordeGrafos2018\EditordeGrafos\obj\Release\Editor De Grafos.pdb

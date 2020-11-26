@@ -220,4 +220,7 @@ Rev.
 	No redundar en el homeomórfico.
 	En el dialogBox del resultado indicar Grafo Homeomórfico y describir las 
 		operaciones-conclusiones.
+---------------------------------------------------------
+25 Noviembre 2020
+	Se hizo la primera release
 
